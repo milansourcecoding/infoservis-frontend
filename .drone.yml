@@ -1,0 +1,38 @@
+kind: pipeline
+type: docker
+name: Frontend
+
+trigger:
+  branch:
+    - develop
+  event:
+    - push
+
+steps:
+  - name: install dependencies
+    image: node:18
+    commands:
+      - npm ci
+
+  - name: build
+    image: node:18
+    environment:
+      CI: "false"
+    commands:
+      - npm run build:staging
+
+  - name: deploy
+    image: alpine:latest
+    environment:
+      SSH_KEY:
+        from_secret: ssh_key
+    commands:
+      - apk add --no-cache openssh-client rsync
+      - mkdir -p ~/.ssh
+
+      - echo "$SSH_KEY" | tr -d '\r' > ~/.ssh/id_rsa
+      - chmod 600 ~/.ssh/id_rsa
+
+      - ssh-keyscan -H sourcecoding.rs >> ~/.ssh/known_hosts
+
+      - rsync -avz build/ dev@sourcecoding.rs:/staging/projects/dev/infosistem/frontend/build

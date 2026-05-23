@@ -1,0 +1,55 @@
+.flash-create {
+  -moz-animation: blinkCreate 0.7s 3;
+  -o-animation: blinkCreate 0.7s 3;
+  -webkit-animation: blinkCreate 0.7s 3;
+  animation: blinkCreate 0.7s 3;
+}
+.flash-remove {
+  -moz-animation: blinkRemove 0.7s 3;
+  -o-animation: blinkRemove 0.7s 3;
+  -webkit-animation: blinkRemove 0.7s 3;
+  animation: blinkRemove 0.7s 3;
+}
+.flash-update {
+  -moz-animation: blinkUpdate 0.7s 3;
+  -o-animation: blinkUpdate 0.7s 3;
+  -webkit-animation: blinkUpdate 0.7s 3;
+  animation: blinkUpdate 0.7s 3;
+}
+
+
+@keyframes blinkCreate {
+  0% {
+    background-color: transparent;
+  }
+  50% {
+    background-color: #DFF0E2;
+  }
+  100% {
+    background-color: transparent;
+  }
+}
+
+@keyframes blinkRemove {
+  0% {
+    background-color: transparent;
+  }
+  50% {
+    background-color: #FED4D0;
+  }
+  100% {
+    background-color: transparent;
+  }
+}
+
+@keyframes blinkUpdate {
+  0% {
+    background-color: transparent;
+  }
+  50% {
+    background-color: #FAF3E0;
+  }
+  100% {
+    background-color: transparent;
+  }
+}

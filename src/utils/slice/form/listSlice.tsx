@@ -1,0 +1,465 @@
+/* eslint-disable arrow-body-style */
+/* eslint-disable prefer-template */
+/* eslint-disable no-loop-func */
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import axios from 'src/utils/axios';
+import moment from 'moment';
+
+import { saveDate, prepareDate, apiDateFormat } from '../../utils.tsx';
+
+
+export interface InitState {
+  isOpen: boolean,
+  isLoading: boolean,
+
+  id: number|null,
+  data: any|null,
+
+  rows: Array<any>,
+  total: number,
+
+  currentPage: number,
+  pageSize: number,
+  searchQuery: string|null,
+  isActive: number|null,
+  status: number|null,
+  sortColumn: string|null,
+  sortDir: string|null,
+  fromDate: any,
+  toDate: any,
+
+  customField?: string|null,
+  customFieldValue?: string|null,
+
+  stats: Array<any>
+}
+
+
+function NewReducer() {
+  const name = 'listSlice';
+
+
+  const initialState: InitState = {
+    isOpen: false,
+    isLoading: false,
+
+    id: null,
+    data: null,
+
+    rows: [],
+    total: 0,
+
+    currentPage: 1,
+    pageSize: 10,
+    searchQuery: null,
+    isActive: null,
+    status: null,
+    sortColumn: 'created_at',
+    sortDir: 'asc',
+    fromDate: '',
+    toDate: '',
+
+    customField: null,
+    customFieldValue: null,
+
+    stats: []
+  };
+
+
+  const reducers = {
+    hide: (state: InitState) => {
+      state.id = null;
+      state.data = null;
+      state.isLoading = false;
+      state.isOpen = false;
+    },
+
+    changeRows: (state: InitState, action: PayloadAction<Array<any>>) => {
+      state.rows = action.payload;
+    },
+    changeTotal: (state: InitState, action: PayloadAction<number>) => {
+      state.total = action.payload;
+    },
+    changeCurrentPage: (state: InitState, action: PayloadAction<number>) => {
+      state.currentPage = action.payload;
+    },
+    changePageSize: (state: InitState, action: PayloadAction<number>) => {
+      state.pageSize = action.payload;
+    },
+    changeSearchQuery: (state: InitState, action: PayloadAction<string|null>) => {
+      state.searchQuery = action.payload;
+    },
+    changeIsActive: (state: InitState, action: PayloadAction<number|null>) => {
+      state.isActive = action.payload;
+    },
+    changeStatus: (state: InitState, action: PayloadAction<number|null>) => {
+      state.status = action.payload;
+    },
+    changeSortColumn: (state: InitState, action: PayloadAction<string|null>) => {
+      state.sortColumn = action.payload;
+    },
+    changeSortDir: (state: InitState, action: PayloadAction<string|null>) => {
+      state.sortDir = action.payload;
+    },
+    changeFromDate: (state: InitState, action: PayloadAction<any>) => {
+      state.fromDate = action.payload;
+    },
+    changeToDate: (state: InitState, action: PayloadAction<any>) => {
+      state.toDate = action.payload;
+    },
+    changeFromToDate: (state: InitState, action: PayloadAction<{ fromDate: string, toDate: string }>) => {
+      state.fromDate = action.payload?.fromDate;
+      state.toDate = action.payload?.toDate;
+    },
+    changeSort: (state: InitState, action: PayloadAction<{ sortColumn: string|null, sortDir: string|null }>) => {
+      state.sortColumn = action.payload.sortColumn;
+      state.sortDir = action.payload.sortDir;
+    },
+    changeCustomField: (state: InitState, action: PayloadAction<{ customField: string|null, customFieldValue: string|null }>) => {
+      state.customField = action.payload.customField;
+      state.customFieldValue = action.payload.customFieldValue;
+    },
+
+    resetForm: (state: InitState) => {
+      return initialState;
+    },
+
+    startRead: (state: InitState) => {
+      state.rows = [];
+      state.total = 0;
+      state.isLoading = true;
+    },
+    finishRead: (state: InitState, action: PayloadAction<{ data: any, msg: string|null, state: boolean|null }>) => {
+      const { list, total } = action.payload.data;
+
+      state.rows = list;
+      state.total = total;
+      state.isLoading = false;
+    },
+
+    startNewDetails: (state: InitState) => {
+      state.id = null;
+      state.data = null;
+      state.isLoading = false;
+      state.isOpen = true;
+    },
+    startDetails: (state: InitState, action: PayloadAction<number|null>) => {
+      state.id = action.payload;
+      state.data = null;
+      state.isLoading = true;
+      state.isOpen = true;
+    },
+    finishDetails: (state: InitState, action: PayloadAction<{ data: any|null, msg: string|null, state: boolean|null }>) => {
+      state.data = action.payload.data;
+      state.isLoading = false;
+    },
+
+    startCreate: (state: InitState) => {
+      state.isLoading = true;
+    },
+    finishCreate: (state: InitState, action: PayloadAction<{ data: any|null, msg: string|null, state: boolean|null }>) => {
+      state.isLoading = false;
+
+      if(action.payload.state){
+        state.data = action.payload.data;
+        state.isOpen = false;
+      }
+    },
+
+    startUpdate: (state: InitState) => {
+      state.isLoading = true;
+    },
+    finishUpdate: (state: InitState, action: PayloadAction<{ data: any|null, msg: string|null, state: boolean|null }>) => {
+      state.isLoading = false;
+
+      if(action.payload.state){
+        state.isOpen = false;
+        state.data = action.payload.data;
+      }
+    },
+
+    startDefault: (state: InitState) => {
+      state.isLoading = true;
+    },
+    finishDefault: (state: InitState, action: PayloadAction<{ data: any|null, msg: string|null, state: boolean|null }>) => {
+      state.isLoading = false;
+    },
+
+    startStats: (state: InitState) => {
+      state.stats = [];
+      state.isLoading = true;
+    },
+    finishStats: (state: InitState, action: PayloadAction<{ data: any, msg: string|null, state: boolean|null }>) => {
+      state.stats = action.payload.data;
+      state.isLoading = false;
+    },
+
+    startGeneratePDF: (state: InitState) => {
+      state.isLoading = true;
+    },
+    finishGeneratePDF: (state: InitState) => {
+      state.isLoading = false;
+    },
+
+    startGenerateCSV: (state: InitState) => {
+      state.isLoading = true;
+    },
+    finishGenerateCSV: (state: InitState) => {
+      state.isLoading = false;
+    },
+  };
+
+
+  const apis = {
+    calReadApi: (path: string, callback?: (data: any|null, msg: string|null, state: boolean|null) => void) => async (dispatch: any, getState: any) => {
+      dispatch(actions.startRead());
+
+      const { currentPage, pageSize, searchQuery, isActive, status, sortColumn, sortDir, fromDate, toDate, customField, customFieldValue } = getState().listSlice;
+
+      const fromDateVal = prepareDate(fromDate);
+      const toDateVal = prepareDate(toDate);
+
+      const params: any = {
+        currentPage,
+        pageSize,
+        searchQuery,
+        isActive,
+        status,
+        sortColumn,
+        sortDir,
+        [customField]: customFieldValue,
+      };
+
+      if(fromDateVal && toDateVal){
+        params.fromDate = moment(fromDateVal).format(apiDateFormat());
+        params.toDate = moment(toDateVal).format(apiDateFormat());
+      }
+
+      await axios.get(path, { params }).then(result => {
+        const { data, message } = result.data;
+
+        dispatch(actions.finishRead({ data, msg: message, state: true}));
+
+        if(callback){
+          callback(data, message, true);
+        }
+      }).catch(error => {
+        const { message } = error;
+
+        dispatch(actions.finishRead({ data: [], msg: message, state: false }));
+
+        if(callback){
+          callback(null, message, false);
+        }
+      });
+    },
+
+    calDetailsApi: (id: number|null, path: string, callback?: (data: any|null, msg: string|null, state: boolean|null) => void) => async (dispatch: any) => {
+      if(id){
+        dispatch(actions.startDetails(id));
+
+        await axios.get(path + '/' + id).then(result => {
+          const { data, message } = result.data;
+
+          dispatch(actions.finishDetails({ data, msg: message, state: true}));
+
+          if(callback){
+            callback(data, message, true);
+          }
+        }).catch(error => {
+          const { message } = error;
+
+          dispatch(actions.finishDetails({ data: null, msg: message, state: false }));
+
+          if(callback){
+            callback(null, message, false);
+          }
+        });
+      } else {
+        dispatch(actions.startNewDetails());
+      }
+    },
+
+    calCreateApi: (params: any, path: string, callback?: (data: any|null, msg: string|null, state: boolean|null) => void) => async (dispatch: any) => {
+      dispatch(actions.startCreate());
+
+      await axios.post(path, params).then(result => {
+        const { data, message } = result.data;
+
+        dispatch(actions.finishCreate({ data, msg: message, state: true}));
+
+        if(callback){
+          callback(data, message, true);
+        }
+      }).catch(error => {
+        const { message } = error;
+
+        dispatch(actions.finishCreate({ data: [], msg: message, state: false }));
+
+        if(callback){
+          callback(null, message, false);
+        }
+      });
+    },
+
+    calUpdateApi: (id: number|null, params: any, path: string, callback?: (data: any|null, msg: string|null, state: boolean|null) => void) => async (dispatch: any) => {
+      if(id){
+        dispatch(actions.startUpdate());
+
+        await axios.put(path + '/' + id, params).then(result => {
+          const { data, message } = result.data;
+
+          dispatch(actions.finishUpdate({ data, msg: message, state: true}));
+
+          if(callback){
+            callback(data, message, true);
+          }
+        }).catch(error => {
+          const { message } = error;
+
+          dispatch(actions.finishUpdate({ data: null, msg: message, state: false }));
+
+          if(callback){
+            callback(null, message, false);
+          }
+        });
+      } else {
+        dispatch(actions.startNewDetails());
+      }
+    },
+
+    calSetDefaultApi: (id: number|null, path: string, callback?: (data: any|null, msg: string|null, state: boolean|null) => void) => async (dispatch: any) => {
+      dispatch(actions.startDefault());
+
+      await axios.put(path + '/setDefault/' + id).then(result => {
+        const { data, message } = result.data;
+
+        dispatch(actions.finishDefault({ data, msg: message, state: true}));
+
+        if(callback){
+          callback(data, message, true);
+        }
+      }).catch(error => {
+        const { message } = error;
+
+        dispatch(actions.finishDefault({ data: null, msg: message, state: false }));
+
+        if(callback){
+          callback(null, message, false);
+        }
+      });
+    },
+
+    calGetDefaultApi: (path: string, callback?: (data: any|null, msg: string|null, state: boolean|null) => void) => async (dispatch: any) => {
+      dispatch(actions.startDefault());
+
+      await axios.get(path + '/getDefault').then(result => {
+        const { data, message } = result.data;
+
+        dispatch(actions.finishDefault({ data, msg: message, state: true}));
+
+        if(callback){
+          callback(data, message, true);
+        }
+      }).catch(error => {
+        const { message } = error;
+
+        dispatch(actions.finishDefault({ data: null, msg: message, state: false }));
+
+        if(callback){
+          callback(null, message, false);
+        }
+      });
+    },
+
+    calStatsApi: (path: string, searchValue: string|null, callback?: (data: any|null, msg: string|null, state: boolean|null) => void) => async (dispatch: any, getState: any) => {
+      dispatch(actions.startStats());
+
+      const { customField, customFieldValue, fromDate, toDate } = getState().listSlice;
+    
+      const fromDateVal = prepareDate(fromDate);
+      const toDateVal = prepareDate(toDate);
+      
+      const params: any = {
+        searchQuery: searchValue,
+        [customField]: customFieldValue,
+      };
+
+      if(fromDateVal && toDateVal){
+        params.fromDate = moment(fromDateVal).format(apiDateFormat());
+        params.toDate = moment(toDateVal).format(apiDateFormat());
+      }
+
+      await axios.get(path + '/stats', { params }).then(result => {
+        const { data, message } = result.data;
+
+        dispatch(actions.finishStats({ data, msg: message, state: true}));
+
+        if(callback){
+          callback(data, message, true);
+        }
+      }).catch(error => {
+        const { message } = error;
+
+        dispatch(actions.finishStats({ data: [], msg: message, state: false }));
+
+        if(callback){
+          callback(null, message, false);
+        }
+      });
+    },
+
+    calGeneratePDFApi: (params: any, path: string, callback?: (data: any|null, state: boolean|null) => void) => async (dispatch: any) => {
+      dispatch(actions.startGeneratePDF());
+
+      await axios.post(path + '/generatePDF', params).then(result => {
+        dispatch(actions.finishGeneratePDF());
+
+        if(callback){
+          callback(result.data, true);
+        }
+      }).catch(error => {
+        dispatch(actions.finishGeneratePDF());
+
+        if(callback){
+          callback(null, false);
+        }
+      });
+    },
+
+    calGenerateCSVApi: (params: any, path: string, callback?: (data: any|null, state: boolean|null) => void) => async (dispatch: any) => {
+      dispatch(actions.startGenerateCSV());
+
+      await axios.put(path + '/generateCSV', params).then(result => {
+        dispatch(actions.finishGenerateCSV());
+
+        if(callback){
+          callback(result.data, true);
+        }
+      }).catch(error => {
+        dispatch(actions.finishGenerateCSV());
+
+        if(callback){
+          callback(null, false);
+        }
+      });
+    },
+  };
+
+
+  const { reducer, actions } = createSlice({
+    name,
+    initialState,
+    reducers,
+  });
+
+
+  return {
+    reducer,
+    ...actions,
+    ...apis,
+  };
+}
+
+
+export default NewReducer();

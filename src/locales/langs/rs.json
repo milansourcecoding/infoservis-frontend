@@ -1,0 +1,242 @@
+{
+  "app": "Info Sistem - RS",
+
+  "logout_error": "Doslo je do greske prilikom odjavljivanja!",
+
+  "menu": {
+    "operativa": "Operativa",
+    "dashboard": "Pocetna",
+    "radni_nalog": "Radni nalog",
+    "sifarnici": "Sifarnici",
+
+    "radni_nalog_item": {
+      "zahtev_radni_nalog": "Zahtev",
+      "radni_nalog": "Radni nalog"
+    },
+
+    "sifarnici_item": {
+      "kategorija": "Kategorija",
+      "radnik": "Radnik",
+      "upravnik": "Upravnik"
+    }
+  },
+
+  "validacija": {
+    "typeError": "Unesite validan datum",
+    "min": "Datum ne moze biti manji od prethodnog datuma"
+  },
+
+  "settings": {
+    "home": "Pocetna",
+    "settings": "Podesavanja",
+    "logout": "Odjava"
+  },
+
+  "profile": {
+    "title": "Profil",
+    "breadcrumbs": {
+      "account": "Profil"
+    },
+    "tabs": {
+      "tab1": "Opste informacije",
+      "tab2": "Zastita"
+    },
+    "form": {
+      "fields": {
+        "naziv": "Naziv firme",
+        "imePrezime": "Ime i prezime",
+        "email": "Email adresa",
+        "grad": "Grad",
+        "adresa": "Adresa",
+        "password": "Nova lozinka",
+        "password_again": "Ponovite novu lozinku"
+      },
+      "buttons": {
+        "save": "Snimi izmene",
+        "remove": "Obrisi sliku"
+      }
+    },
+    "info": {
+      "allowed": "dozvoljeno",
+      "max_size": "max vlicina",
+      "slika": "Uspesno ste promenili sliku",
+      "password": "Password mora sadržati barem jedno veliko slovo i barem jedan specijalni karakter i najmanje 6 karaktera.",
+      "new_password": "Nova lozinka mora da se razlikuje od stare lozinke",
+      "match_password": "šifre moraju da se podudaraju"
+    }
+  },
+
+  "search": "Pretraga...",
+  "resultsFound": "rezultata pronadjeno",
+
+  "stavke": "Stavke",
+  "ukupno": "Ukupno",
+
+  "deletePopup": {
+    "title": "Brisanje",
+    "question": "Da li ste sigurni?",
+    "questionBatch1": "Da li ste sigurni da zelite da obrisete",
+    "questionBatch2": "reda?"
+  },
+
+  "activatePopup": {
+    "title": "Aktiviranje",
+    "question": "Da li ste sigurni?",
+    "questionBatch1": "Da li ste sigurni da zelite da aktivirate",
+    "questionBatch2": "reda?"
+  },
+  "deactivatePopup": {
+    "title": "Dektiviranje",
+    "question": "Da li ste sigurni?",
+    "questionBatch1": "Da li ste sigurni da zelite da deaktivirate",
+    "questionBatch2": "reda?"
+  },
+  "stornirajPopup": {
+    "title": "Storniranje",
+    "question": "Da li ste sigurni?",
+    "questionBatch1": "Da li ste sigurni da zelite da stornirate",
+    "questionBatch2": "reda?"
+  },
+
+  "status": {
+    "label": "Status:",
+    "all": "Sve",
+    "active": "Aktivni",
+    "inactive": "Neaktivni"
+  },
+
+  "table": {
+    "loading": "Molimo sacekajte...",
+    "noData": "Nema rezultata",
+    "updated_at": "Izmenjeno",
+    "updated_by": "Izmenio"
+  },
+
+  "buttons": {
+    "add": "Kreiraj",
+    "insert": "Dodaj",
+    "edit": "Izmeni",
+    "remove": "Obrisi",
+    "save": "Snimi",
+    "cancel": "Izadji",
+    "clear": "Ponisti",
+    "storniraj": "Storniraj",
+    "ok": "U redu",
+    "yes": "Da",
+    "no": "Ne",
+    "view": "Pregled",
+    "activate": "Aktiviraj",
+    "deactivate": "Deaktiviraj",
+    "active": "Aktivan",
+    "inactive": "Neaktivan",
+    "print": "Stampaj",
+    "exportPdf": "Izvezi u PDF",
+    "exportCSV": "Izvezi u CSV",
+    "import": "Uvezi",
+    "printAll": "Stampaj sve",
+    "exportAllPdf": "Izvezi sve u PDF",
+    "exportAllCSV": "Izvezi sve u CSV"
+  },
+
+  "enums": {
+    "upravnikType": {
+      "domaceLice": "Domace lice",
+      "profesionalniUpravnik": "Profesionalni upravnik"
+    },
+    "radnikType": {
+      "serviser": "Serviser"
+    },
+    "statusDokumenta": {
+      "processing": "U obradi",
+      "zavrsen": "Zavrsen",
+      "storniran": "Storniran"
+    },
+    "nacinPlacanja": {
+      "virmanski": "Virmanski",
+      "gotovina": "Gotovina",
+      "avansno": "Avansno"
+    }
+  },
+
+  "form": {
+    "listTitle": "Lista",
+    "viewTitle": "Pregled",
+    "addTitle": "Kreiranje",
+    "editTitle": "Izmena"
+  },
+
+  "kategorija": {
+    "title": "Kategorija",
+    "breadcrumbs": {
+      "path": "Kategorija"
+    },
+    "table": {
+      "naziv": "Naziv",
+      "isActive": "Status",
+      "isNaplativ": "Naplativ",
+      "isDefault": "Default"
+    }
+  },
+
+  "upravnik": {
+    "title": "Upravnik",
+    "breadcrumbs": {
+      "path": "Upravnik"
+    },
+    "table": {
+      "imePrezime": "Ime i prezime",
+      "grad": "Grad",
+      "adresa": "Adresa",
+      "email": "Email",
+      "password": "Lozinka",
+      "brojTelefona": "Broj telefona",
+      "uloga": "Uloga",
+      "tip": "Tip",
+      "isActive": "Status"
+    },
+    "allTypes": "Svi tipovi"
+  },
+
+  "radnik": {
+    "title": "Radnik",
+    "breadcrumbs": {
+      "path": "Radnik"
+    },
+    "table": {
+      "imePrezime": "Ime i prezime",
+      "grad": "Grad",
+      "adresa": "Adresa",
+      "email": "Email",
+      "password": "Lozinka",
+      "brojTelefona": "Broj telefona",
+      "uloga": "Uloga",
+      "tip": "Tip",
+      "logo": "Logo",
+      "isActive": "Status"
+    },
+    "allTypes": "Svi tipovi"
+  },
+
+  "radniNalog": {
+    "title": "Radni nalog",
+    "breadcrumbs": {
+      "path": "Radni nalog"
+    },
+    "table": {
+      "brojDokumenta": "#",
+      "napomena": "Opis",
+      "status": "Status",
+      "lift_id": "Lift",
+      "kategorija_id": "Kategorija",
+      "isActive": "Aktivan",
+      "radnici_ids": "Radnici",
+      "brojRadnihSatiPoRadniku": "Broj radnih sati (u minutima)",
+      "cenaRadnogSataIzUgovora": "Cena radnog sata"
+    },
+    "buttons": {
+      "action": "Kreiraj radni nalog"
+    }
+  }
+
+}
+

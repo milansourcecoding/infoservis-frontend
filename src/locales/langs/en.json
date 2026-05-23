@@ -1,0 +1,241 @@
+{
+  "app": "Info Sistem - EN",
+
+  "logout_error": "Unable to logout!",
+
+  "menu": {
+    "operativa": "Operative",
+    "dashboard": "Dashboard",
+    "radni_nalog": "Work order",
+    "sifarnici": "Lists",
+
+    "radni_nalog_item": {
+      "zahtev_radni_nalog": "Request",
+      "radni_nalog": "Work order"
+    },
+
+    "sifarnici_item": {
+      "kategorija": "Category",
+      "radnik": "Worker",
+      "upravnik": "Manager"
+    }
+  },
+
+  "validacija": {
+    "typeError": "Enter valid date",
+    "min": "The date cannot be lower than the previous date"
+  },
+
+  "settings": {
+    "home": "Home",
+    "settings": "Settings",
+    "logout": "Logout"
+  },
+
+  "profile": {
+    "title": "Profile",
+    "breadcrumbs": {
+      "account": "Account"
+    },
+    "tabs": {
+      "tab1": "General",
+      "tab2": "Security"
+    },
+    "form": {
+      "fields": {
+        "naziv": "Name",
+        "imePrezime": "Full name",
+        "email": "Email address",
+        "grad": "City",
+        "adresa": "Address",
+        "password": "New password",
+        "password_again": "Confirm new password"
+      },
+      "buttons": {
+        "save": "Save changes",
+        "remove": "Remove image"
+      }
+    },
+    "info": {
+      "allowed": "Allowed",
+      "max_size": "max size of",
+      "slika": "You have successfully changed the image",
+      "password": "Password must contain at least one capital letter and at least one special character and at least 6 characters.",
+      "new_password": "New password must be different than old password",
+      "match_password": "Passwords must match"
+    }
+  },
+
+  "search": "Search...",
+  "resultsFound": "results found",
+  
+  "stavke": "items",
+  "ukupno": "Total",
+
+  "deletePopup": {
+    "title": "Deleting",
+    "question": "Are you sure?",
+    "questionBatch1": "Are you sure you want to delete",
+    "questionBatch2": "items?"
+  },
+
+  "activatePopup": {
+    "title": "Activation",
+    "question": "Are you sure?",
+    "questionBatch1": "Are you sure you want to activate",
+    "questionBatch2": "items?"
+  },
+  "deactivatePopup": {
+    "title": "Deactivation",
+    "question": "Are you sure?",
+    "questionBatch1": "Are you sure you want to deactivate",
+    "questionBatch2": "items?"
+  },
+  "stornirajPopup": {
+    "title": "Cancellation",
+    "question": "Are you sure?",
+    "questionBatch1": "Are you sure you want to cancel",
+    "questionBatch2": "items?"
+  },
+
+  "status": {
+    "label": "Status:",
+    "all": "All",
+    "active": "Active",
+    "inactive": "Inactive"
+  },
+
+  "table": {
+    "loading": "Please wait...",
+    "noData": "No results",
+    "updated_at": "Changed at",
+    "updated_by": "Changed by"
+  },
+
+  "buttons": {
+    "add": "Create",
+    "insert": "Add",
+    "edit": "Update",
+    "remove": "Remove",
+    "save": "Save",
+    "cancel": "Cancel",
+    "clear": "Clear",
+    "storniraj": "Cancel it",
+    "ok": "Ok",
+    "yes": "Yes",
+    "no": "No",
+    "view": "View",
+    "activate": "Activate",
+    "deactivate": "Deactivate",
+    "active": "Active",
+    "inactive": "Inactive",
+    "print": "Print",
+    "exportPdf": "Export to PDF",
+    "exportCSV": "Export to CSV",
+    "import": "Import",
+    "printAll": "Print all",
+    "exportAllPdf": "Export all to PDF",
+    "exportAllCSV": "Export all to CSV"
+  },
+
+  "enums": {
+    "upravnikType": {
+      "domaceLice": "Domestic person",
+      "profesionalniUpravnik": "Professional manager"
+    },
+    "radnikType": {
+      "serviser": "Serviceman"
+    },
+    "statusDokumenta": {
+      "processing": "Processing",
+      "zavrsen": "Finished",
+      "storniran": "Cancelled"
+    },
+    "nacinPlacanja": {
+      "virmanski": "Wire Transfer",
+      "gotovina": "Cash",
+      "avansno": "In advance"
+    }
+  },
+
+  "form": {
+    "listTitle": "List",
+    "viewTitle": "View",
+    "addTitle": "Create",
+    "editTitle": "Update"
+  },
+
+  "kategorija": {
+    "title": "Category list",
+    "breadcrumbs": {
+      "path": "Category"
+    },
+    "table": {
+      "naziv": "Name",
+      "isActive": "Status",
+      "isNaplativ": "Billable",
+      "isDefault": "Default"
+    }
+  },
+
+  "upravnik": {
+    "title": "Manager",
+    "breadcrumbs": {
+      "path": "Manager"
+    },
+    "table": {
+      "imePrezime": "Name",
+      "grad": "City",
+      "adresa": "Address",
+      "email": "Email",
+      "password": "Password",
+      "brojTelefona": "Phone number",
+      "uloga": "Role",
+      "tip": "Type",
+      "isActive": "Status"
+    },
+    "allTypes": "All types"
+  },
+
+  "radnik": {
+    "title": "Worker",
+    "breadcrumbs": {
+      "path": "Worker"
+    },
+    "table": {
+      "imePrezime": "Name",
+      "grad": "City",
+      "adresa": "Address",
+      "email": "Email",
+      "password": "Password",
+      "brojTelefona": "Phone number",
+      "uloga": "Role",
+      "tip": "Type",
+      "logo": "Logo",
+      "isActive": "Status"
+    },
+    "allTypes": "All types"
+  },
+
+  "radniNalog": {
+    "title": "Order Request",
+    "breadcrumbs": {
+      "path": "Order Request"
+    },
+    "table": {
+      "brojDokumenta": "#",
+      "napomena": "Note",
+      "status": "Status",
+      "lift_id": "Elevator",
+      "kategorija_id": "Category",
+      "isActive": "Active",
+      "radnici_ids": "Workers",
+      "brojRadnihSatiPoRadniku": "Working hours (in minutes)",
+      "cenaRadnogSataIzUgovora": "Hourly price"
+    },
+    "buttons": {
+      "action": "Create a work order"
+    }
+  }
+
+}
