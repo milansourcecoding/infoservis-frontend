@@ -13,23 +13,13 @@ import numeral from 'numeral';
 import { t } from 'i18next';
 import moment from 'moment';
 import TimelineDot from '@mui/lab/TimelineDot';
-import { VrstaFajla, Folder, VelicinaSlike, UpravnikType, RadnikType, StatusDokumenta } from './enums.tsx';
+import { UpravnikType, RadnikType, StatusDokumenta } from './enums.tsx';
 
 import '../assets/css/styles.css';
-
-const WEB_URL = process.env.REACT_APP_WEB_URL;
 
 const CHARACTERS = ['\\', ':', ';', '*', '?', '"', '<', '>', '|',];
 
 // ----------------------------------------------------------------------
-
-export const getFirmaLogo = (logo = null, velicinaSlike = VelicinaSlike.Srednja) => {
-  return logo ? WEB_URL + VrstaFajla.Slika + '/' + Folder.User + '/' + velicinaSlike + '/' + logo : null;
-}
-export const getUserLogo = (logo = null, velicinaSlike = VelicinaSlike.Srednja) => {
-  return logo ? WEB_URL + VrstaFajla.Slika + '/' + Folder.Radnik + '/' + velicinaSlike + '/' + logo : null;
-}
-
 
 export const dateTimeFormat = () => {
   return 'dd MMM yyyy HH:mm';

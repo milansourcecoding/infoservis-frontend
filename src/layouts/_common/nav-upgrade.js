@@ -20,7 +20,7 @@ import { useLocales } from 'src/locales';
 // components
 import Label from 'src/components/label';
 import { VelicinaSlike } from '../../utils/enums.tsx'
-import { getFirmaLogo } from '../../utils/utils.tsx';
+// import { getFirmaLogo } from '../../utils/utils.tsx';
 
 // ----------------------------------------------------------------------
 
@@ -65,17 +65,18 @@ export default function NavUpgrade() {
           {
             (firma && firma.logo)
             ?
-            <Avatar
-              src={getFirmaLogo(firma?.logo, VelicinaSlike.Mala)}
-              alt={firma?.name}
-              sx={{
-                width: 48,
-                height: 48,
-                border: (theme) => `solid 2px ${theme.palette.background.default}`,
-              }}
-            >
-              {firma?.name.charAt(0).toUpperCase()}
-            </Avatar>
+            // <Avatar
+            //   src={getFirmaLogo(firma?.logo, VelicinaSlike.Mala)}
+            //   alt={firma?.name}
+            //   sx={{
+            //     width: 48,
+            //     height: 48,
+            //     border: (theme) => `solid 2px ${theme.palette.background.default}`,
+            //   }}
+            // >
+            //   {firma?.name.charAt(0).toUpperCase()}
+            // </Avatar>
+            <Avatar alt={firma?.name} sx={{ width: 48, height: 48, bgcolor: grey[400] }}>{firma?.name[0]}</Avatar>
             :
             <Avatar alt={firma?.name} sx={{ width: 48, height: 48, bgcolor: grey[400] }}>{firma?.name[0]}</Avatar>
           }

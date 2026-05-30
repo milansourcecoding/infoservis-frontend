@@ -26,7 +26,7 @@ import { useDispatch } from 'react-redux';
 import { useTypedSelector } from '../../utils/store.tsx';
 import settings from './redux/settings.tsx';
 
-import { getFirmaLogo, getUserLogo } from '../../utils/utils.tsx';
+// import {  } from '../../utils/utils.tsx';
 import { UserType } from '../../utils/enums.tsx';
 
 // components
@@ -71,7 +71,7 @@ export default function AccountGeneral() {
     adresa: user?.adresa || '',
     email: user?.email || '',
     uloga: user?.uloga || UserType.None,
-    logo: user?.logo ? (user?.uloga == UserType.Admin) ? getFirmaLogo(user?.logo) : getUserLogo(user?.logo) : null,
+    logo: null, // user?.logo ? (user?.uloga == UserType.Admin) ? getFirmaLogo(user?.logo) : getUserLogo(user?.logo) : null,
   };
 
   const methods = useForm({

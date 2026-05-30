@@ -24,8 +24,8 @@ import { grey } from '@mui/material/colors';
 import Label from 'src/components/label';
 import CustomPopover, { usePopover } from 'src/components/custom-popover';
 
-import { dateTimeFormat, getStatusDokumenta, getColorStatusDokumenta, formatNumber, formatMinToHours, getUserLogo } from '../../utils/utils.tsx';
-import { RemoveAction, StatusDokumenta, VelicinaSlike } from '../../utils/enums.tsx';
+import { dateTimeFormat, getStatusDokumenta, getColorStatusDokumenta, formatNumber, formatMinToHours } from '../../utils/utils.tsx';
+import { RemoveAction, StatusDokumenta } from '../../utils/enums.tsx';
 
 // Redux
 import { useDispatch } from 'react-redux';
@@ -97,7 +97,7 @@ export default function ListRow({ row, selected, onSelectRow }: any) {
           <AvatarGroup max={3} spacing={30}>
             {row?.radnici.map((itm: any, i: number) => <Avatar
                 key={'row_' + row.id + '_radnik_' + i}
-                src={getUserLogo(itm?.logo, VelicinaSlike.Mala)?.toString()}
+                // src={getUserLogo(itm?.logo, VelicinaSlike.Mala)?.toString()}
                 alt={itm?.name}
                 sx={{ mr: 2, bgcolor: grey[400] }}
               >

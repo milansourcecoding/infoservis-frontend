@@ -30,21 +30,6 @@ export const NacinPlacanja = {
   Avansno: 3
 }
 
-export const VrstaFajla = {
-  Slika: 'slika'
-}
-
-export const Folder = {
-  User: 'user',
-  Radnik: 'radnik'
-}
-
-export const VelicinaSlike = {
-  Mala: 'mala',
-  Srednja: 'srednja',
-  Velika: 'velika'
-}
-
 export const RemoveAction = {
   Delete: 0,
   Activate: 1,

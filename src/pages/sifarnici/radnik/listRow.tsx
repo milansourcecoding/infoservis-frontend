@@ -25,8 +25,8 @@ import { grey } from '@mui/material/colors';
 import Label from 'src/components/label';
 import CustomPopover, { usePopover } from 'src/components/custom-popover';
 
-import { dateTimeFormat, getRadnikType, getUserLogo } from '../../../utils/utils.tsx';
-import { RemoveAction, VelicinaSlike } from '../../../utils/enums.tsx';
+import { dateTimeFormat, getRadnikType } from '../../../utils/utils.tsx';
+import { RemoveAction } from '../../../utils/enums.tsx';
 
 // Redux
 import { useDispatch } from 'react-redux';
@@ -89,13 +89,14 @@ export default function ListRow({ row, selected, onSelectRow }: any) {
         {
           (row?.logo)
           ?
-          <Avatar
-            src={getUserLogo(row?.logo, VelicinaSlike.Mala)?.toString()}
-            alt={row?.imePrezime}
-            sx={{ mr: 2, bgcolor: grey[400] }}
-          >
-            {row?.imePrezime.charAt(0).toUpperCase()}
-          </Avatar>
+          // <Avatar
+          //   src={getUserLogo(row?.logo, VelicinaSlike.Mala)?.toString()}
+          //   alt={row?.imePrezime}
+          //   sx={{ mr: 2, bgcolor: grey[400] }}
+          // >
+          //   {row?.imePrezime.charAt(0).toUpperCase()}
+          // </Avatar>
+          <Avatar alt={row?.imePrezime} sx={{ mr: 2, bgcolor: grey[400] }}>{(row?.imePrezime && row?.imePrezime.length > 0) ? row?.imePrezime[0] : ''}</Avatar>
           :
           <Avatar alt={row?.imePrezime} sx={{ mr: 2, bgcolor: grey[400] }}>{(row?.imePrezime && row?.imePrezime.length > 0) ? row?.imePrezime[0] : ''}</Avatar>
         }
