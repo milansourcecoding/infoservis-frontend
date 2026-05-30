@@ -132,7 +132,7 @@ const List = () => {
   );
 
 
-  return <MainContainer title={t(LANGUAGE + '.title')} roles={[ UserType.Admin, UserType.Radnik ]}>
+  return <MainContainer title={t(LANGUAGE + '.title')} roles={[ UserType.Admin, UserType.User ]}>
     <CustomBreadcrumbs
       heading={t('menu.sifarnici_item.' + LANGUAGE)}
       links={[

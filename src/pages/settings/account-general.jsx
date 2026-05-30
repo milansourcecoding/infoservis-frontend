@@ -46,7 +46,7 @@ export default function AccountGeneral() {
   const { isLoading } = useTypedSelector((state) => state.settings);
   const dispatch = useDispatch();
 
-  const { user, setUser, setFirma } = useAuthContext();
+  const { user, setUser } = useAuthContext();
 
   const UpdateUserSchemaAdmin = Yup.object().shape({
     naziv: Yup.string().required(),
@@ -90,14 +90,13 @@ export default function AccountGeneral() {
       await dispatch(settings.callChangeGeneralApi(data, (res, msg, state) => {
         if(state){
           setUser(res);
-          setFirma(res);
           enqueueSnackbar(msg, { variant: 'success' });
         } else {
           enqueueSnackbar(msg, { variant: 'error' });
         }
       }));
 
-    } else if(user?.uloga == UserType.Radnik){
+    } else if(user?.uloga == UserType.User){
       await dispatch(settings.callChangeGeneralRadnikApi(data, (res, msg, state) => {
         if(state){
           setUser(res);
@@ -124,14 +123,13 @@ export default function AccountGeneral() {
           dispatch(settings.callUploadLogoApi(newFile, (res, msg, state) => {
             if(state){
               setUser(res);
-              setFirma(res);
               enqueueSnackbar(t('profile.info.slika'), { variant: 'success' });
             } else {
               enqueueSnackbar(msg, { variant: 'error' });
             }
           }));
 
-        } else if(user?.uloga == UserType.Radnik){
+        } else if(user?.uloga == UserType.User){
           dispatch(settings.callUploadLogoRadnikApi(user?.id, newFile, (res, msg, state) => {
             if(state){
               setUser(res);
@@ -152,14 +150,13 @@ export default function AccountGeneral() {
         if(state){
           setValue('logo', null, { shouldValidate: true });
           setUser(res);
-          setFirma(res);
           enqueueSnackbar(msg, { variant: 'success' });
         } else {
           enqueueSnackbar(msg, { variant: 'error' });
         }
       }));
 
-    } else if(user?.uloga == UserType.Radnik){
+    } else if(user?.uloga == UserType.User){
       await dispatch(settings.callremoveLogoRadnikApi(user?.id, (res, msg, state) => {
         if(state){
           setValue('logo', null, { shouldValidate: true });

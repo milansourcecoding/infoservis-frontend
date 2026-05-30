@@ -23,13 +23,3 @@ export const fetcher = async (args) => {
 
   return res.data;
 };
-
-// ----------------------------------------------------------------------
-
-export const endpoints = {
-  auth: {
-    user: 'user',
-    login: 'login',
-    register: 'register',
-  },
-};

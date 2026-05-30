@@ -93,15 +93,15 @@ export default function ListRow({ row, selected, onSelectRow }: any) {
 
 
       <TableCell sx={{ whiteSpace: 'nowrap' }}>
-        {(row?.radnici && row?.radnici.length > 0) && <Tooltip title={row?.radnici.map((x: any) => <div>{x?.imePrezime}</div>)} placement="top" arrow>
+        {(row?.radnici && row?.radnici.length > 0) && <Tooltip title={row?.radnici.map((x: any) => <div>{x?.name}</div>)} placement="top" arrow>
           <AvatarGroup max={3} spacing={30}>
             {row?.radnici.map((itm: any, i: number) => <Avatar
                 key={'row_' + row.id + '_radnik_' + i}
                 src={getUserLogo(itm?.logo, VelicinaSlike.Mala)?.toString()}
-                alt={itm?.imePrezime}
+                alt={itm?.name}
                 sx={{ mr: 2, bgcolor: grey[400] }}
               >
-                {itm?.imePrezime.charAt(0).toUpperCase()}
+                {itm?.name.charAt(0).toUpperCase()}
               </Avatar>)}
           </AvatarGroup>
         </Tooltip>}

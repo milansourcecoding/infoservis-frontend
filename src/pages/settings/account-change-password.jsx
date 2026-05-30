@@ -80,7 +80,7 @@ export default function AccountChangePassword() {
         }
       }));
 
-    } else if(user?.uloga == UserType.Radnik){
+    } else if(user?.uloga == UserType.User){
       await dispatch(settings.callChangePasswordRadnikApi({ id: user?.id, password: data.newPassword }, (res, msg, state) => {
         if(state){
           enqueueSnackbar(msg, { variant: 'success' });

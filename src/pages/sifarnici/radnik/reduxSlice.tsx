@@ -138,7 +138,7 @@ export const prepareForm = (values: any = null, defValues: any = null) => {
     data['brojTelefona'] = form?.brojTelefona || '';
     data['email'] = form?.email || '';
     data['password'] = form?.password || '';
-    data['uloga'] = form?.uloga || UserType.Radnik;
+    data['uloga'] = form?.uloga || UserType.User;
     data['tip'] = form?.tip || RadnikType.Serviser;
     data['isActive'] = form?.isActive || false;
   }
@@ -154,7 +154,7 @@ export const prepareData = (values: any = null, id: number|null) => {
     data['adresa'] = values?.adresa || '';
     data['brojTelefona'] = values?.brojTelefona || '';
     data['email'] = values?.email || '';
-    data['uloga'] = values?.uloga || UserType.Radnik;
+    data['uloga'] = values?.uloga || UserType.User;
     data['tip'] = values?.tip || RadnikType.Serviser;
     data['isActive'] = values?.isActive || false;
 
@@ -189,7 +189,7 @@ export const initialValues: initialValuesStruct = {
   brojTelefona: '',
   email: '',
   password: '',
-  uloga: UserType.Radnik,
+  uloga: UserType.User,
   tip: RadnikType.Serviser,
   isActive: true,
 };

@@ -29,7 +29,7 @@ const WelcomePage = () => {
   const { t } = useLocales();
 
 
-  return <MainContainer title={t('menu.dashboard')} roles={[ UserType.Admin, UserType.Radnik ]}>
+  return <MainContainer title={t('menu.dashboard')} roles={[ UserType.Admin, UserType.User ]}>
     <Stack
       flexDirection={{ xs: 'column', md: 'row' }}
       sx={{
@@ -58,7 +58,7 @@ const WelcomePage = () => {
         }}
       >
         <Typography variant="h4" sx={{ mb: 2, whiteSpace: 'pre-line' }}>
-          {`Welcome back 👋 \n ${user?.imePrezime}`}
+          {`Welcome back 👋 \n ${user?.name}`}
         </Typography>
 
         <Typography

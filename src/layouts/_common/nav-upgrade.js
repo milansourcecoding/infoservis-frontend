@@ -67,17 +67,17 @@ export default function NavUpgrade() {
             ?
             <Avatar
               src={getFirmaLogo(firma?.logo, VelicinaSlike.Mala)}
-              alt={firma?.imePrezime}
+              alt={firma?.name}
               sx={{
                 width: 48,
                 height: 48,
                 border: (theme) => `solid 2px ${theme.palette.background.default}`,
               }}
             >
-              {firma?.imePrezime.charAt(0).toUpperCase()}
+              {firma?.name.charAt(0).toUpperCase()}
             </Avatar>
             :
-            <Avatar alt={firma?.imePrezime} sx={{ width: 48, height: 48, bgcolor: grey[400] }}>{firma?.imePrezime[0]}</Avatar>
+            <Avatar alt={firma?.name} sx={{ width: 48, height: 48, bgcolor: grey[400] }}>{firma?.name[0]}</Avatar>
           }
 
           <Label

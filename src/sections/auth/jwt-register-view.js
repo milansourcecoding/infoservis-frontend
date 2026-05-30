@@ -40,17 +40,17 @@ export default function JwtRegisterView() {
   const password = useBoolean();
 
   const RegisterSchema = Yup.object().shape({
-    firstName: Yup.string().required('First name required'),
-    lastName: Yup.string().required('Last name required'),
+    name: Yup.string().required('Name is required'),
     email: Yup.string().required('Email is required').email('Email must be a valid email address'),
     password: Yup.string().required('Password is required'),
+    password_confirmation: Yup.string().required('Password is required'),
   });
 
   const defaultValues = {
-    firstName: '',
-    lastName: '',
+    name: '',
     email: '',
     password: '',
+    password_confirmation: '',
   };
 
   const methods = useForm({
@@ -66,9 +66,11 @@ export default function JwtRegisterView() {
 
   const onSubmit = handleSubmit(async (data) => {
     try {
-      await register?.(data.email, data.password, data.firstName, data.lastName);
+      await register?.(data.name, data.email, data.password, data.password_confirmation);
 
-      router.push(returnTo || PATH_AFTER_LOGIN);
+      setTimeout(() => {
+        router.push(returnTo || '/');
+      }, 0);
     } catch (error) {
       console.error(error);
       reset();
@@ -118,14 +120,14 @@ export default function JwtRegisterView() {
         {!!errorMsg && <Alert severity="error">{errorMsg}</Alert>}
 
         <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
-          <RHFTextField name="firstName" label="First name"
+          <RHFTextField name="name" label="Name"
             InputLabelProps={{ shrink: true }}
             size={'small'}
           />
-          <RHFTextField name="lastName" label="Last name"
+          {/* <RHFTextField name="lastName" label="Last name"
             InputLabelProps={{ shrink: true }}
             size={'small'}
-          />
+          /> */}
         </Stack>
 
         <RHFTextField name="email" label="Email address"
@@ -137,6 +139,24 @@ export default function JwtRegisterView() {
         <RHFTextField
           name="password"
           label="Password"
+          type={password.value ? 'text' : 'password'}
+          InputLabelProps={{ shrink: true }}
+          size={'small'}
+          autoComplete="new-password"
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton onClick={password.onToggle} edge="end" size={'small'}>
+                  <Iconify icon={password.value ? 'solar:eye-bold' : 'solar:eye-closed-bold'} />
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
+        />
+
+        <RHFTextField
+          name="password_confirmation"
+          label="Confirm Ppssword"
           type={password.value ? 'text' : 'password'}
           InputLabelProps={{ shrink: true }}
           size={'small'}

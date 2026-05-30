@@ -53,7 +53,7 @@ const Settings = () => {
   }, []);
 
 
-  return <MainContainer title={t('profile.title')} roles={[ UserType.Admin, UserType.Radnik ]}>
+  return <MainContainer title={t('profile.title')} roles={[ UserType.Admin, UserType.User ]}>
     <CustomBreadcrumbs
       heading={t('settings.settings')}
       links={[

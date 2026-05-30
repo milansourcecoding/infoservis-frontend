@@ -17,7 +17,7 @@ export default function RoleBasedGuard({ hasContent, roles, children, sx }) {
   const { user } = useAuthContext();
 
   const stringRoles = roles.map((number) => number.toString());
-  const currentRole = user?.uloga.toString();
+  const currentRole = user?.uloga?.toString() || null;
 
   if (typeof roles !== 'undefined' && !stringRoles.includes(currentRole)) {
     return hasContent ? (

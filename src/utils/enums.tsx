@@ -1,9 +1,8 @@
 export const UserType = {
   None: 0,
   Admin: 1,
-  Radnik: 2,
-  Komitent: 3,
-  Upravnik: 4
+  User: 2,
+  Upravnik: 3,
 }
 
 export const RadnikType = {

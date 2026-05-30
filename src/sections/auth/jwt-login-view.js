@@ -68,7 +68,9 @@ export default function JwtLoginView() {
     try {
       await login?.(data.email, data.password);
 
-      router.push(returnTo || PATH_AFTER_LOGIN);
+      setTimeout(() => {
+        router.push(returnTo || PATH_AFTER_LOGIN);
+      }, 0);
     } catch (error) {
       console.error(error);
       reset();

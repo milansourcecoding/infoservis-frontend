@@ -51,7 +51,7 @@ export const tokenExpired = (exp) => {
   expiredTimer = setTimeout(() => {
     console.info('Token expired');
 
-    sessionStorage.removeItem('accessToken');
+    localStorage.removeItem('accessToken');
 
     window.location.href = paths.auth.login;
   }, timeLeft);
@@ -61,18 +61,18 @@ export const tokenExpired = (exp) => {
 
 export const setSession = (accessToken, token_expires_at) => {
   if (accessToken) {
-    sessionStorage.setItem('accessToken', accessToken);
-    sessionStorage.setItem('tokenExpiresAt', token_expires_at);
+    localStorage.setItem('accessToken', accessToken);
+    localStorage.setItem('tokenExpiresAt', token_expires_at);
 
     const selectedLanguage = getDefaultLang();
 
     axios.defaults.headers.common['Accept-Language'] = (selectedLanguage && selectedLanguage.value && selectedLanguage.value !== '') ? selectedLanguage.value : '';
     axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
-    const exp = getUnixTimestamp(token_expires_at);
+    // const exp = getUnixTimestamp(token_expires_at);
 
-    tokenExpired(exp);
+    // tokenExpired(exp);
   } else {
-    sessionStorage.removeItem('accessToken');
+    localStorage.removeItem('accessToken');
 
     delete axios.defaults.headers.common['Accept-Language'];
     delete axios.defaults.headers.common.Authorization;

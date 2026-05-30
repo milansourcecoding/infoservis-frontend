@@ -1,22 +1,15 @@
 import PropTypes from 'prop-types';
 import { useEffect, useReducer, useCallback, useMemo } from 'react';
 // utils
-import axios, { endpoints } from 'src/utils/axios';
+import axios from 'src/utils/axios';
 //
 import { AuthContext } from './auth-context';
 import { isValidToken, setSession } from './utils';
 
 // ----------------------------------------------------------------------
 
-// NOTE:
-// We only build demo at basic level.
-// Customer will need to do some extra handling yourself if you want to extend the logic and other features...
-
-// ----------------------------------------------------------------------
-
 const initialState = {
   user: null,
-  firma: null,
   loading: true,
 };
 
@@ -25,21 +18,18 @@ const reducer = (state, action) => {
     return {
       loading: false,
       user: action.payload.user,
-      firma: action.payload.firma,
     };
   }
   if (action.type === 'LOGIN') {
     return {
       ...state,
       user: action.payload.user,
-      firma: action.payload.firma,
     };
   }
   if (action.type === 'REGISTER') {
     return {
       ...state,
       user: action.payload.user,
-      firma: action.payload.firma,
     };
   }
   if (action.type === 'SET_USER') {
@@ -48,17 +38,10 @@ const reducer = (state, action) => {
       user: action.payload.user,
     };
   }
-  if (action.type === 'SET_FIRMA') {
-    return {
-      ...state,
-      firma: action.payload.firma,
-    };
-  }
   if (action.type === 'LOGOUT') {
     return {
       ...state,
       user: null,
-      firma: null,
     };
   }
   return state;
@@ -68,25 +51,26 @@ const reducer = (state, action) => {
 
 const STORAGE_KEY = 'accessToken';
 const STORAGE_USER = 'accessUser';
-const STORAGE_FIRMA = 'accessFirma';
-const STORAGE_EXPIRES_AT = 'tokenExpiresAt';
+// const STORAGE_EXPIRES_AT = 'tokenExpiresAt';
 
 export function AuthProvider({ children }) {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const initialize = useCallback(async () => {
     try {
-      const accessToken = sessionStorage.getItem(STORAGE_KEY);
-      const tokenExpiresAt = sessionStorage.getItem(STORAGE_EXPIRES_AT);
+      const accessToken = localStorage.getItem(STORAGE_KEY);
+      // const tokenExpiresAt = localStorage.getItem(STORAGE_EXPIRES_AT);
 
-      if (accessToken && isValidToken(accessToken, tokenExpiresAt)) {
-        setSession(accessToken, tokenExpiresAt);
+      if (accessToken) { // && isValidToken(accessToken, tokenExpiresAt)) {
+        const token_expires_at = '';
+        setSession(accessToken, token_expires_at);
 
 
-        const response = await axios.get(endpoints.auth.user);
-        const { token_expires_at, user, firma } = (response && response.data && response.data.data) ? response.data.data : null;
+        const response = await axios.get('auth/details');
+        const user = (response && response.data && response.data.data) ? response.data.data : null;
 
         setSession(accessToken, token_expires_at);
+        localStorage.setItem(STORAGE_USER, JSON.stringify(user));
 
         dispatch({
           type: 'INITIAL',
@@ -95,7 +79,6 @@ export function AuthProvider({ children }) {
               ...user,
               accessToken,
             },
-            firma,
           },
         });
       } else {
@@ -103,7 +86,6 @@ export function AuthProvider({ children }) {
           type: 'INITIAL',
           payload: {
             user: null,
-            firma: null,
           },
         });
       }
@@ -113,7 +95,6 @@ export function AuthProvider({ children }) {
         type: 'INITIAL',
         payload: {
           user: null,
-          firma: null,
         },
       });
     }
@@ -130,50 +111,47 @@ export function AuthProvider({ children }) {
       password,
     };
 
-    const response = await axios.post(endpoints.auth.login, data);
-    const { token, token_expires_at, user, firma } = (response && response.data && response.data.data) ? response.data.data : null;
+    const response = await axios.post('auth/login', data);
+    const { token, user } = (response && response.data && response.data.data) ? response.data.data : null;
 
-    setSession(token, token_expires_at);
-    sessionStorage.setItem(STORAGE_USER, user);
-    sessionStorage.setItem(STORAGE_FIRMA, firma);
+    const token_expires_at = '';
+    setSession(token?.access_token, token_expires_at);
+    localStorage.setItem(STORAGE_USER, JSON.stringify(user));
 
     dispatch({
       type: 'LOGIN',
       payload: {
         user: {
           ...user,
-          token,
+          token: token?.access_token,
         },
-        firma,
       },
     });
   }, []);
 
   // REGISTER
-  const register = useCallback(async (email, password, firstName, lastName) => {
+  const register = useCallback(async (name, email, password, password_confirmation) => {
     const data = {
+      name,
       email,
       password,
-      firstName,
-      lastName,
+      password_confirmation,
     };
 
-    const response = await axios.post(endpoints.auth.register, data);
-    const { token, token_expires_at, user, firma } = (response && response.data && response.data.data) ? response.data.data : null;
+    const response = await axios.post('auth/register', data);
+    const { token, user } = (response && response.data && response.data.data) ? response.data.data : null;
 
-    sessionStorage.setItem(STORAGE_KEY, token);
-    sessionStorage.setItem(STORAGE_EXPIRES_AT, token_expires_at);
-    sessionStorage.setItem(STORAGE_USER, user);
-    sessionStorage.setItem(STORAGE_FIRMA, firma);
+    const token_expires_at = '';
+    setSession(token?.access_token, token_expires_at);
+    localStorage.setItem(STORAGE_USER, JSON.stringify(user));
 
     dispatch({
       type: 'REGISTER',
       payload: {
         user: {
           ...user,
-          token,
+          token: token?.access_token,
         },
-        firma,
       },
     });
   }, []);
@@ -189,7 +167,7 @@ export function AuthProvider({ children }) {
 
   // SET USER
   const setUser = useCallback(async (user) => {
-    const token = sessionStorage.getItem('accessToken');
+    const token = localStorage.getItem('accessToken');
 
     dispatch({
       type: 'SET_USER',
@@ -198,16 +176,6 @@ export function AuthProvider({ children }) {
           ...user,
           token,
         },
-      },
-    });
-  }, []);
-
-  // SET FIRMA
-  const setFirma = useCallback(async (firma) => {
-    dispatch({
-      type: 'SET_FIRMA',
-      payload: {
-        firma,
       },
     });
   }, []);
@@ -221,7 +189,6 @@ export function AuthProvider({ children }) {
   const memoizedValue = useMemo(
     () => ({
       user: state.user,
-      firma: state.firma,
       method: 'jwt',
       loading: status === 'loading',
       authenticated: status === 'authenticated',
@@ -230,10 +197,9 @@ export function AuthProvider({ children }) {
       login,
       register,
       setUser,
-      setFirma,
       logout,
     }),
-    [login, logout, register, setUser, setFirma, state.user, state.firma, status]
+    [login, logout, register, setUser, state.user, status]
   );
 
   return <AuthContext.Provider value={memoizedValue}>{children}</AuthContext.Provider>;
