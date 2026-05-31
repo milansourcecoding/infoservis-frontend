@@ -148,7 +148,7 @@ export default function AccountPopover() {
 
         <Box pt={0.2} pb={1} pr={1} textAlign={'end'}>
           <Tooltip title={REACT_APP_ENVIRONMENT} style={{ cursor: 'help' }} >
-            <Label variant={'soft'} color={(REACT_APP_ENVIRONMENT == 'production') ? 'success' : 'error'} sx={{ textTransform: 'lowercase' }}>v{REACT_APP_VERSION}</Label>
+            <Label variant={'soft'} color={(REACT_APP_ENVIRONMENT == 'production') ? 'success' : (REACT_APP_ENVIRONMENT == 'staging') ? 'error' : 'default'} sx={{ textTransform: 'lowercase' }}>v{REACT_APP_VERSION}</Label>
           </Tooltip>
         </Box>
       </CustomPopover>
