@@ -46,7 +46,7 @@ export function RHFSelect({
                 },
               },
             },
-            sx: { textTransform: 'capitalize' },
+            sx: { textTransform: 'capitalize', textAlign: 'start' },
           }}
           error={!!error}
           helperText={error ? error?.message : helperText}

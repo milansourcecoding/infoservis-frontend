@@ -40,10 +40,10 @@ export const RemoveAction = {
 export const RoleType = {
   Resident: 'resident',
   Manager: 'manager',
-  Organization_Admin: 'organization_admin',
+  OrganizationAdmin: 'organization_admin',
   Worker: 'worker',
   Technician: 'technician',
   Cleaner: 'cleaner',
   Accountant: 'accountant',
-  Super_Admin: 'super_admin',
+  SuperAdmin: 'super_admin',
 }

@@ -26,6 +26,8 @@ import FormProvider, { RHFTextField , RHFSelect} from 'src/components/hook-form'
 
 import MenuItem from '@mui/material/MenuItem';
 
+import { RoleType } from '../../utils/enums.tsx';
+
 // ----------------------------------------------------------------------
 
 export default function JwtRegisterView() {
@@ -116,15 +118,15 @@ export default function JwtRegisterView() {
     </Typography>
   );
 
-    const roleOptions = [
-    { value: 'resident', label: 'Stanar' },
-    { value: 'manager', label: 'Upravnik' },
-    { value: 'organization', label: 'Organizacija' },
-    { value: 'worker', label: 'Radnik' },
-    { value: 'technician', label: 'Tehnicar' },
-    { value: 'cleaner', label: 'Higijenicar' },
-    { value: 'accountant', label: 'Racunovodja' },
-    { value: 'super_admin', label: 'Super Admin' },
+  const roleOptions = [
+    { value: RoleType.Resident, label: 'Stanar' },
+    { value: RoleType.Manager, label: 'Upravnik' },
+    { value: RoleType.OrganizationAdmin, label: 'Organizacija' },
+    { value: RoleType.Worker, label: 'Radnik' },
+    { value: RoleType.Technician, label: 'Tehnicar' },
+    { value: RoleType.Cleaner, label: 'Higijenicar' },
+    { value: RoleType.Accountant, label: 'Racunovodja' },
+    { value: RoleType.SuperAdmin, label: 'Super Admin' },
   ];
 
   const renderForm = (
@@ -185,7 +187,7 @@ export default function JwtRegisterView() {
           }}
         />
 
-        <RHFSelect name="role" label="Role" defaultValue={roleOptions[0].value}>
+        <RHFSelect name="role" label="Role" size={'small'} defaultValue={roleOptions[0].value}>
             {roleOptions.map((role) => (
               <MenuItem key={role.value} value={role.value}>
                 {role.label}

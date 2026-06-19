@@ -86,7 +86,7 @@ export default function AccountGeneral() {
   };
 
   const methods = useForm({
-    resolver: yupResolver((user?.roles.includes(RoleType.manager)) ? UpdateUserSchemaAdmin : UpdateUserSchemaRadnik),
+    resolver: yupResolver((user?.roles.includes(RoleType.Manager)) ? UpdateUserSchemaAdmin : UpdateUserSchemaRadnik),
     defaultValues,
   });
 
