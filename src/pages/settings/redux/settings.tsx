@@ -48,7 +48,7 @@ export interface ApiCallChangePasswordRadnik {
 
 
 function NewReducer() {
-  const name = 'settings';
+  const pageName = 'settings';
 
 
   const initialState: InitState = {
@@ -128,7 +128,6 @@ function NewReducer() {
       });
     },
 
-    // ############################
     callChangeUserApi: (params: ApiCallChangeUser, callback: (data: any, msg: string, state: boolean|null) => void) => async (dispatch: any) => {
       dispatch(actions.startChange());
 
@@ -162,7 +161,6 @@ function NewReducer() {
         }
       });
     },
-    // ###########################
 
     callChangePasswordApi: (params: ApiCallChangePassword, callback: (data: any, msg: string, state: boolean|null) => void) => async (dispatch: any) => {
       dispatch(actions.startChange());
@@ -308,7 +306,7 @@ function NewReducer() {
 
 
   const { reducer, actions } = createSlice({
-    name,
+    name: pageName,
     initialState,
     reducers,
   });
