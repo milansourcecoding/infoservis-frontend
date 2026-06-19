@@ -66,7 +66,7 @@ export function AuthProvider({ children }) {
         setSession(accessToken, token_expires_at);
 
 
-        const response = await axios.get('auth/details');
+        const response = await axios.get('user');
         const user = (response && response.data && response.data.data) ? response.data.data : null;
 
         setSession(accessToken, token_expires_at);
@@ -130,14 +130,8 @@ export function AuthProvider({ children }) {
   }, []);
 
   // REGISTER
-  const register = useCallback(async (name, email, password, password_confirmation) => {
-    const data = {
-      name,
-      email,
-      password,
-      password_confirmation,
-    };
-
+  const register = useCallback(async (data) => {
+   
     const response = await axios.post('auth/register', data);
     const { token, user } = (response && response.data && response.data.data) ? response.data.data : null;
 

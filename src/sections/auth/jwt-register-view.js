@@ -22,7 +22,9 @@ import { PATH_AFTER_LOGIN } from 'src/config-global';
 import { useAuthContext } from 'src/auth/hooks';
 // components
 import Iconify from 'src/components/iconify';
-import FormProvider, { RHFTextField } from 'src/components/hook-form';
+import FormProvider, { RHFTextField , RHFSelect} from 'src/components/hook-form';
+
+import MenuItem from '@mui/material/MenuItem';
 
 // ----------------------------------------------------------------------
 
@@ -66,7 +68,7 @@ export default function JwtRegisterView() {
 
   const onSubmit = handleSubmit(async (data) => {
     try {
-      await register?.(data.name, data.email, data.password, data.password_confirmation);
+      await register?.(data);
 
       setTimeout(() => {
         router.push(returnTo || '/');
@@ -114,6 +116,17 @@ export default function JwtRegisterView() {
     </Typography>
   );
 
+    const roleOptions = [
+    { value: 'resident', label: 'Stanar' },
+    { value: 'manager', label: 'Upravnik' },
+    { value: 'organization', label: 'Organizacija' },
+    { value: 'worker', label: 'Radnik' },
+    { value: 'technician', label: 'Tehnicar' },
+    { value: 'cleaner', label: 'Higijenicar' },
+    { value: 'accountant', label: 'Racunovodja' },
+    { value: 'super_admin', label: 'Super Admin' },
+  ];
+
   const renderForm = (
     <FormProvider methods={methods} onSubmit={onSubmit}>
       <Stack spacing={2.5}>
@@ -156,7 +169,7 @@ export default function JwtRegisterView() {
 
         <RHFTextField
           name="password_confirmation"
-          label="Confirm Ppssword"
+          label="Confirm Password"
           type={password.value ? 'text' : 'password'}
           InputLabelProps={{ shrink: true }}
           size={'small'}
@@ -171,6 +184,14 @@ export default function JwtRegisterView() {
             ),
           }}
         />
+
+        <RHFSelect name="role" label="Role" defaultValue={roleOptions[0].value}>
+            {roleOptions.map((role) => (
+              <MenuItem key={role.value} value={role.value}>
+                {role.label}
+              </MenuItem>
+            ))}
+          </RHFSelect>
 
         <LoadingButton
           fullWidth

@@ -26,6 +26,17 @@ export interface ApiCallChangeGeneralRadnik {
   email: string,
 }
 
+export interface ApiCallChangeUser {
+  id: number,
+  name: string,
+  city: string,
+  address: string,
+  email: string,
+  phone: string,
+  jmbg: string,
+  status: string,
+}
+
 export interface ApiCallChangePassword {
   password: string,
 }
@@ -116,6 +127,42 @@ function NewReducer() {
         }
       });
     },
+
+    // ############################
+    callChangeUserApi: (params: ApiCallChangeUser, callback: (data: any, msg: string, state: boolean|null) => void) => async (dispatch: any) => {
+      dispatch(actions.startChange());
+
+      let { id, email, name, city, address, phone, jmbg, status } = params;
+      let args: any = {
+        email,
+        name,
+        city,
+        address,
+        phone,
+        jmbg,
+        status,
+      };
+
+
+      await axios.put(`user/${id}`, args).then(result => {
+        const { data, message } = result.data;
+
+        dispatch(actions.finishChange({ data, msg: message, state: true}));
+
+        if(callback){
+          callback(data, message, true);
+        }
+      }).catch(error => {
+        const { message } = error;
+
+        dispatch(actions.finishChange({ data: null, msg: message, state: false }));
+
+        if(callback){
+          callback(null, message, false);
+        }
+      });
+    },
+    // ###########################
 
     callChangePasswordApi: (params: ApiCallChangePassword, callback: (data: any, msg: string, state: boolean|null) => void) => async (dispatch: any) => {
       dispatch(actions.startChange());

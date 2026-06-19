@@ -36,3 +36,14 @@ export const RemoveAction = {
   Deactivate: 2,
   Storniraj: 3
 }
+
+export const RoleType = {
+  Resident: 'resident',
+  Manager: 'manager',
+  Organization_Admin: 'organization_admin',
+  Worker: 'worker',
+  Technician: 'technician',
+  Cleaner: 'cleaner',
+  Accountant: 'accountant',
+  Super_Admin: 'super_admin',
+}

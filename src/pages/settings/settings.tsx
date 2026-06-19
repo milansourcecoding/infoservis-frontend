@@ -14,7 +14,7 @@ import { useLocales } from 'src/locales';
 import { Icon } from '@iconify/react';
 
 // enums
-import { UserType } from '../../utils/enums.tsx';
+import { RoleType } from '../../utils/enums.tsx';
 // components
 import MainContainer from '../../components/container/MainContainer.tsx';
 import CustomBreadcrumbs from '../../components/custom-breadcrumbs/index';
@@ -53,7 +53,7 @@ const Settings = () => {
   }, []);
 
 
-  return <MainContainer title={t('profile.title')} roles={[ UserType.Admin, UserType.User ]}>
+  return <MainContainer title={t('profile.title')} roles={Object.values(RoleType)}>
     <CustomBreadcrumbs
       heading={t('settings.settings')}
       links={[

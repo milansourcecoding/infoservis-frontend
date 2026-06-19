@@ -17,8 +17,6 @@ const MainContainer = ({ title, roles, children }: any) => {
   const settings = useSettingsContext();
   const themeStretch = (settings as SettingsType)?.themeStretch ? false : 'xl';
 
-  const [role] = useState('admin');
-
   return <>
     <Helmet>
       <title>{title}</title>
