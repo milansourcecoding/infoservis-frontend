@@ -48,7 +48,7 @@ import BasicTabsToolbar from '../sifarnici/_components/basicTabsToolbar.tsx';
 import RangePicker from '../../components/dateRangePicker/DateRangePicker.tsx';
 
 import { removeRow, updateRow, downloadPDF, viewPDF, downloadCSV, getTabColorStatusDokumenta, prepareDate, saveDate, getDateRanges, getSelectedRangeDate } from '../../utils/utils.tsx';
-import { UserType, RemoveAction, StatusDokumenta } from '../../utils/enums.tsx';
+import { RoleType, RemoveAction, StatusDokumenta } from '../../utils/enums.tsx';
 
 // components
 import MainContainer from 'src/components/container/MainContainer.tsx';
@@ -167,7 +167,7 @@ const List = () => {
   }
 
 
-  return <MainContainer title={t(LANGUAGE + '.title')} roles={[ UserType.Admin, UserType.User ]}>
+  return <MainContainer title={t(LANGUAGE + '.title')} roles={Object.values(RoleType)}>
     <CustomBreadcrumbs
       heading={t('menu.sifarnici_item.' + LANGUAGE)}
       links={[

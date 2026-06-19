@@ -27,7 +27,7 @@ import { useTypedSelector } from '../../utils/store.tsx';
 import settings from './redux/settings.tsx';
 
 // import {  } from '../../utils/utils.tsx';
-import { UserType } from '../../utils/enums.tsx';
+import { RoleType, UserType } from '../../utils/enums.tsx';
 
 // components
 import { useSnackbar } from '../../components/snackbar';
@@ -35,6 +35,7 @@ import FormProvider, {
   RHFTextField,
   RHFUploadAvatar,
 } from '../../components/hook-form';
+import { name } from '../sifarnici/kategorija/reduxSlice.tsx';
 
 // ----------------------------------------------------------------------
 
@@ -49,33 +50,43 @@ export default function AccountGeneral() {
   const { user, setUser } = useAuthContext();
 
   const UpdateUserSchemaAdmin = Yup.object().shape({
-    naziv: Yup.string().required(),
-    imePrezime: Yup.string().required(),
-    grad: Yup.string().required(),
-    adresa: Yup.string().required(),
+    name: Yup.string().required(),
+    city: Yup.string().required(),
+    address: Yup.string().required(),
     email: Yup.string().required().email(),
+
+    phone: Yup.string().required(),
+    jmbg: Yup.string().required(),
+    status: Yup.boolean().required(),
   });
 
   const UpdateUserSchemaRadnik = Yup.object().shape({
-    imePrezime: Yup.string().required(),
-    grad: Yup.string().required(),
-    adresa: Yup.string().required(),
+    name: Yup.string().required(),
+    city: Yup.string().required(),
+    address: Yup.string().required(),
     email: Yup.string().required().email(),
+
+    phone: Yup.string().required(),
+    jmbg: Yup.string().required(),
+    status: Yup.boolean().required(),
   });
 
   const defaultValues = {
     id: user?.id || '',
-    naziv: user?.naziv || '',
-    imePrezime: user?.imePrezime || '',
-    grad: user?.grad || '',
-    adresa: user?.adresa || '',
+    name: user?.name || '',
+    city: user?.city || '',
+    address: user?.address || '',
     email: user?.email || '',
-    uloga: user?.uloga || UserType.None,
+    roles: user?.roles || '',
     logo: null, // user?.logo ? (user?.uloga == UserType.Admin) ? getFirmaLogo(user?.logo) : getUserLogo(user?.logo) : null,
+
+    phone: user?.phone || '',
+    jmbg: user?.jmbg || '',
+    status: user?.status || false,
   };
 
   const methods = useForm({
-    resolver: yupResolver((user?.uloga == UserType.Admin) ? UpdateUserSchemaAdmin : UpdateUserSchemaRadnik),
+    resolver: yupResolver((user?.roles.includes(RoleType.manager)) ? UpdateUserSchemaAdmin : UpdateUserSchemaRadnik),
     defaultValues,
   });
 
@@ -86,18 +97,28 @@ export default function AccountGeneral() {
   } = methods;
 
   const onSubmit = handleSubmit(async (data) => {
-    if(user?.uloga == UserType.Admin){
-      await dispatch(settings.callChangeGeneralApi(data, (res, msg, state) => {
-        if(state){
-          setUser(res);
-          enqueueSnackbar(msg, { variant: 'success' });
-        } else {
-          enqueueSnackbar(msg, { variant: 'error' });
-        }
-      }));
+    // if(user?.uloga == UserType.Admin){
+    //   await dispatch(settings.callChangeGeneralApi(data, (res, msg, state) => {
+    //     if(state){
+    //       setUser(res);
+    //       enqueueSnackbar(msg, { variant: 'success' });
+    //     } else {
+    //       enqueueSnackbar(msg, { variant: 'error' });
+    //     }
+    //   }));
 
-    } else if(user?.uloga == UserType.User){
-      await dispatch(settings.callChangeGeneralRadnikApi(data, (res, msg, state) => {
+    // } else if(user?.uloga == UserType.User){
+    //   await dispatch(settings.callChangeGeneralRadnikApi(data, (res, msg, state) => {
+    //     if(state){
+    //       setUser(res);
+    //       enqueueSnackbar(msg, { variant: 'success' });
+    //     } else {
+    //       enqueueSnackbar(msg, { variant: 'error' });
+    //     }
+    //   }));
+    // }
+
+        await dispatch(settings.callChangeUserApi(data, (res, msg, state) => {
         if(state){
           setUser(res);
           enqueueSnackbar(msg, { variant: 'success' });
@@ -105,7 +126,6 @@ export default function AccountGeneral() {
           enqueueSnackbar(msg, { variant: 'error' });
         }
       }));
-    }
   });
 
   const handleDrop = useCallback(
@@ -201,12 +221,6 @@ export default function AccountGeneral() {
 
         <Grid xs={12} md={8}>
           <Card sx={{ p: 3 }} style={{ minHeight: 400 }}>
-            {(user?.uloga == UserType.Admin) && <Stack spacing={3} alignItems="flex-end" sx={{ mb: 3 }}>
-              <RHFTextField name="naziv" label={t('profile.form.fields.naziv')}
-                InputLabelProps={{ shrink: true }}
-                size={'small'}
-              />
-            </Stack>}
 
             <Box
               rowGap={3}
@@ -218,7 +232,7 @@ export default function AccountGeneral() {
                 md: 'repeat(2, 1fr)',
               }}
             >
-              <RHFTextField name="imePrezime" label={t('profile.form.fields.imePrezime')}
+              <RHFTextField name="name" label={t('profile.form.fields.imePrezime')}
                 InputLabelProps={{ shrink: true }}
                 size={'small'}
               />
@@ -238,11 +252,51 @@ export default function AccountGeneral() {
                 md: 'repeat(2, 1fr)',
               }}
             >
-              <RHFTextField name="grad" label={t('profile.form.fields.grad')}
+              <RHFTextField name="city" label={t('profile.form.fields.grad')}
                 InputLabelProps={{ shrink: true }}
                 size={'small'}
               />
-              <RHFTextField name="adresa" label={t('profile.form.fields.adresa')}
+              <RHFTextField name="address" label={t('profile.form.fields.adresa')}
+                InputLabelProps={{ shrink: true }}
+                size={'small'}
+              />
+            </Box>
+
+            <Box
+              rowGap={3}
+              columnGap={2}
+              display="grid"
+              sx={{ mb: 3 }}
+              gridTemplateColumns={{
+                xs: 'repeat(1, 1fr)',
+                md: 'repeat(2, 1fr)',
+              }}
+            >
+              <RHFTextField name="phone" label={t('profile.form.fields.phone')}
+                InputLabelProps={{ shrink: true }}
+                size={'small'}
+              />
+              <RHFTextField name="jmbg" label={t('profile.form.fields.jmbg')}
+                InputLabelProps={{ shrink: true }}
+                size={'small'}
+              />
+            </Box>
+
+            <Box
+              rowGap={3}
+              columnGap={2}
+              display="grid"
+              sx={{ mb: 3 }}
+              gridTemplateColumns={{
+                xs: 'repeat(1, 1fr)',
+                md: 'repeat(2, 1fr)',
+              }}
+            >
+              <RHFTextField name="id" label={t('profile.form.fields.id')}
+                InputLabelProps={{ shrink: true }}
+                size={'small'}
+              />
+              <RHFTextField name="status" label={t('profile.form.fields.status')}
                 InputLabelProps={{ shrink: true }}
                 size={'small'}
               />

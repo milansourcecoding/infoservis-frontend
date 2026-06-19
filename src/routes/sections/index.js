@@ -10,6 +10,7 @@ import { dashboardRoutes } from './dashboard';
 // ----------------------------------------------------------------------
 
 export default function Router() {
+
   return useRoutes([
     // SET INDEX PAGE WITH SKIP HOME PAGE
     {

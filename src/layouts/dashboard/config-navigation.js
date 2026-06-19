@@ -5,6 +5,7 @@ import { useLocales } from 'src/locales';
 import Label from 'src/components/label';
 import Iconify from 'src/components/iconify';
 import SvgColor from 'src/components/svg-color';
+import { useAuthContext } from 'src/auth/hooks';
 
 // ----------------------------------------------------------------------
 
@@ -43,61 +44,214 @@ const ICONS = {
   dashboard: icon('ic_dashboard'),
 };
 
+
+
+const NAV_ITEMS_BY_ROLE = {
+  resident: [
+    {
+      title: 'Item.resident.1',
+      path: '/dashboard',
+      icon: ICONS.dashboard,
+    },
+    {
+      title: 'Item.resident.2',
+      path: '/settings',
+      icon: ICONS.invoice,
+    },
+    {
+      title: 'Item.resident.3',
+      path: '/sifarnici/kategorija-list',
+      icon: ICONS.job,
+    },
+  ],
+
+  manager: [
+    {
+      title: 'Item.manager.1',
+      path: '/dashboard',
+      icon: ICONS.dashboard,
+    },
+    {
+      title: 'Item.manager.2',
+      path: '/settings',
+      icon: ICONS.banking,
+    },
+    {
+      title: 'Item.manager.3',
+      path: '/sifarnici/kategorija-list',
+      icon: ICONS.user,
+    },
+    {
+      title: 'Item.manager.4',
+      path: '/tickets',
+      icon: ICONS.job,
+    },
+  ],
+
+  organization_admin: [
+    {
+      title: 'Item.organization.1',
+      path: '/dashboard',
+      icon: ICONS.dashboard,
+    },
+    {
+      title: 'Item.organization.2',
+      path: '/settings',
+      icon: ICONS.user,
+    },
+    {
+      title: 'Item.organization.3',
+      path: '/sifarnici/kategorija-list',
+      icon: ICONS.banking,
+    },
+    {
+      title: 'Item.organization.4',
+      path: '/reports',
+      icon: ICONS.analytics,
+    },
+  ],
+
+  super_admin: [
+    {
+      title: 'Item.super_admin.1',
+      path: '/dashboard',
+      icon: ICONS.dashboard,
+    },
+    {
+      title: 'Item.super_admin.2',
+      path: '/settings',
+      icon: ICONS.user,
+    },
+    {
+      title: 'Item.super_admin.3',
+      path: '/sifarnici/kategorija-list',
+      icon: ICONS.banking,
+    },
+    {
+      title: 'Item.super_admin.4',
+      path: '/reports',
+      icon: ICONS.analytics,
+    },
+  ],
+
+  acountant: [
+    {
+      title: 'Item.acountant.1',
+      path: '/dashboard',
+      icon: ICONS.dashboard,
+    },
+    {
+      title: 'Item.acountant.2',
+      path: '/settings',
+      icon: ICONS.user,
+    },
+    {
+      title: 'Item.acountant.3',
+      path: '/sifarnici/kategorija-list',
+      icon: ICONS.banking,
+    },
+    {
+      title: 'Item.acountant.4',
+      path: '/reports',
+      icon: ICONS.analytics,
+    },
+  ],
+
+  worker: [
+    {
+      title: 'Item.worker.1',
+      path: '/dashboard',
+      icon: ICONS.dashboard,
+    },
+    {
+      title: 'Item.worker.2',
+      path: '/settings',
+      icon: ICONS.user,
+    },
+    {
+      title: 'Item.worker.3',
+      path: '/sifarnici/kategorija-list',
+      icon: ICONS.banking,
+    },
+    {
+      title: 'Item.worker.4',
+      path: '/reports',
+      icon: ICONS.analytics,
+    },
+  ],
+
+  tecnician: [
+    {
+      title: 'Item.tecnician.1',
+      path: '/dashboard',
+      icon: ICONS.dashboard,
+    },
+    {
+      title: 'Item.tecnician.2',
+      path: '/settings',
+      icon: ICONS.user,
+    },
+    {
+      title: 'Item.tecnician.3',
+      path: '/sifarnici/kategorija-list',
+      icon: ICONS.banking,
+    },
+    {
+      title: 'Item.tecnician.4',
+      path: '/reports',
+      icon: ICONS.analytics,
+    },
+  ],
+
+  cleaner: [
+    {
+      title: 'Item.cleaner.1',
+      path: '/dashboard',
+      icon: ICONS.dashboard,
+    },
+    {
+      title: 'Item.cleaner.2',
+      path: '/settings',
+      icon: ICONS.user,
+    },
+    {
+      title: 'Item.cleaner.3',
+      path: '/sifarnici/kategorija-list',
+      icon: ICONS.banking,
+    },
+    {
+      title: 'Item.cleaner.4',
+      path: '/reports',
+      icon: ICONS.analytics,
+    },
+  ],
+  
+};
+
 // ----------------------------------------------------------------------
 
 export function useNavData() {
   const { t } = useLocales();
+  const { user } = useAuthContext();
+  const userRoles = user?.roles?.length ? user.roles : ['resident'];
 
-  const data = useMemo(
-    () => [
+  const data = useMemo(() => {
+    const items = userRoles.flatMap((role) => NAV_ITEMS_BY_ROLE[role] || []);
+
+    const uniqueItems = items.filter(
+      (item, index, self) => index === self.findIndex((i) => i.path === item.path)
+    );
+
+    return [
       {
-        subheader: t(t('menu.operativa')),
-        items: [
-
-          {
-            title: t('menu.dashboard'),
-            path: '/dashboard',
-            icon: ICONS.dashboard,
-          },
-
-          {
-            title: t('menu.radni_nalog'),
-            path: 'radni-nalog',
-            icon: ICONS.job,
-            children: [
-              {
-                title: t('menu.radni_nalog_item.radni_nalog'),
-                path: '/radni-nalog/radni-nalog-list',
-              },
-            ],
-          },
-
-          {
-            title: t('menu.sifarnici'),
-            path: 'sifarnici',
-            icon: ICONS.blank,
-            children: [
-              {
-                title: t('menu.sifarnici_item.kategorija'),
-                path: '/sifarnici/kategorija-list',
-              },
-              {
-                title: t('menu.sifarnici_item.radnik'),
-                path: '/sifarnici/radnik-list',
-              },
-              {
-                title: t('menu.sifarnici_item.upravnik'),
-                path: '/sifarnici/upravnik-list',
-              },
-            ],
-          },
-
-        ],
+        subheader: t('menu.operativa'),
+        items: uniqueItems.map((item) => ({
+          ...item,
+          title: t(item.title),
+        })),
       },
-
-    ],
-    [t]
-  );
+    ];
+  }, [t, userRoles]);
 
   return data;
 }

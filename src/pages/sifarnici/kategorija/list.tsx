@@ -48,7 +48,7 @@ import BasicSearchToolbar from '../_components/basicSearchToolbar.tsx';
 import BasicTabsToolbar from '../_components/basicTabsToolbar.tsx';
 
 import { removeRow, updateRow, downloadPDF, viewPDF, downloadCSV, getTabColorStatusDokumenta } from '../../../utils/utils.tsx';
-import { UserType, RemoveAction } from '../../../utils/enums.tsx';
+import { RoleType, RemoveAction } from '../../../utils/enums.tsx';
 
 // components
 import MainContainer from 'src/components/container/MainContainer.tsx';
@@ -132,7 +132,7 @@ const List = () => {
   );
 
 
-  return <MainContainer title={t(LANGUAGE + '.title')} roles={[ UserType.Admin, UserType.User ]}>
+  return <MainContainer title={t(LANGUAGE + '.title')} roles={Object.values(RoleType)}>
     <CustomBreadcrumbs
       heading={t('menu.sifarnici_item.' + LANGUAGE)}
       links={[

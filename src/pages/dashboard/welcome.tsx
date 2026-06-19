@@ -12,7 +12,7 @@ import { useLocales } from 'src/locales';
 import { useAuthContext } from 'src/auth/hooks';
 
 // enums
-import { UserType } from '../../utils/enums.tsx';
+import { RoleType } from '../../utils/enums.tsx';
 
 // components
 import MainContainer from '../../components/container/MainContainer.tsx';
@@ -28,8 +28,7 @@ const WelcomePage = () => {
 
   const { t } = useLocales();
 
-
-  return <MainContainer title={t('menu.dashboard')} roles={[ UserType.Admin, UserType.User ]}>
+  return <MainContainer title={t('menu.dashboard')} roles={Object.values(RoleType)}>
     <Stack
       flexDirection={{ xs: 'column', md: 'row' }}
       sx={{
@@ -59,6 +58,33 @@ const WelcomePage = () => {
       >
         <Typography variant="h4" sx={{ mb: 2, whiteSpace: 'pre-line' }}>
           {`Welcome back 👋 \n ${user?.name}`}
+        </Typography>
+        <Typography variant="h4" sx={{ mb: 2, whiteSpace: 'pre-line' }}>
+          {`ID : ${user?.id}`}
+        </Typography>
+        <Typography variant="h4" sx={{ mb: 2, whiteSpace: 'pre-line' }}>
+          {`Email : ${user?.email}`}
+        </Typography>
+        <Typography variant="h4" sx={{ mb: 2, whiteSpace: 'pre-line' }}>
+          {`Roles : ${user?.roles}`}
+        </Typography>
+
+
+
+        <Typography variant="h4" sx={{ mb: 2, whiteSpace: 'pre-line' }}>
+          {`City : ${user?.city}`}
+        </Typography>
+        <Typography variant="h4" sx={{ mb: 2, whiteSpace: 'pre-line' }}>
+          {`Address : ${user?.address}`}
+        </Typography>
+        <Typography variant="h4" sx={{ mb: 2, whiteSpace: 'pre-line' }}>
+          {`JMBG : ${user?.jmbg}`}
+        </Typography>
+        <Typography variant="h4" sx={{ mb: 2, whiteSpace: 'pre-line' }}>
+          {`Phone : ${user?.phone}`}
+        </Typography>
+        <Typography variant="h4" sx={{ mb: 2, whiteSpace: 'pre-line' }}>
+          {`Status : ${user?.status}`}
         </Typography>
 
         <Typography
