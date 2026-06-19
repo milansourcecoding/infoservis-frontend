@@ -25,7 +25,7 @@ import { VelicinaSlike } from '../../utils/enums.tsx'
 // ----------------------------------------------------------------------
 
 export default function NavUpgrade() {
-  const { logout, firma } = useAuthContext();
+  const { logout, user } = useAuthContext();
 
   const router = useRouter();
   const theme = useTheme();
@@ -63,7 +63,7 @@ export default function NavUpgrade() {
       <Stack alignItems="center">
         <Box sx={{ position: 'relative' }}>
           {
-            (firma && firma.logo)
+            (user && user.logo)
             ?
             // <Avatar
             //   src={getFirmaLogo(firma?.logo, VelicinaSlike.Mala)}
@@ -76,9 +76,9 @@ export default function NavUpgrade() {
             // >
             //   {firma?.name.charAt(0).toUpperCase()}
             // </Avatar>
-            <Avatar alt={firma?.name} sx={{ width: 48, height: 48, bgcolor: grey[400] }}>{firma?.name[0]}</Avatar>
+            <Avatar alt={user?.name} sx={{ width: 48, height: 48, bgcolor: grey[400] }}>{user?.name[0]}</Avatar>
             :
-            <Avatar alt={firma?.name} sx={{ width: 48, height: 48, bgcolor: grey[400] }}>{firma?.name[0]}</Avatar>
+            <Avatar alt={user?.name} sx={{ width: 48, height: 48, bgcolor: grey[400] }}>{user?.name[0]}</Avatar>
           }
 
           <Label
@@ -93,17 +93,17 @@ export default function NavUpgrade() {
               borderBottomLeftRadius: 2,
             }}
           >
-            {firma?.grad}
+            {user?.name}
           </Label>
         </Box>
 
         <Stack spacing={0} sx={{ mt: 1, mb: 1 }}>
           <Typography variant="subtitle2" noWrap>
-            {firma?.naziv}
+            {user?.email}
           </Typography>
 
           <Typography variant="body2" sx={{ color: 'text.disabled' }} style={{ width: '225px', textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap' }} noWrap>
-            {firma?.adresa}
+            {user?.address}
           </Typography>
         </Stack>
 

@@ -6,6 +6,55 @@
   "menu": {
     "operativa": "Operative",
     "dashboard": "Dashboard",
+
+    "Resident": {
+      "dashboard": "Dashboard",
+      "settings": "Settings",
+      "category": "Category"
+    },
+    "Manager": {
+      "dashboard": "Dashboard",
+      "settings": "Settings",
+      "category": "Category",
+      "tickets": "Tickets"
+    },
+    "OrganizationAdmin": {
+      "dashboard": "Dashboard",
+      "settings": "Settings",
+      "category": "Category",
+      "reports": "Reports"
+    },
+    "SuperAdmin": {
+      "dashboard": "Dashboard",
+      "settings": "Settings",
+      "category": "Category",
+      "reports": "Reports"
+    },
+    "Accountant": {
+      "dashboard": "Dashboard",
+      "settings": "Settings",
+      "category": "Category",
+      "reports": "Reports"
+    },
+    "Worker": {
+      "dashboard": "Dashboard",
+      "settings": "Settings",
+      "category": "Category",
+      "reports": "Reports"
+    },
+    "Technician": {
+      "dashboard": "Dashboard",
+      "settings": "Settings",
+      "category": "Category",
+      "reports": "Reports"
+    },
+    "Cleaner": {
+      "dashboard": "Dashboard",
+      "settings": "Settings",
+      "category": "Category",
+      "reports": "Reports"
+    },
+
     "radni_nalog": "Work order",
     "sifarnici": "Lists",
 

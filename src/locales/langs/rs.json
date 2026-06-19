@@ -6,6 +6,55 @@
   "menu": {
     "operativa": "Operativa",
     "dashboard": "Pocetna",
+
+    "Resident": {
+      "dashboard": "Pocetna",
+      "settings": "Podesavanja",
+      "category": "Kategorija"
+    },
+    "Manager": {
+      "dashboard": "Pocetna",
+      "settings": "Podesavanja",
+      "category": "Kategorija",
+      "tickets": "Ticketi"
+    },
+    "OrganizationAdmin": {
+      "dashboard": "Pocetna",
+      "settings": "Podesavanja",
+      "category": "Kategorija",
+      "reports": "Report"
+    },
+    "SuperAdmin": {
+      "dashboard": "Pocetna",
+      "settings": "Podesavanja",
+      "category": "Kategorija",
+      "reports": "Report"
+    },
+    "Accountant": {
+      "dashboard": "Pocetna",
+      "settings": "Podesavanja",
+      "category": "Kategorija",
+      "reports": "Report"
+    },
+    "Worker": {
+      "dashboard": "Pocetna",
+      "settings": "Podesavanja",
+      "category": "Kategorija",
+      "reports": "Report"
+    },
+    "Technician": {
+      "dashboard": "Pocetna",
+      "settings": "Podesavanja",
+      "category": "Kategorija",
+      "reports": "Report"
+    },
+    "Cleaner": {
+      "dashboard": "Pocetna",
+      "settings": "Podesavanja",
+      "category": "Kategorija",
+      "reports": "Report"
+    },
+
     "radni_nalog": "Radni nalog",
     "sifarnici": "Sifarnici",
 

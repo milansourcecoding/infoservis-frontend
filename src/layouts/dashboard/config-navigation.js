@@ -49,17 +49,17 @@ const ICONS = {
 const NAV_ITEMS_BY_ROLE = {
   resident: [
     {
-      title: 'Item.resident.1',
+      title: 'menu.Resident.dashboard',
       path: '/dashboard',
       icon: ICONS.dashboard,
     },
     {
-      title: 'Item.resident.2',
+      title: 'menu.Resident.settings',
       path: '/settings',
       icon: ICONS.invoice,
     },
     {
-      title: 'Item.resident.3',
+      title: 'menu.Resident.category',
       path: '/sifarnici/kategorija-list',
       icon: ICONS.job,
     },
@@ -67,22 +67,22 @@ const NAV_ITEMS_BY_ROLE = {
 
   manager: [
     {
-      title: 'Item.manager.1',
+      title: 'menu.Manager.dashboard',
       path: '/dashboard',
       icon: ICONS.dashboard,
     },
     {
-      title: 'Item.manager.2',
+      title: 'menu.Manager.settings',
       path: '/settings',
       icon: ICONS.banking,
     },
     {
-      title: 'Item.manager.3',
+      title: 'menu.Manager.category',
       path: '/sifarnici/kategorija-list',
       icon: ICONS.user,
     },
     {
-      title: 'Item.manager.4',
+      title: 'menu.Manager.tickets',
       path: '/tickets',
       icon: ICONS.job,
     },
@@ -90,22 +90,22 @@ const NAV_ITEMS_BY_ROLE = {
 
   organization_admin: [
     {
-      title: 'Item.organization.1',
+      title: 'menu.OrganizationAdmin.dashboard',
       path: '/dashboard',
       icon: ICONS.dashboard,
     },
     {
-      title: 'Item.organization.2',
+      title: 'menu.OrganizationAdmin.settings',
       path: '/settings',
       icon: ICONS.user,
     },
     {
-      title: 'Item.organization.3',
+      title: 'menu.OrganizationAdmin.category',
       path: '/sifarnici/kategorija-list',
       icon: ICONS.banking,
     },
     {
-      title: 'Item.organization.4',
+      title: 'menu.OrganizationAdmin.reports',
       path: '/reports',
       icon: ICONS.analytics,
     },
@@ -113,45 +113,45 @@ const NAV_ITEMS_BY_ROLE = {
 
   super_admin: [
     {
-      title: 'Item.super_admin.1',
+      title: 'menu.SuperAdmin.dashboard',
       path: '/dashboard',
       icon: ICONS.dashboard,
     },
     {
-      title: 'Item.super_admin.2',
+      title: 'menu.SuperAdmin.settings',
       path: '/settings',
       icon: ICONS.user,
     },
     {
-      title: 'Item.super_admin.3',
+      title: 'menu.SuperAdmin.category',
       path: '/sifarnici/kategorija-list',
       icon: ICONS.banking,
     },
     {
-      title: 'Item.super_admin.4',
+      title: 'menu.SuperAdmin.reports',
       path: '/reports',
       icon: ICONS.analytics,
     },
   ],
 
-  acountant: [
+  accountant: [
     {
-      title: 'Item.acountant.1',
+      title: 'menu.Accountant.dashboard',
       path: '/dashboard',
       icon: ICONS.dashboard,
     },
     {
-      title: 'Item.acountant.2',
+      title: 'menu.Accountant.settings',
       path: '/settings',
       icon: ICONS.user,
     },
     {
-      title: 'Item.acountant.3',
+      title: 'menu.Accountant.category',
       path: '/sifarnici/kategorija-list',
       icon: ICONS.banking,
     },
     {
-      title: 'Item.acountant.4',
+      title: 'menu.Accountant.reports',
       path: '/reports',
       icon: ICONS.analytics,
     },
@@ -159,45 +159,45 @@ const NAV_ITEMS_BY_ROLE = {
 
   worker: [
     {
-      title: 'Item.worker.1',
+      title: 'menu.Worker.dashboard',
       path: '/dashboard',
       icon: ICONS.dashboard,
     },
     {
-      title: 'Item.worker.2',
+      title: 'menu.Worker.settings',
       path: '/settings',
       icon: ICONS.user,
     },
     {
-      title: 'Item.worker.3',
+      title: 'menu.Worker.category',
       path: '/sifarnici/kategorija-list',
       icon: ICONS.banking,
     },
     {
-      title: 'Item.worker.4',
+      title: 'menu.Worker.reports',
       path: '/reports',
       icon: ICONS.analytics,
     },
   ],
 
-  tecnician: [
+  technician: [
     {
-      title: 'Item.tecnician.1',
+      title: 'menu.Technician.dashboard',
       path: '/dashboard',
       icon: ICONS.dashboard,
     },
     {
-      title: 'Item.tecnician.2',
+      title: 'menu.Technician.settings',
       path: '/settings',
       icon: ICONS.user,
     },
     {
-      title: 'Item.tecnician.3',
+      title: 'menu.Technician.category',
       path: '/sifarnici/kategorija-list',
       icon: ICONS.banking,
     },
     {
-      title: 'Item.tecnician.4',
+      title: 'menu.Technician.reports',
       path: '/reports',
       icon: ICONS.analytics,
     },
@@ -205,22 +205,22 @@ const NAV_ITEMS_BY_ROLE = {
 
   cleaner: [
     {
-      title: 'Item.cleaner.1',
+      title: 'menu.Cleaner.dashboard',
       path: '/dashboard',
       icon: ICONS.dashboard,
     },
     {
-      title: 'Item.cleaner.2',
+      title: 'menu.Cleaner.settings',
       path: '/settings',
       icon: ICONS.user,
     },
     {
-      title: 'Item.cleaner.3',
+      title: 'menu.Cleaner.category',
       path: '/sifarnici/kategorija-list',
       icon: ICONS.banking,
     },
     {
-      title: 'Item.cleaner.4',
+      title: 'menu.Cleaner.reports',
       path: '/reports',
       icon: ICONS.analytics,
     },
