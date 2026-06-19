@@ -139,6 +139,16 @@
   },
 
   "enums": {
+    "RoleType": {
+      "Resident": "Stanar",
+      "Manager": "Upravnik",
+      "OrganizationAdmin": "Organizacija",
+      "Worker": "Radnik",
+      "Technician": "Tehnicar",
+      "Cleaner": "Higijenicar",
+      "Accountant": "Racunovodja",
+      "SuperAdmin": "Super Admin"
+    },
     "upravnikType": {
       "domaceLice": "Domace lice",
       "profesionalniUpravnik": "Profesionalni upravnik"

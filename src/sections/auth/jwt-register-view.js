@@ -26,11 +26,14 @@ import FormProvider, { RHFTextField , RHFSelect} from 'src/components/hook-form'
 
 import MenuItem from '@mui/material/MenuItem';
 
+import { useLocales } from 'src/locales';
+
 import { RoleType } from '../../utils/enums.tsx';
 
 // ----------------------------------------------------------------------
 
 export default function JwtRegisterView() {
+  const { t } = useLocales();
   const { register } = useAuthContext();
 
   const router = useRouter();
@@ -117,14 +120,14 @@ export default function JwtRegisterView() {
   );
 
   const roleOptions = [
-    { value: RoleType.Resident, label: 'Stanar' },
-    { value: RoleType.Manager, label: 'Upravnik' },
-    { value: RoleType.OrganizationAdmin, label: 'Organizacija' },
-    { value: RoleType.Worker, label: 'Radnik' },
-    { value: RoleType.Technician, label: 'Tehnicar' },
-    { value: RoleType.Cleaner, label: 'Higijenicar' },
-    { value: RoleType.Accountant, label: 'Racunovodja' },
-    { value: RoleType.SuperAdmin, label: 'Super Admin' },
+    { value: RoleType.Resident, label: t('enums.RoleType.Resident') },
+    { value: RoleType.Manager, label: t('enums.RoleType.Manager') },
+    { value: RoleType.OrganizationAdmin, label: t('enums.RoleType.OrganizationAdmin') },
+    { value: RoleType.Worker, label: t('enums.RoleType.Worker') },
+    { value: RoleType.Technician, label: t('enums.RoleType.Technician') },
+    { value: RoleType.Cleaner, label: t('enums.RoleType.Cleaner') },
+    { value: RoleType.Accountant, label: t('enums.RoleType.Accountant') },
+    { value: RoleType.SuperAdmin, label: t('enums.RoleType.SuperAdmin') },
   ];
 
   const renderForm = (
