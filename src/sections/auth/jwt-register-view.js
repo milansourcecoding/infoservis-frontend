@@ -76,8 +76,6 @@ export default function JwtRegisterView() {
         router.push(returnTo || '/');
       }, 0);
     } catch (error) {
-      console.error(error);
-      reset();
       setErrorMsg(typeof error === 'string' ? error : error.message);
     }
   });
