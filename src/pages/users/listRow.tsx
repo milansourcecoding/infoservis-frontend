@@ -17,25 +17,24 @@ import IconButton from '@mui/material/IconButton';
 import ListItemText from '@mui/material/ListItemText';
 import Hidden from '@mui/material/Hidden';
 import MenuItem from '@mui/material/MenuItem';
-import Typography from '@mui/material/Typography';
-import Switch from '@mui/material/Switch';
+// import Typography from '@mui/material/Typography';
+// import Switch from '@mui/material/Switch';
 import { grey } from '@mui/material/colors';
 
 // components
 import Label from 'src/components/label';
 import CustomPopover, { usePopover } from 'src/components/custom-popover';
 
-import { dateTimeFormat, getUpravnikType } from '../../../utils/utils.tsx';
-import { RemoveAction } from '../../../utils/enums.tsx';
+import { dateTimeFormat } from '../../utils/utils.tsx';
+import { RemoveAction } from '../../utils/enums.tsx';
 
 // Redux
 import { useDispatch } from 'react-redux';
-import { RootState, AppDispatch, useTypedSelector } from '../../../utils/store.tsx';
-import slice, { API, LANGUAGE } from './reduxSlice.tsx';
-// import radniNalogSlice from '../radniNalog/reduxSlice.tsx';
-import formReduxSlice from '../../../utils/slice/form/listSlice.tsx';
-import viewSlice from '../../../utils/slice/form/viewSlice.tsx';
-import removeSlice from '../../../utils/slice/remove/removeSlice.tsx';
+import { RootState, AppDispatch, useTypedSelector } from '../../utils/store.tsx';
+import slice from './slice.tsx';
+// import formSlice from '../../utils/slice/form/listSlice.tsx';
+// import viewSlice from '../../utils/slice/form/viewSlice.tsx';
+import removeSlice from '../../utils/slice/remove/removeSlice.tsx';
 import { t } from 'i18next';
 
 // ----------------------------------------------------------------------
@@ -91,18 +90,18 @@ export default function ListRow({ row, selected, onSelectRow }: any) {
           ?
           // <Avatar
           //   src={getUserLogo(row?.logo, VelicinaSlike.Mala)?.toString()}
-          //   alt={row?.imePrezime}
+          //   alt={row?.name}
           //   sx={{ mr: 2, bgcolor: grey[400] }}
           // >
-          //   {row?.imePrezime.charAt(0).toUpperCase()}
+          //   {row?.name.charAt(0).toUpperCase()}
           // </Avatar>
-          <Avatar alt={row?.imePrezime} sx={{ mr: 2, bgcolor: grey[400] }}>{(row?.imePrezime && row?.imePrezime.length > 0) ? row?.imePrezime[0] : ''}</Avatar>
+          <Avatar alt={row?.name} sx={{ mr: 2, bgcolor: grey[400] }}>{(row?.name && row?.name.length > 0) ? row?.name[0] : ''}</Avatar>
           :
-          <Avatar alt={row?.imePrezime} sx={{ mr: 2, bgcolor: grey[400] }}>{(row?.imePrezime && row?.imePrezime.length > 0) ? row?.imePrezime[0] : ''}</Avatar>
+          <Avatar alt={row?.name} sx={{ mr: 2, bgcolor: grey[400] }}>{(row?.name && row?.name.length > 0) ? row?.name[0] : ''}</Avatar>
         }
 
         <ListItemText
-          primary={row?.imePrezime}
+          primary={row?.name}
           secondary={row?.email}
           primaryTypographyProps={{ typography: 'body2' }}
           secondaryTypographyProps={{
@@ -114,8 +113,8 @@ export default function ListRow({ row, selected, onSelectRow }: any) {
 
       <TableCell sx={{ whiteSpace: 'nowrap' }}>
         <ListItemText
-          primary={row?.grad}
-          secondary={row?.adresa}
+          primary={row?.city}
+          secondary={row?.address}
           primaryTypographyProps={{ typography: 'body2', noWrap: true }}
           secondaryTypographyProps={{
             mt: 0.5,
@@ -125,26 +124,41 @@ export default function ListRow({ row, selected, onSelectRow }: any) {
         />
       </TableCell>
 
-      <TableCell sx={{ whiteSpace: 'nowrap' }}>{row?.brojTelefona}</TableCell>
+      <TableCell sx={{ whiteSpace: 'nowrap' }}>{row?.phone}</TableCell>
+      <TableCell sx={{ whiteSpace: 'nowrap' }}>{row?.jmbg}</TableCell>
 
-      <TableCell sx={{ whiteSpace: 'nowrap' }}>{getUpravnikType(row?.tip)}</TableCell>
+      <TableCell sx={{ whiteSpace: 'nowrap' }}>
+        {
+          (row?.roles && row?.roles.length > 0)
+          ?
+          row?.roles.map((itm: any, i: number) => (<Label
+            key={`roles_${i}`}
+            variant="soft"
+            color={'default'}
+          >
+            {itm}
+          </Label>))
+          :
+          ''
+        }
+      </TableCell>
 
       <TableCell>
         <Label
           variant="soft"
           color={
-            (row?.isActive && 'success') ||
-            (!row?.isActive && 'error') ||
+            (row?.is_active && 'success') ||
+            (!row?.is_active && 'error') ||
             'default'
           }
         >
-          {row?.isActive ? t('buttons.active') : t('buttons.inactive')}
+          {row?.is_active ? t('buttons.active') : t('buttons.inactive')}
         </Label>
       </TableCell>
 
       <TableCell sx={{ whiteSpace: 'nowrap' }}>
         <ListItemText
-          primary={format(new Date(row?.updated_at), dateTimeFormat())}
+          primary={format(new Date(row?.registered_at), dateTimeFormat())}
           secondary={row?.updated_user_name}
           primaryTypographyProps={{ typography: 'body2', noWrap: true }}
           secondaryTypographyProps={{

@@ -58,7 +58,7 @@ export default function SelectAutocomplete({
   const fetch = useMemo(
     () =>
       debounce(async (v) => {
-        let newParams: any = { ...params, searchQuery: v };
+        let newParams: any = { ...params, search: v };
         await dispatch(selectAutocompleteSlice.calReadApi(path, newParams));
         setLoading(false)
       },

@@ -27,7 +27,7 @@ import { useSnackbar } from 'src/components/snackbar';
 import Label from 'src/components/label';
 import CustomPopover, { usePopover } from 'src/components/custom-popover';
 
-// import { UserType } from '../../utils/enums.tsx';
+// import { RoleType } from '../../utils/enums.tsx';
 // import {  } from '../../utils/utils.tsx';
 
 // ----------------------------------------------------------------------
@@ -98,7 +98,7 @@ export default function AccountPopover() {
           (user && user?.logo)
           ?
           // <Avatar
-          //   src={(user?.uloga == UserType.Admin) ? getFirmaLogo(user?.logo) : getUserLogo(user?.logo, VelicinaSlike.Mala)}
+          //   src={(user?.uloga == RoleType.SuperAdmin) ? getFirmaLogo(user?.logo) : getUserLogo(user?.logo, VelicinaSlike.Mala)}
           //   alt={user?.name}
           //   sx={{
           //     width: 36,
@@ -108,9 +108,9 @@ export default function AccountPopover() {
           // >
           //   {user?.name.charAt(0).toUpperCase()}
           // </Avatar>
-          <Avatar alt={user?.name} sx={{ width: 36, height: 36, bgcolor: grey[400] }}>{user?.name[0]}</Avatar>
+          <Avatar alt={user?.name} sx={{ width: 36, height: 36, bgcolor: grey[400] }}>{(user && user?.name && user?.name !== '') ? user?.name[0] : ''}</Avatar>
           :
-          <Avatar alt={user?.name} sx={{ width: 36, height: 36, bgcolor: grey[400] }}>{user?.name[0]}</Avatar>
+          <Avatar alt={user?.name} sx={{ width: 36, height: 36, bgcolor: grey[400] }}>{(user && user?.name && user?.name !== '') ? user?.name[0] : ''}</Avatar>
         }
       </IconButton>
 

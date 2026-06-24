@@ -4,7 +4,7 @@ import { useEffect, useMemo, useCallback, useState } from 'react';
 // hooks
 import { useLocalStorage } from 'src/hooks/use-local-storage';
 // utils
-import { localStorageGetItem } from 'src/utils/storage-available';
+import { localStorageGetItem } from 'src/utils/others/storage-available';
 //
 import { SettingsContext } from './settings-context';
 

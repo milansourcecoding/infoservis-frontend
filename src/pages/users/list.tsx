@@ -26,6 +26,9 @@ import {
   TableBody,
   IconButton,
   TableContainer,
+  FormControl,
+  Select,
+  MenuItem,
 } from '@mui/material';
 // import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 // import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
@@ -44,11 +47,8 @@ import {
 } from 'src/components/table';
 
 import ListRow from './listRow.tsx';
-import BasicSearchToolbar from '../_components/basicSearchToolbar.tsx';
-import BasicTabsToolbar from '../_components/basicTabsToolbar.tsx';
-
-import { removeRow, updateRow, downloadPDF, viewPDF, downloadCSV } from '../../../utils/utils.tsx';
-import { RoleType, RemoveAction } from '../../../utils/enums.tsx';
+import BasicSearchToolbar from '../../components/toolbar/basicSearchToolbar.tsx';
+import BasicTabsToolbar from '../../components/toolbar/basicTabsToolbar.tsx';
 
 // components
 import MainContainer from 'src/components/container/MainContainer.tsx';
@@ -58,15 +58,16 @@ import Scrollbar from 'src/components/scrollbar/index.js';
 
 import Form from './form.tsx';
 
-// import FormRadniNalog from '../radniNalog/form.tsx';
+import { removeRow, createRow, updateRow, downloadPDF, viewPDF, downloadCSV } from '../../utils/utils.tsx';
+import { RoleType, RemoveAction } from '../../utils/enums.tsx';
 
 // Redux
 import { useDispatch } from 'react-redux';
-import { RootState, AppDispatch, useTypedSelector } from '../../../utils/store.tsx';
-import slice, { API, LANGUAGE, getFields } from './reduxSlice.tsx';
-import listSlice from '../../../utils/slice/form/listSlice.tsx';
-import removeSlice from '../../../utils/slice/remove/removeSlice.tsx';
-import RemovePopup from '../../../utils/slice/remove/removePopup.tsx';
+import { RootState, AppDispatch, useTypedSelector } from '../../utils/store.tsx';
+import slice, { API, LANGUAGE, getFields, getFilterOptions } from './slice.tsx';
+import listSlice from '../../utils/slice/form/listSlice.tsx';
+import removeSlice from '../../utils/slice/remove/removeSlice.tsx';
+import RemovePopup from '../../utils/slice/remove/removePopup.tsx';
 
 // ----------------------------------------------------------------------
 
@@ -77,12 +78,13 @@ const List = () => {
   const MAIN_STATUS = 'active';
 
   const TABLE_HEAD = [
-    { id: 'imePrezime', label: getFields(t, 'imePrezime')?.label },
-    { id: 'adresa', label: getFields(t, 'adresa')?.label },
-    { id: 'brojTelefona', label: getFields(t, 'brojTelefona')?.label },
-    { id: 'tip', label: getFields(t, 'tip')?.label },
-    { id: 'isActive', label: getFields(t, 'isActive')?.label },
-    { id: 'updated_at', label: t('table.updated_at'), width: 180 },
+    { id: 'name', label: getFields(t, 'name')?.label },
+    { id: 'address', label: getFields(t, 'address')?.label },
+    { id: 'phone', label: getFields(t, 'phone')?.label },
+    { id: 'jmbg', label: getFields(t, 'jmbg')?.label },
+    { id: 'roles', label: getFields(t, 'roles')?.label, disableSort: true },
+    { id: 'isActive', label: getFields(t, 'is_active')?.label },
+    { id: 'registered_at', label: t('table.registered_at'), width: 180, disableSort: true },
     { id: '', width: 50 },
   ];
 
@@ -92,12 +94,19 @@ const List = () => {
     status: MAIN_STATUS,
   };
 
-  const { isLoading, rows, total, currentPage, pageSize, sortColumn, sortDir, searchQuery, stats, fromDate, toDate } = useTypedSelector((state: RootState) => state.listSlice);
+  const { isLoading, rows, total, page, per_page, sortColumn, sortDir, search, stats, customField, from, to } = useTypedSelector((state: RootState) => state.listSlice);
   const dispatch = useDispatch<AppDispatch>();
+
 
   useEffect(() => {
     dispatch(listSlice.changeIsActive(DEFAULT_FILTER));
-    dispatch(listSlice.calStatsApi(API, searchQuery));
+    // dispatch(listSlice.calStatsApi(API, search));
+    const statsData = [
+      { value: 'all', label: 'All', count: 1 },
+      { value: 'active', label: 'Active', count: 1 },
+      { value: 'inactive', label: 'Inactive', count: 1 },
+    ];
+    dispatch(listSlice.finishStats({ data: statsData, msg: '', state: true}));
     dispatch(listSlice.calReadApi(API));
 
     return () => {
@@ -133,9 +142,35 @@ const List = () => {
   );
 
 
+  const extraFilterComponent = () => {
+    return <FormControl fullWidth>
+      <Select
+        size={'small'}
+        value={customField ?? 'all'}
+        placeholder={t('status.all')}
+        renderValue={(selected) => (selected !== 'all') ? selected : t('status.all')}
+        onChange={(e: any) => {
+          const value = e.target.value;
+
+          dispatch(listSlice.changePage(1));
+          dispatch(listSlice.changeCustomField({ customField: value, customFieldValue: ((value != '') ? search : null) }));
+          dispatch(listSlice.calReadApi(API));
+          // dispatch(listSlice.calStatsApi(API, search));
+        }}
+      >
+        <MenuItem value={'all'}>{t('status.all')}</MenuItem>
+
+        {getFilterOptions(t).map((itm: any, i: number) => {
+          return <MenuItem key={'filter_option_' + i} value={itm?.id}>{itm?.label}</MenuItem>
+        })}
+      </Select>
+    </FormControl>
+  }
+
+
   return <MainContainer title={t(LANGUAGE + '.title')} roles={Object.values(RoleType)}>
     <CustomBreadcrumbs
-      heading={t('menu.sifarnici_item.' + LANGUAGE)}
+      heading={t(LANGUAGE + '.list')}
       links={[
 
         { name: t('menu.dashboard'), href: '/dashboard' },
@@ -160,7 +195,7 @@ const List = () => {
     />
 
     <Card>
-    <Tabs
+      <Tabs
         value={filters.status}
         onChange={(e: any, newValue: any) => {
           handleFilters('status', newValue);
@@ -207,13 +242,15 @@ const List = () => {
         path={API}
         title={t(LANGUAGE + '.title')}
         onSearch={(searchValue: any) => {
-          if(searchValue){
-            dispatch(listSlice.changeCurrentPage(1));
-            dispatch(listSlice.changeSearchQuery(searchValue));
-            dispatch(listSlice.calReadApi(API));
-            dispatch(listSlice.calStatsApi(API, searchValue));
+          dispatch(listSlice.changePage(1));
+          dispatch(listSlice.changeSearch(searchValue));
+          if(searchValue === ''){
+            dispatch(listSlice.changeCustomField({ customField, customFieldValue: ((customField != '') ? '' : null) }));
           }
+          dispatch(listSlice.calReadApi(API));
+          // dispatch(listSlice.calStatsApi(API, searchValue));
         }}
+        extraFilterComponent={extraFilterComponent()}
       />
 
       {canReset && (
@@ -225,7 +262,7 @@ const List = () => {
             setFilters(defaultFilters);
 
             dispatch(listSlice.changeIsActive(DEFAULT_FILTER));
-            dispatch(listSlice.changeSearchQuery(null));
+            dispatch(listSlice.changeSearch(null));
             dispatch(listSlice.calReadApi(API));
           }}
           results={rows.length}
@@ -340,7 +377,10 @@ const List = () => {
               freeze
             />
 
-            {(rows && rows.length > 0) && <TableBody>
+            {
+            (rows && rows.length > 0)
+            ?
+            <TableBody>
               {rows
                 .slice(
                   table.page * table.rowsPerPage,
@@ -360,7 +400,16 @@ const List = () => {
               />
 
               <TableNoData notFound={notFound} isLoading={isLoading} />
-            </TableBody>}
+            </TableBody>
+            :
+            <TableBody>
+              <TableEmptyRows
+                emptyRows={emptyRows(table.page, table.rowsPerPage, rows.length)}
+              />
+
+              <TableNoData notFound={notFound} isLoading={isLoading} />
+            </TableBody>
+            }
           </Table>
         </Scrollbar>
       </TableContainer>
@@ -368,17 +417,17 @@ const List = () => {
       <TablePaginationCustom
         sx={null}
         count={total}
-        page={(isLoading || !(rows && rows.length > 0)) ? 0 : (currentPage-1)}
-        rowsPerPage={pageSize}
+        page={(isLoading || !(rows && rows.length > 0)) ? 0 : (page-1)}
+        rowsPerPage={per_page}
         onPageChange={(e: any, newPage: number) => {
-          dispatch(listSlice.changeCurrentPage((newPage+1)));
+          dispatch(listSlice.changePage((newPage+1)));
           dispatch(listSlice.calReadApi(API));
         }}
         onRowsPerPageChange={(e: any) => {
-          const newPageSize = e.target.value;
-          if(newPageSize){
-            dispatch(listSlice.changeCurrentPage(1));
-            dispatch(listSlice.changePageSize(newPageSize));
+          const newPerPage = e.target.value;
+          if(newPerPage){
+            dispatch(listSlice.changePage(1));
+            dispatch(listSlice.changePerPage(newPerPage));
             dispatch(listSlice.calReadApi(API));
           }
         }}
@@ -387,13 +436,27 @@ const List = () => {
       />
     </Card>
 
-    <Form />
+    <Form
+      onCreate={(data: any) => {
+        const newRows: any = createRow(rows, data);
+        const newTotal = (total + 1)
+
+        dispatch(listSlice.changeRows(newRows));
+        dispatch(listSlice.changeTotal(newTotal));
+        // dispatch(listSlice.calStatsApi(API, search));
+      }}
+      onUpdate={(data: any) => {
+        const newRows: any = updateRow(rows, data);
+        dispatch(listSlice.changeRows(newRows));
+        // dispatch(listSlice.calStatsApi(API, search));
+      }}
+    />
 
     <RemovePopup
       path={API}
       callback={async (item: any|null, msg: string|null, state: boolean|null, type: number, isBatch: boolean) => {
         table.onSelectAllRows(false);
-        dispatch(listSlice.calStatsApi(API, searchQuery));
+        // dispatch(listSlice.calStatsApi(API, search));
 
         if(type === RemoveAction.Activate){
           const newRows: any = updateRow(rows, item);
@@ -405,7 +468,7 @@ const List = () => {
 
         } else {
           if(isBatch){
-            dispatch(listSlice.changeCurrentPage(1));
+            dispatch(listSlice.changePage(1));
             dispatch(listSlice.calReadApi(API));
           } else {
             const newTotal = (item instanceof Array) ? (total - item.length) : (total - 1)

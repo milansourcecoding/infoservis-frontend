@@ -19,12 +19,12 @@ import InputAdornment from '@mui/material/InputAdornment';
 
 import CustomPopover, { usePopover } from 'src/components/custom-popover';
 
-import { downloadPDF, viewPDF, downloadCSV } from '../../../utils/utils.tsx';
+import { downloadPDF, viewPDF, downloadCSV } from '../../utils/utils.tsx';
 
 // Redux
 import { useDispatch } from 'react-redux';
-import { RootState, AppDispatch, useTypedSelector } from '../../../utils/store.tsx';
-import listSlice from '../../../utils/slice/form/listSlice.tsx';
+import { RootState, AppDispatch, useTypedSelector } from '../../utils/store.tsx';
+import listSlice from '../../utils/slice/form/listSlice.tsx';
 
 // ----------------------------------------------------------------------
 
@@ -33,20 +33,20 @@ export default function BasicSearchToolbar({ path, title, onSearch, extraFilterC
 
   const popover = usePopover();
 
-  const { searchQuery } = useTypedSelector((state: RootState) => state.listSlice);
+  const { search } = useTypedSelector((state: RootState) => state.listSlice);
   const dispatch = useDispatch<AppDispatch>();
 
 
   useEffect(() => {
     const timeoutId = setTimeout(() => {
-      onSearch(searchQuery);
+      onSearch(search);
     }, 300);
     return () => clearTimeout(timeoutId);
-  }, [searchQuery]);
+  }, [search]);
 
   const handleInputChange = (e: any) => {
     const inputValue = e.target.value;
-    dispatch(listSlice.changeSearchQuery(inputValue));
+    dispatch(listSlice.changeSearch(inputValue));
   };
 
 
@@ -70,7 +70,7 @@ export default function BasicSearchToolbar({ path, title, onSearch, extraFilterC
             <TextField
               fullWidth
               size={'small'}
-              value={searchQuery ? searchQuery : ''}
+              value={search ? search : ''}
               onChange={handleInputChange}
               placeholder={t('search')}
               InputProps={{

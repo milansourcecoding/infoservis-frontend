@@ -1,3 +1,5 @@
+// eslint-disable-next-line no-bitwise
+/* eslint-disable no-bitwise */
 import numeral from 'numeral';
 
 // ----------------------------------------------------------------------

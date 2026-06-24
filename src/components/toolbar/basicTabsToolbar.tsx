@@ -12,7 +12,7 @@ import Stack from '@mui/material/Stack';
 
 // Redux
 // import { useDispatch } from 'react-redux';
-import { RootState, useTypedSelector } from '../../../utils/store.tsx';
+import { RootState, useTypedSelector } from '../../utils/store.tsx';
 // import listSlice from '../../../utils/slice/form/listSlice.tsx';
 
 // ----------------------------------------------------------------------
@@ -27,7 +27,7 @@ export default function BasicTabsToolbar({
 }: any) {
   const { t } = useLocales();
 
-  const { searchQuery } = useTypedSelector((state: RootState) => state.listSlice);
+  const { search } = useTypedSelector((state: RootState) => state.listSlice);
 
   const handleRemoveStatus = () => {
     onFilters('status', mainStatus);
@@ -49,7 +49,7 @@ export default function BasicTabsToolbar({
           </Block>
         )}
 
-        {((filters.status !== mainStatus) || searchQuery) && (<Button
+        {((filters.status !== mainStatus) || search) && (<Button
           color="error"
           onClick={onResetFilters}
           startIcon={<Icon icon={'grommet-icons:clear'} />}

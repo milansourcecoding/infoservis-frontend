@@ -7,6 +7,9 @@ import { parseISO, getUnixTime, format } from 'date-fns';
 // locales
 import { getDefaultLang } from 'src/locales';
 
+export const STORAGE_KEY = 'accessToken';
+export const STORAGE_USER = 'accessUser';
+
 // ----------------------------------------------------------------------
 
 function jwtDecode(token) {

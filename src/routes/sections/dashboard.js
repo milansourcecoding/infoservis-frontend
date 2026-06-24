@@ -13,10 +13,7 @@ import { LoadingScreen } from 'src/components/loading-screen';
 // MENU
 const WelcomePage = lazy(() => import('src/pages/dashboard/welcome'));
 const SettingsPage = lazy(() => import('src/pages/settings/settings'));
-const KategorijaList = lazy(() => import('src/pages/sifarnici/kategorija/list'));
-const UpravnikList = lazy(() => import('src/pages/sifarnici/upravnik/list'));
-const RadnikList = lazy(() => import('src/pages/sifarnici/radnik/list'));
-const RadniNalogList = lazy(() => import('src/pages/radniNalog/list'));
+const Users = lazy(() => import('src/pages/users/list'));
 
 // ----------------------------------------------------------------------
 
@@ -56,7 +53,7 @@ export const dashboardRoutes = [
   },
 
   {
-    path: 'sifarnici/kategorija-list',
+    path: 'users',
     element: (
       <AuthGuard>
         <DashboardLayout>
@@ -67,59 +64,8 @@ export const dashboardRoutes = [
       </AuthGuard>
     ),
     children: [
-      { element: <KategorijaList />, index: true },
-      { path: 'sifarnici/kategorija-list', element: <KategorijaList /> },
-    ],
-  },
-
-  {
-    path: 'sifarnici/upravnik-list',
-    element: (
-      <AuthGuard>
-        <DashboardLayout>
-          <Suspense fallback={<LoadingScreen />}>
-            <Outlet />
-          </Suspense>
-        </DashboardLayout>
-      </AuthGuard>
-    ),
-    children: [
-      { element: <UpravnikList />, index: true },
-      { path: 'sifarnici/upravnik-list', element: <UpravnikList /> },
-    ],
-  },
-
-  {
-    path: 'sifarnici/radnik-list',
-    element: (
-      <AuthGuard>
-        <DashboardLayout>
-          <Suspense fallback={<LoadingScreen />}>
-            <Outlet />
-          </Suspense>
-        </DashboardLayout>
-      </AuthGuard>
-    ),
-    children: [
-      { element: <RadnikList />, index: true },
-      { path: 'sifarnici/radnik-list', element: <RadnikList /> },
-    ],
-  },
-
-  {
-    path: 'radni-nalog/radni-nalog-list',
-    element: (
-      <AuthGuard>
-        <DashboardLayout>
-          <Suspense fallback={<LoadingScreen />}>
-            <Outlet />
-          </Suspense>
-        </DashboardLayout>
-      </AuthGuard>
-    ),
-    children: [
-      { element: <RadniNalogList />, index: true },
-      { path: 'radni-nalog/radni-nalog-list', element: <RadniNalogList /> },
+      { element: <Users />, index: true },
+      { path: 'users', element: <Users /> },
     ],
   },
 

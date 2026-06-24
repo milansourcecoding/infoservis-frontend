@@ -18,15 +18,14 @@ export interface InitState {
   rows: Array<any>,
   total: number,
 
-  currentPage: number,
-  pageSize: number,
-  searchQuery: string|null,
+  page: number,
+  per_page: number,
+  search: string|null,
   isActive: number|null,
-  status: number|null,
   sortColumn: string|null,
   sortDir: string|null,
-  fromDate: any,
-  toDate: any,
+  from: any,
+  to: any,
 
   customField?: string|null,
   customFieldValue?: string|null,
@@ -49,15 +48,14 @@ function NewReducer() {
     rows: [],
     total: 0,
 
-    currentPage: 1,
-    pageSize: 10,
-    searchQuery: null,
+    page: 1,
+    per_page: 10,
+    search: null,
     isActive: null,
-    status: null,
     sortColumn: 'created_at',
     sortDir: 'asc',
-    fromDate: '',
-    toDate: '',
+    from: '',
+    to: '',
 
     customField: null,
     customFieldValue: null,
@@ -80,20 +78,17 @@ function NewReducer() {
     changeTotal: (state: InitState, action: PayloadAction<number>) => {
       state.total = action.payload;
     },
-    changeCurrentPage: (state: InitState, action: PayloadAction<number>) => {
-      state.currentPage = action.payload;
+    changePage: (state: InitState, action: PayloadAction<number>) => {
+      state.page = action.payload;
     },
-    changePageSize: (state: InitState, action: PayloadAction<number>) => {
-      state.pageSize = action.payload;
+    changePerPage: (state: InitState, action: PayloadAction<number>) => {
+      state.per_page = action.payload;
     },
-    changeSearchQuery: (state: InitState, action: PayloadAction<string|null>) => {
-      state.searchQuery = action.payload;
+    changeSearch: (state: InitState, action: PayloadAction<string|null>) => {
+      state.search = action.payload;
     },
     changeIsActive: (state: InitState, action: PayloadAction<number|null>) => {
       state.isActive = action.payload;
-    },
-    changeStatus: (state: InitState, action: PayloadAction<number|null>) => {
-      state.status = action.payload;
     },
     changeSortColumn: (state: InitState, action: PayloadAction<string|null>) => {
       state.sortColumn = action.payload;
@@ -101,15 +96,15 @@ function NewReducer() {
     changeSortDir: (state: InitState, action: PayloadAction<string|null>) => {
       state.sortDir = action.payload;
     },
-    changeFromDate: (state: InitState, action: PayloadAction<any>) => {
-      state.fromDate = action.payload;
+    changeFrom: (state: InitState, action: PayloadAction<any>) => {
+      state.from = action.payload;
     },
-    changeToDate: (state: InitState, action: PayloadAction<any>) => {
-      state.toDate = action.payload;
+    changeTo: (state: InitState, action: PayloadAction<any>) => {
+      state.to = action.payload;
     },
-    changeFromToDate: (state: InitState, action: PayloadAction<{ fromDate: string, toDate: string }>) => {
-      state.fromDate = action.payload?.fromDate;
-      state.toDate = action.payload?.toDate;
+    changeFromToDate: (state: InitState, action: PayloadAction<{ from: string, to: string }>) => {
+      state.from = action.payload?.from;
+      state.to = action.payload?.to;
     },
     changeSort: (state: InitState, action: PayloadAction<{ sortColumn: string|null, sortDir: string|null }>) => {
       state.sortColumn = action.payload.sortColumn;
@@ -130,10 +125,10 @@ function NewReducer() {
       state.isLoading = true;
     },
     finishRead: (state: InitState, action: PayloadAction<{ data: any, msg: string|null, state: boolean|null }>) => {
-      const { list, total } = action.payload.data;
+      const { data, meta } = action.payload.data;
 
-      state.rows = list;
-      state.total = total;
+      state.rows = data;
+      state.total = meta?.total || 0;
       state.isLoading = false;
     },
 
@@ -214,31 +209,30 @@ function NewReducer() {
     calReadApi: (path: string, callback?: (data: any|null, msg: string|null, state: boolean|null) => void) => async (dispatch: any, getState: any) => {
       dispatch(actions.startRead());
 
-      const { currentPage, pageSize, searchQuery, isActive, status, sortColumn, sortDir, fromDate, toDate, customField, customFieldValue } = getState().listSlice;
+      const { page, per_page, search, isActive, sortColumn, sortDir, from, to, customField, customFieldValue } = getState().listSlice;
 
-      const fromDateVal = prepareDate(fromDate);
-      const toDateVal = prepareDate(toDate);
+      const fromVal = prepareDate(from);
+      const toVal = prepareDate(to);
 
       const params: any = {
-        currentPage,
-        pageSize,
-        searchQuery,
-        isActive,
-        status,
+        page,
+        per_page,
+        search: (customField !== undefined && customField !== null && customField !== '') ? null : search,
+        // isActive,
         sortColumn,
         sortDir,
         [customField]: customFieldValue,
       };
 
-      if(fromDateVal && toDateVal){
-        params.fromDate = moment(fromDateVal).format(apiDateFormat());
-        params.toDate = moment(toDateVal).format(apiDateFormat());
+      if(fromVal && toVal){
+        params.from = moment(fromVal).format(apiDateFormat());
+        params.to = moment(toVal).format(apiDateFormat());
       }
 
       await axios.get(path, { params }).then(result => {
-        const { data, message } = result.data;
+        const { data, meta, message } = result.data;
 
-        dispatch(actions.finishRead({ data, msg: message, state: true}));
+        dispatch(actions.finishRead({ data: { data, meta }, msg: message, state: true}));
 
         if(callback){
           callback(data, message, true);
@@ -375,19 +369,19 @@ function NewReducer() {
     calStatsApi: (path: string, searchValue: string|null, callback?: (data: any|null, msg: string|null, state: boolean|null) => void) => async (dispatch: any, getState: any) => {
       dispatch(actions.startStats());
 
-      const { customField, customFieldValue, fromDate, toDate } = getState().listSlice;
+      const { customField, customFieldValue, from, to } = getState().listSlice;
     
-      const fromDateVal = prepareDate(fromDate);
-      const toDateVal = prepareDate(toDate);
+      const fromVal = prepareDate(from);
+      const toVal = prepareDate(to);
       
       const params: any = {
-        searchQuery: searchValue,
+        search: (customField !== undefined && customField !== null && customField !== '') ? null : searchValue,
         [customField]: customFieldValue,
       };
 
-      if(fromDateVal && toDateVal){
-        params.fromDate = moment(fromDateVal).format(apiDateFormat());
-        params.toDate = moment(toDateVal).format(apiDateFormat());
+      if(fromVal && toVal){
+        params.from = moment(fromVal).format(apiDateFormat());
+        params.to = moment(toVal).format(apiDateFormat());
       }
 
       await axios.get(path + '/stats', { params }).then(result => {

@@ -1,4 +1,3 @@
-/* eslint-disable eqeqeq */
 /* eslint-disable no-unsafe-optional-chaining */
 /* eslint-disable no-unused-vars */
 /* eslint-disable prefer-template */
@@ -10,7 +9,9 @@
 /* eslint-disable arrow-body-style */
 /* eslint-disable no-template-curly-in-string */
 /* eslint-disable no-loop-func */
+/* eslint-disable eqeqeq */
 import React, { createContext, useContext } from 'react';
+import { useFormik as useFormikOriginal } from 'formik';
 import _ from 'lodash';
 
 
@@ -18,63 +19,75 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import axios from '../../utils/axios.jsx';
 import Yup from '../../utils/yup.tsx';
-import { isNumeric, twoDecimalValidation } from '../../utils/utils.tsx';
-import { StatusDokumenta } from '../../utils/enums.tsx';
+import { isNumeric } from '../../utils/utils.tsx';
+// import {  } from '../../utils/enums.tsx';
 
 
-export const API = 'radniNalog';
-export const LANGUAGE = API;
-export const name = API + 'ReduxSlice';
+export const API = 'user';
+export const LANGUAGE = 'users';
+export const name = LANGUAGE + 'Slice';
 
 
 export const getFields = (t: any, field: string) => {
   let fields: any = [
     {
-      id: 'brojDokumenta',
-      name: 'brojDokumenta',
-      label: t(LANGUAGE + '.table.brojDokumenta'),
+      id: 'name',
+      name: 'name',
+      label: t(LANGUAGE + '.table.name'),
       placeholder: '',
     },
     {
-      id: 'napomena',
-      name: 'napomena',
-      label: t(LANGUAGE + '.table.napomena'),
+      id: 'phone',
+      name: 'phone',
+      label: t(LANGUAGE + '.table.phone'),
       placeholder: '',
     },
     {
-      id: 'brojRadnihSatiPoRadniku',
-      name: 'brojRadnihSatiPoRadniku',
-      label: t(LANGUAGE + '.table.brojRadnihSatiPoRadniku'),
+      id: 'email',
+      name: 'email',
+      label: t(LANGUAGE + '.table.email'),
       placeholder: '',
     },
     {
-      id: 'cenaRadnogSataIzUgovora',
-      name: 'cenaRadnogSataIzUgovora',
-      label: t(LANGUAGE + '.table.cenaRadnogSataIzUgovora'),
+      id: 'password',
+      name: 'password',
+      label: t(LANGUAGE + '.table.password'),
       placeholder: '',
     },
     {
-      id: 'status',
-      name: 'status',
-      label: t(LANGUAGE + '.table.status'),
+      id: 'password_confirmation',
+      name: 'password_confirmation',
+      label: t(LANGUAGE + '.table.password_confirmation'),
       placeholder: '',
     },
     {
-      id: 'lift_id',
-      name: 'lift_id',
-      label: t(LANGUAGE + '.table.lift_id'),
+      id: 'city',
+      name: 'city',
+      label: t(LANGUAGE + '.table.city'),
       placeholder: '',
     },
     {
-      id: 'kategorija_id',
-      name: 'kategorija_id',
-      label: t(LANGUAGE + '.table.kategorija_id'),
+      id: 'address',
+      name: 'address',
+      label: t(LANGUAGE + '.table.address'),
       placeholder: '',
     },
     {
-      id: 'radnici_ids',
-      name: 'radnici_ids',
-      label: t(LANGUAGE + '.table.radnici_ids'),
+      id: 'jmbg',
+      name: 'jmbg',
+      label: t(LANGUAGE + '.table.jmbg'),
+      placeholder: '',
+    },
+    {
+      id: 'roles',
+      name: 'roles',
+      label: t(LANGUAGE + '.table.roles'),
+      placeholder: '',
+    },
+    {
+      id: 'is_active',
+      name: 'is_active',
+      label: t(LANGUAGE + '.table.is_active'),
       placeholder: '',
     },
   ];
@@ -82,20 +95,49 @@ export const getFields = (t: any, field: string) => {
   return fields.find((x: any) => x.id === field);
 }
 
-export const formSchema = (t: any) => {
+export const getFilterOptions = (t: any) => {
+  return [
+    { ...getFields(t, 'name') },
+    { ...getFields(t, 'email') },
+    { ...getFields(t, 'phone') },
+    { ...getFields(t, 'jmbg') },
+    { ...getFields(t, 'address') },
+    { ...getFields(t, 'city') },
+  ];
+}
+
+export const formSchema = (t: any, id: number|null = null) => {
   return Yup.object().shape({
-    napomena: Yup.string().required().label(getFields(t, 'napomena')?.label),
-    brojRadnihSatiPoRadniku: Yup.number().integer().nullable().min(0).required().label(getFields(t, 'brojRadnihSatiPoRadniku')?.label),
-    cenaRadnogSataIzUgovora: Yup.number().min(0).required().test('decimal-places', 'Morate uneti tačno 2 decimalna mesta.', twoDecimalValidation).label(getFields(t, 'cenaRadnogSataIzUgovora')?.label),
-    status: Yup.number().required().label(getFields(t, 'status')?.label),
-    lift_id: Yup.number().required().label(getFields(t, 'lift_id')?.label),
-    kategorija_id: Yup.number().required().label(getFields(t, 'kategorija_id')?.label),
-    radnici_ids: Yup.array().min(1).label(getFields(t, 'radnici_ids')?.label),
+    name: Yup.string().required().label(getFields(t, 'name')?.label),
+    city: Yup.string().required().label(getFields(t, 'city')?.label),
+    address: Yup.string().required().label(getFields(t, 'address')?.label),
+    jmbg: Yup.string().jmbg().required().label(getFields(t, 'jmbg')?.label),
+    phone: Yup.string().required().label(getFields(t, 'phone')?.label),
+    email: Yup.string().email().required().label(getFields(t, 'email')?.label),
+
+    password: Yup.string().when(['email'], ([email]: any, schema: any) => {
+      return id
+      ?
+      schema.nullable().label(getFields(t, 'password')?.label)
+      :
+      schema.nullable().required().min(6).label(getFields(t, 'password')?.label)
+    }),
+    password_confirmation: Yup.string().when('password', ([password]: any, schema: any) => {
+      return (password != undefined && password != '')
+      ?
+      schema.nullable().required().min(6).oneOf([Yup.ref('password')], 'Passwords must match').label(getFields(t, 'password')?.label)
+      :
+      schema.nullable().label(getFields(t, 'password_confirmation')?.label)
+    }),
+
+    roles: Yup.array().min(1).label(getFields(t, 'roles')?.label),
+    is_active: Yup.boolean(),
   })
 }
 
 
 let formikContext: any = null;
+export const formikInstance = { current: null as any };
 export const FormikContext = createContext<any>(null);
 export const useFormikContext = () => {
     formikContext = useContext(FormikContext);
@@ -104,53 +146,61 @@ export const useFormikContext = () => {
     }
     return formikContext;
 };
+export const useFormik = (props: any) => {
+  const [submitted, setSubmitted] = React.useState(false);
 
+  const formik = useFormikOriginal({ ...props, validateOnChange: submitted });
+  formikInstance.current = formik;
 
-export const preparePayloadForm = (values: any = null, defValues: any = null) => {
-  let form = _.cloneDeep(values);
-  let data = _.cloneDeep(defValues);
+  React.useEffect(() => {
+    if (formik.submitCount > 0) {
+      setSubmitted(true);
+    }
+  }, [formik.submitCount]);
 
-  if(data && form){
-    let lift_id = (form && isNumeric(form.lift_id)) ? form.lift_id : null;
-    let kategorija_id = (form && isNumeric(form.kategorija_id)) ? form.kategorija_id : null;
-    let zahtev_za_radni_nalog_id = (form && isNumeric(form.id)) ? form.id : null;
+  React.useEffect(() => {
+    if (formik.submitCount <= 0) {
+      if(props && props.onChangeBeforeSubmit){
+        props.onChangeBeforeSubmit();
+      }
+    }
+  }, [formik.values]);
 
+  const resetSubmitted = React.useCallback(() => {
+    setSubmitted(false);
+  }, []);
 
-    data['isActive'] = true;
-    data['napomena'] = form?.napomena || '';
-    data['status'] = StatusDokumenta.Processing;
-    data['lift'] = form?.lift || null;
-    data['lift_id'] = lift_id;
-    data['kategorija'] = form?.kategorija || null;
-    data['kategorija_id'] = kategorija_id;
+  const setSubmittedManually = React.useCallback((value: boolean) => {
+    setSubmitted(value);
+  }, []);
 
-    data['zahtev_za_radni_nalog_id'] = zahtev_za_radni_nalog_id;
-  }
-
-  return data;
+  return {
+    ...formik,
+    submitted,
+    resetSubmitted,
+    setSubmitted: setSubmittedManually,
+  };
 };
+
+
 export const prepareForm = (values: any = null, defValues: any = null) => {
   let form = _.cloneDeep(values);
   let data = _.cloneDeep(defValues);
 
   if(data && form){
-    let lift_id = (form && isNumeric(form.lift_id)) ? form.lift_id : null;
-    let kategorija_id = (form && isNumeric(form.kategorija_id)) ? form.kategorija_id : null;
-    let radnici_ids = (form.radnici_ids && form.radnici_ids != '') ? form.radnici_ids.split(',') : [];
+    data['name'] = form?.name || '';
+    data['city'] = form?.city || '';
+    data['address'] = form?.address || '';
+    data['jmbg'] = form?.jmbg || '';
+    data['phone'] = form?.phone || '';
+    data['email'] = form?.email || '';
+    data['password'] = '';
+    data['password_confirmation'] = '';
+    
+    let roles = (values?.roles && values?.roles.length > 0) ? values?.roles.map((x: any) => ({ id: x, value: x })) : [];
+    data['roles'] = roles;
 
-
-    data['brojDokumenta'] = form?.brojDokumenta || '';
-    data['isActive'] = form?.isActive || false;
-    data['napomena'] = form?.napomena || '';
-    data['brojRadnihSatiPoRadniku'] = form?.brojRadnihSatiPoRadniku || null;
-    data['cenaRadnogSataIzUgovora'] = form?.cenaRadnogSataIzUgovora || null;
-    data['status'] = form?.status || StatusDokumenta.None;
-    data['lift'] = form?.lift || null;
-    data['lift_id'] = lift_id;
-    data['kategorija'] = form?.kategorija || null;
-    data['kategorija_id'] = kategorija_id;
-    data['radnici_ids'] = radnici_ids;
-    data['radnici'] = form?.radnici || [];
+    data['is_active'] = form?.is_active || false;
   }
 
   return data;
@@ -159,22 +209,21 @@ export const prepareData = (values: any = null, id: number|null) => {
   let data: any = {};
 
   if(values){
-    let status = (values && isNumeric(values.status)) ? values.status : StatusDokumenta.None;
-    let lift_id = (values && isNumeric(values.lift_id)) ? values.lift_id : null;
-    let kategorija_id = (values && isNumeric(values.kategorija_id)) ? values.kategorija_id : null;
+    data['name'] = values?.name || '';
+    data['city'] = values?.city || '';
+    data['address'] = values?.address || '';
+    data['jmbg'] = values?.jmbg || '';
+    data['phone'] = values?.phone || '';
+    data['email'] = values?.email || '';
 
+    let roles = (values?.roles && values?.roles.length > 0) ? values?.roles.map((x: any) => x.id) : [];
+    data['roles'] = roles;
+    
+    data['is_active'] = values?.is_active || false;
 
-    data['isActive'] = values?.isActive || false;
-    data['napomena'] = values?.napomena || '';
-    data['brojRadnihSatiPoRadniku'] = values?.brojRadnihSatiPoRadniku || null;
-    data['cenaRadnogSataIzUgovora'] = values?.cenaRadnogSataIzUgovora || null;
-    data['status'] = status;
-    data['lift_id'] = lift_id;
-    data['kategorija_id'] = kategorija_id;
-    data['radnici_ids'] = values?.radnici_ids.join(',') || '';
-
-    if (isNumeric(values.zahtev_za_radni_nalog_id)) {
-      data['zahtev_za_radni_nalog_id'] = values.zahtev_za_radni_nalog_id;
+    if (values?.password && values?.password !== '') {
+      data['password'] = values?.password || '';
+      data['password_confirmation'] = values?.password_confirmation || '';
     }
 
     if (isNumeric(id)) {
@@ -187,26 +236,28 @@ export const prepareData = (values: any = null, id: number|null) => {
 
 
 export interface initialValuesStruct {
-  isActive: boolean,
-  napomena: string,
-  brojRadnihSatiPoRadniku: number|null,
-  cenaRadnogSataIzUgovora: number|null,
-  status: number,
-  lift_id: any,
-  kategorija_id: any,
-  radnici: Array<any>,
-  radnici_ids: Array<any>,
+  name: string,
+  city: string,
+  address: string,
+  jmbg: string,
+  phone: string,
+  email: string,
+  password: string,
+  password_confirmation: string,
+  roles: Array<any>,
+  is_active: boolean,
 };
 export const initialValues: initialValuesStruct = {
-  isActive: true,
-  napomena: '',
-  brojRadnihSatiPoRadniku: null,
-  cenaRadnogSataIzUgovora: null,
-  status: StatusDokumenta.Processing,
-  lift_id: null,
-  kategorija_id: null,
-  radnici: [],
-  radnici_ids: [],
+  name: '',
+  city: '',
+  address: '',
+  jmbg: '',
+  phone: '',
+  email: '',
+  password: '',
+  password_confirmation: '',
+  roles: [],
+  is_active: true,
 };
 
 
@@ -241,9 +292,6 @@ function NewReducer() {
       state.id = action.payload.id;
       state.payload = action.payload.payload;
       state.show = action.payload.show;
-    },
-    setValues: (state: InitState, action: PayloadAction<any>) => {
-      state.details = action.payload;
     },
 
     startRead: (state: InitState) => {

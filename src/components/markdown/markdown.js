@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 // utils
-import 'src/utils/highlight';
+import 'src/utils/others/highlight';
 import ReactMarkdown from 'react-markdown';
 // markdown plugins
 import rehypeRaw from 'rehype-raw';

@@ -4,7 +4,8 @@ import { useEffect, useReducer, useCallback, useMemo } from 'react';
 import axios from 'src/utils/axios';
 //
 import { AuthContext } from './auth-context';
-import { isValidToken, setSession } from './utils';
+import { isValidToken, setSession, STORAGE_USER, STORAGE_KEY } from './utils';
+import { getUser } from '../../../utils/utils.tsx';
 
 // ----------------------------------------------------------------------
 
@@ -49,8 +50,6 @@ const reducer = (state, action) => {
 
 // ----------------------------------------------------------------------
 
-const STORAGE_KEY = 'accessToken';
-const STORAGE_USER = 'accessUser';
 // const STORAGE_EXPIRES_AT = 'tokenExpiresAt';
 
 export function AuthProvider({ children }) {
@@ -65,8 +64,9 @@ export function AuthProvider({ children }) {
         const token_expires_at = '';
         setSession(accessToken, token_expires_at);
 
+        const savedUser = getUser();
 
-        const response = await axios.get('user');
+        const response = await axios.get(`user/${savedUser?.id}`);
         const user = (response && response.data && response.data.data) ? response.data.data : null;
 
         setSession(accessToken, token_expires_at);

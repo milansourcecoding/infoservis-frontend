@@ -7,9 +7,7 @@ import viewSlice from './slice/form/viewSlice.tsx';
 import settings from '../pages/settings/redux/settings.tsx';
 import selectAutocompleteSlice from '../components/autocomplete/selectAutocompleteSlice.tsx';
 
-import kategorijaReduxSlice from '../pages/sifarnici/kategorija/reduxSlice.tsx';
-import radnikReduxSlice from '../pages/sifarnici/radnik/reduxSlice.tsx';
-import upravnikReduxSlice from '../pages/sifarnici/upravnik/reduxSlice.tsx';
+import usersSlice, { name as usersSliceName} from '../pages/users/slice.tsx';
 
 
 export type RootState = ReturnType<typeof store.getState>;
@@ -23,9 +21,7 @@ const store = configureStore({
     settings: settings.reducer,
     selectAutocompleteSlice: selectAutocompleteSlice.reducer,
 
-    kategorijaReduxSlice: kategorijaReduxSlice.reducer,
-    radnikReduxSlice: radnikReduxSlice.reducer,
-    upravnikReduxSlice: upravnikReduxSlice.reducer,
+    [usersSliceName]: usersSlice.reducer,
   },
 });
 

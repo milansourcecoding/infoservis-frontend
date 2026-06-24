@@ -10,63 +10,56 @@
     "Resident": {
       "dashboard": "Dashboard",
       "settings": "Settings",
-      "category": "Category"
+      "users": "Users"
     },
     "Manager": {
       "dashboard": "Dashboard",
       "settings": "Settings",
-      "category": "Category",
+      "users": "Users",
       "tickets": "Tickets"
     },
     "OrganizationAdmin": {
       "dashboard": "Dashboard",
       "settings": "Settings",
-      "category": "Category",
+      "users": "Users",
       "reports": "Reports"
     },
     "SuperAdmin": {
       "dashboard": "Dashboard",
       "settings": "Settings",
-      "category": "Category",
+      "users": "Users",
       "reports": "Reports"
     },
     "Accountant": {
       "dashboard": "Dashboard",
       "settings": "Settings",
-      "category": "Category",
+      "users": "Users",
       "reports": "Reports"
     },
     "Worker": {
       "dashboard": "Dashboard",
       "settings": "Settings",
-      "category": "Category",
+      "users": "Users",
       "reports": "Reports"
     },
     "Technician": {
       "dashboard": "Dashboard",
       "settings": "Settings",
-      "category": "Category",
+      "users": "Users",
       "reports": "Reports"
     },
     "Cleaner": {
       "dashboard": "Dashboard",
       "settings": "Settings",
-      "category": "Category",
+      "users": "Users",
       "reports": "Reports"
     },
 
     "radni_nalog": "Work order",
-    "sifarnici": "Lists",
 
     "radni_nalog_item": {
       "zahtev_radni_nalog": "Request",
       "radni_nalog": "Work order"
-    },
-
-    "sifarnici_item": {
-      "kategorija": "Category",
-      "radnik": "Worker",
-      "upravnik": "Manager"
     }
   },
 
@@ -157,6 +150,7 @@
   "table": {
     "loading": "Please wait...",
     "noData": "No results",
+    "registered_at": "Registred at",
     "updated_at": "Changed at",
     "updated_by": "Changed by"
   },
@@ -202,9 +196,6 @@
       "domaceLice": "Domestic person",
       "profesionalniUpravnik": "Professional manager"
     },
-    "radnikType": {
-      "serviser": "Serviceman"
-    },
     "statusDokumenta": {
       "processing": "Processing",
       "zavrsen": "Finished",
@@ -224,77 +215,25 @@
     "editTitle": "Update"
   },
 
-  "kategorija": {
-    "title": "Category list",
+  "users": {
+    "list": "Users",
+    "title": "User",
     "breadcrumbs": {
-      "path": "Category"
+      "path": "User"
     },
     "table": {
-      "naziv": "Name",
-      "isActive": "Status",
-      "isNaplativ": "Billable",
-      "isDefault": "Default"
-    }
-  },
-
-  "upravnik": {
-    "title": "Manager",
-    "breadcrumbs": {
-      "path": "Manager"
-    },
-    "table": {
-      "imePrezime": "Name",
-      "grad": "City",
-      "adresa": "Address",
+      "name": "Name",
+      "city": "City",
+      "address": "Address",
       "email": "Email",
       "password": "Password",
-      "brojTelefona": "Phone number",
-      "uloga": "Role",
-      "tip": "Type",
-      "isActive": "Status"
+      "password_confirmation": "Confirm password",
+      "jmbg": "JMBG",
+      "phone": "Phone number",
+      "roles": "Roles",
+      "is_active": "Active"
     },
     "allTypes": "All types"
-  },
-
-  "radnik": {
-    "title": "Worker",
-    "breadcrumbs": {
-      "path": "Worker"
-    },
-    "table": {
-      "imePrezime": "Name",
-      "grad": "City",
-      "adresa": "Address",
-      "email": "Email",
-      "password": "Password",
-      "brojTelefona": "Phone number",
-      "uloga": "Role",
-      "tip": "Type",
-      "logo": "Logo",
-      "isActive": "Status"
-    },
-    "allTypes": "All types"
-  },
-
-  "radniNalog": {
-    "title": "Order Request",
-    "breadcrumbs": {
-      "path": "Order Request"
-    },
-    "table": {
-      "brojDokumenta": "#",
-      "napomena": "Note",
-      "status": "Status",
-      "lift_id": "Elevator",
-      "kategorija_id": "Category",
-      "isActive": "Active",
-      "radnici_ids": "Workers",
-      "brojRadnihSatiPoRadniku": "Working hours (in minutes)",
-      "cenaRadnogSataIzUgovora": "Hourly price"
-    },
-    "buttons": {
-      "action": "Create a work order"
-    }
   }
 
 }

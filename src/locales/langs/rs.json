@@ -10,63 +10,56 @@
     "Resident": {
       "dashboard": "Pocetna",
       "settings": "Podesavanja",
-      "category": "Kategorija"
+      "users": "Korisnici"
     },
     "Manager": {
       "dashboard": "Pocetna",
       "settings": "Podesavanja",
-      "category": "Kategorija",
+      "users": "Korisnici",
       "tickets": "Ticketi"
     },
     "OrganizationAdmin": {
       "dashboard": "Pocetna",
       "settings": "Podesavanja",
-      "category": "Kategorija",
+      "users": "Korisnici",
       "reports": "Report"
     },
     "SuperAdmin": {
       "dashboard": "Pocetna",
       "settings": "Podesavanja",
-      "category": "Kategorija",
+      "users": "Korisnici",
       "reports": "Report"
     },
     "Accountant": {
       "dashboard": "Pocetna",
       "settings": "Podesavanja",
-      "category": "Kategorija",
+      "users": "Korisnici",
       "reports": "Report"
     },
     "Worker": {
       "dashboard": "Pocetna",
       "settings": "Podesavanja",
-      "category": "Kategorija",
+      "users": "Korisnici",
       "reports": "Report"
     },
     "Technician": {
       "dashboard": "Pocetna",
       "settings": "Podesavanja",
-      "category": "Kategorija",
+      "users": "Korisnici",
       "reports": "Report"
     },
     "Cleaner": {
       "dashboard": "Pocetna",
       "settings": "Podesavanja",
-      "category": "Kategorija",
+      "users": "Korisnici",
       "reports": "Report"
     },
 
     "radni_nalog": "Radni nalog",
-    "sifarnici": "Sifarnici",
 
     "radni_nalog_item": {
       "zahtev_radni_nalog": "Zahtev",
       "radni_nalog": "Radni nalog"
-    },
-
-    "sifarnici_item": {
-      "kategorija": "Kategorija",
-      "radnik": "Radnik",
-      "upravnik": "Upravnik"
     }
   },
 
@@ -157,6 +150,7 @@
   "table": {
     "loading": "Molimo sacekajte...",
     "noData": "Nema rezultata",
+    "registered_at": "Registrovan",
     "updated_at": "Izmenjeno",
     "updated_by": "Izmenio"
   },
@@ -202,9 +196,6 @@
       "domaceLice": "Domace lice",
       "profesionalniUpravnik": "Profesionalni upravnik"
     },
-    "radnikType": {
-      "serviser": "Serviser"
-    },
     "statusDokumenta": {
       "processing": "U obradi",
       "zavrsen": "Zavrsen",
@@ -224,77 +215,25 @@
     "editTitle": "Izmena"
   },
 
-  "kategorija": {
-    "title": "Kategorija",
+  "users": {
+    "list": "Korisnici",
+    "title": "Korisnik",
     "breadcrumbs": {
-      "path": "Kategorija"
+      "path": "Korisnik"
     },
     "table": {
-      "naziv": "Naziv",
-      "isActive": "Status",
-      "isNaplativ": "Naplativ",
-      "isDefault": "Default"
-    }
-  },
-
-  "upravnik": {
-    "title": "Upravnik",
-    "breadcrumbs": {
-      "path": "Upravnik"
-    },
-    "table": {
-      "imePrezime": "Ime i prezime",
-      "grad": "Grad",
-      "adresa": "Adresa",
+      "name": "Ime i prezime",
+      "city": "Grad",
+      "address": "Adresa",
       "email": "Email",
       "password": "Lozinka",
-      "brojTelefona": "Broj telefona",
-      "uloga": "Uloga",
-      "tip": "Tip",
-      "isActive": "Status"
+      "password_confirmation": "Ponovi lozinku",
+      "jmbg": "JMBG",
+      "phone": "Broj telefona",
+      "roles": "Uloga",
+      "is_active": "Aktivan"
     },
     "allTypes": "Svi tipovi"
-  },
-
-  "radnik": {
-    "title": "Radnik",
-    "breadcrumbs": {
-      "path": "Radnik"
-    },
-    "table": {
-      "imePrezime": "Ime i prezime",
-      "grad": "Grad",
-      "adresa": "Adresa",
-      "email": "Email",
-      "password": "Lozinka",
-      "brojTelefona": "Broj telefona",
-      "uloga": "Uloga",
-      "tip": "Tip",
-      "logo": "Logo",
-      "isActive": "Status"
-    },
-    "allTypes": "Svi tipovi"
-  },
-
-  "radniNalog": {
-    "title": "Radni nalog",
-    "breadcrumbs": {
-      "path": "Radni nalog"
-    },
-    "table": {
-      "brojDokumenta": "#",
-      "napomena": "Opis",
-      "status": "Status",
-      "lift_id": "Lift",
-      "kategorija_id": "Kategorija",
-      "isActive": "Aktivan",
-      "radnici_ids": "Radnici",
-      "brojRadnihSatiPoRadniku": "Broj radnih sati (u minutima)",
-      "cenaRadnogSataIzUgovora": "Cena radnog sata"
-    },
-    "buttons": {
-      "action": "Kreiraj radni nalog"
-    }
   }
 
 }

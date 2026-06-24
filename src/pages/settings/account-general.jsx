@@ -18,7 +18,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 
 import { useAuthContext } from 'src/auth/hooks';
-import { fData } from 'src/utils/format-number';
+import { fData } from 'src/utils/others/format-number';
 
 import { useLocales } from 'src/locales';
 // Redux
@@ -27,7 +27,7 @@ import { useTypedSelector } from '../../utils/store.tsx';
 import settings from './redux/settings.tsx';
 
 // import {  } from '../../utils/utils.tsx';
-import { RoleType, UserType } from '../../utils/enums.tsx';
+import { RoleType } from '../../utils/enums.tsx';
 
 // components
 import { useSnackbar } from '../../components/snackbar';
@@ -35,7 +35,6 @@ import FormProvider, {
   RHFTextField,
   RHFUploadAvatar,
 } from '../../components/hook-form';
-import { name } from '../sifarnici/kategorija/reduxSlice.tsx';
 
 // ----------------------------------------------------------------------
 
@@ -78,7 +77,7 @@ export default function AccountGeneral() {
     address: user?.address || '',
     email: user?.email || '',
     roles: user?.roles || '',
-    logo: null, // user?.logo ? (user?.uloga == UserType.Admin) ? getFirmaLogo(user?.logo) : getUserLogo(user?.logo) : null,
+    logo: null, // user?.logo ? (user?.uloga == RoleType.SuperAdmin) ? getFirmaLogo(user?.logo) : getUserLogo(user?.logo) : null,
 
     phone: user?.phone || '',
     jmbg: user?.jmbg || '',
@@ -97,7 +96,7 @@ export default function AccountGeneral() {
   } = methods;
 
   const onSubmit = handleSubmit(async (data) => {
-    // if(user?.uloga == UserType.Admin){
+    // if(user?.uloga == RoleType.SuperAdmin){
     //   await dispatch(settings.callChangeGeneralApi(data, (res, msg, state) => {
     //     if(state){
     //       setUser(res);
@@ -107,7 +106,7 @@ export default function AccountGeneral() {
     //     }
     //   }));
 
-    // } else if(user?.uloga == UserType.User){
+    // } else if(user?.uloga == RoleType.Worker){
     //   await dispatch(settings.callChangeGeneralRadnikApi(data, (res, msg, state) => {
     //     if(state){
     //       setUser(res);
@@ -139,7 +138,7 @@ export default function AccountGeneral() {
       if (file) {
         setValue('logo', newFile, { shouldValidate: true });
 
-        if(user?.uloga == UserType.Admin){
+        if(user?.uloga == RoleType.SuperAdmin){
           dispatch(settings.callUploadLogoApi(newFile, (res, msg, state) => {
             if(state){
               setUser(res);
@@ -149,7 +148,7 @@ export default function AccountGeneral() {
             }
           }));
 
-        } else if(user?.uloga == UserType.User){
+        } else if(user?.uloga == RoleType.Worker){
           dispatch(settings.callUploadLogoRadnikApi(user?.id, newFile, (res, msg, state) => {
             if(state){
               setUser(res);
@@ -165,7 +164,7 @@ export default function AccountGeneral() {
   );
 
   const removeLogo = async () => {
-    if(user?.uloga == UserType.Admin){
+    if(user?.uloga == RoleType.SuperAdmin){
       await dispatch(settings.callremoveLogoApi((res, msg, state) => {
         if(state){
           setValue('logo', null, { shouldValidate: true });
@@ -176,7 +175,7 @@ export default function AccountGeneral() {
         }
       }));
 
-    } else if(user?.uloga == UserType.User){
+    } else if(user?.uloga == RoleType.Worker){
       await dispatch(settings.callremoveLogoRadnikApi(user?.id, (res, msg, state) => {
         if(state){
           setValue('logo', null, { shouldValidate: true });

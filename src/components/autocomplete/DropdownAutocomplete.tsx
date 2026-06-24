@@ -20,10 +20,12 @@ import Autocomplete from '@mui/material/Autocomplete';
 interface CustomProps {
   options: any,
   freeSolo: boolean,
+  multiple: boolean,
   disableClearable: boolean,
   label: string,
   labelField?: string,
   value: any,
+  error?: boolean,
   onChange: (e: any, value: any) => void,
   onInputChange: (e: any, value: any) => void,
 }
@@ -32,10 +34,12 @@ interface CustomProps {
 export default function DropdownAutocomplete({
   options = null,
   freeSolo = false,
+  multiple = false,
   disableClearable = false,
   label = '',
   labelField = 'value',
   value = null,
+  error = false,
   onChange,
   onInputChange,
 }: CustomProps) {
@@ -45,6 +49,7 @@ export default function DropdownAutocomplete({
   return (
     <Autocomplete
       freeSolo={freeSolo}
+      multiple={multiple}
       disableClearable={disableClearable}
       size={'small'}
 
@@ -84,6 +89,8 @@ export default function DropdownAutocomplete({
       renderInput={(p: any) => <TextField
         {...p}
         label={label}
+        InputLabelProps={{ shrink: true }}
+        error={error}
       />}
     />
   );

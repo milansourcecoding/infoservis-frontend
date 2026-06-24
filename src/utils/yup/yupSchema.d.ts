@@ -7,6 +7,7 @@
 /* eslint-disable spaced-comment */
 /* eslint-disable prefer-arrow-callback */
 import * as yup from 'yup';
+import { Jmbg } from '@jmbg-labs/jmbg';
 
 
 declare module 'yup' {
@@ -18,6 +19,7 @@ declare module 'yup' {
         color(message?: string): StringSchema<TType, TContext>;
         runningNumber(message?: string): StringSchema<TType, TContext>;
         maxWords(length?: any, message?: string): StringSchema<TType, TContext>;
+        jmbg(message?: string): StringSchema<TType, TContext>;
     }
 
 
@@ -77,6 +79,21 @@ yup.addMethod(yup.string, 'maxWords', function (length: number = 0, message?: st
 
         const count: any = wordcount(value);
         return (count <= length);
+    });
+});
+
+//yup.string().jmbg('Invalid JMBG')
+yup.addMethod(yup.string, 'jmbg', function (message?: string = `Invalid JMBG`) {
+    return this.test('jmbg', message, function (value) {
+        if (!value) return true;
+
+        const cleanedJMBG = value.replace(/\s/g, '');
+
+        try {
+            return Jmbg.valid(cleanedJMBG);
+        } catch (e) {
+            return false;
+        }
     });
 });
 

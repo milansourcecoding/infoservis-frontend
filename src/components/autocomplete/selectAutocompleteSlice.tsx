@@ -6,9 +6,9 @@ import axios from 'src/utils/axios';
 
 
 export interface ApiCallParams {
-  currentPage: number,
-  pageSize: number,
-  searchQuery: string|null,
+  page: number,
+  per_page: number,
+  search: string|null,
   isActive: number|null,
   sortColumn: string|null,
   sortDir: string|null,

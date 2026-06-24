@@ -76,9 +76,9 @@ export default function NavUpgrade() {
             // >
             //   {firma?.name.charAt(0).toUpperCase()}
             // </Avatar>
-            <Avatar alt={user?.name} sx={{ width: 48, height: 48, bgcolor: grey[400] }}>{user?.name[0]}</Avatar>
+            <Avatar alt={user?.name} sx={{ width: 48, height: 48, bgcolor: grey[400] }}>{(user && user?.name && user?.name !== '') ? user?.name[0] : ''}</Avatar>
             :
-            <Avatar alt={user?.name} sx={{ width: 48, height: 48, bgcolor: grey[400] }}>{user?.name[0]}</Avatar>
+            <Avatar alt={user?.name} sx={{ width: 48, height: 48, bgcolor: grey[400] }}>{(user && user?.name && user?.name !== '') ? user?.name[0] : ''}</Avatar>
           }
 
           <Label
@@ -93,17 +93,17 @@ export default function NavUpgrade() {
               borderBottomLeftRadius: 2,
             }}
           >
-            {user?.name}
+            {user?.name || ''}
           </Label>
         </Box>
 
         <Stack spacing={0} sx={{ mt: 1, mb: 1 }}>
           <Typography variant="subtitle2" noWrap>
-            {user?.email}
+            {user?.email || ''}
           </Typography>
 
           <Typography variant="body2" sx={{ color: 'text.disabled' }} style={{ width: '225px', textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap' }} noWrap>
-            {user?.address}
+            {user?.address || ''}
           </Typography>
         </Stack>
 

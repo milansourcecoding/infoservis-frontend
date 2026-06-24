@@ -8,14 +8,16 @@
 /* eslint-disable arrow-body-style */
 /* eslint-disable prefer-template */
 // eslint-disable-next-line import/no-extraneous-dependencies
+import _ from 'lodash';
+// import { t } from 'i18next';
+// import {  } from '../enums.tsx';
 
-export * from './utils/localStorage.tsx';
-export * from './utils/table.tsx';
-export * from './utils/download.tsx';
-export * from './utils/dom.tsx';
-export * from './utils/format.tsx';
-export * from './utils/dateTime.tsx';
-export * from './utils/convert.tsx';
-export * from './utils/validation.tsx';
-export * from './utils/regex.tsx';
-export * from './utils/dropdown.tsx';
+// ----------------------------------------------------------------------
+
+export const timeRegex = () => {
+  return "^(00:|0[0-9]:|1[0-2]:|[1-9]:)([0-5][0-9]) ([a][m]|[A][M]|[p][m]|[P][M])$";
+}
+
+export const time24Regex = () => {
+  return "^(?:[01]?[0-9]|2[0-3]):[0-5][0-9]$";
+}

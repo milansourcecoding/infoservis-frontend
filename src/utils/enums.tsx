@@ -1,15 +1,3 @@
-export const UserType = {
-  None: 0,
-  Admin: 1,
-  User: 2,
-  Upravnik: 3,
-}
-
-export const RadnikType = {
-  None: 0,
-  Serviser: 1
-}
-
 export const StatusDokumenta = {
   None: 0,
   Processing: 1,

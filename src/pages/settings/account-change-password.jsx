@@ -25,7 +25,7 @@ import FormProvider, { RHFTextField } from 'src/components/hook-form';
 import { useDispatch } from 'react-redux';
 import { useTypedSelector } from '../../utils/store.tsx';
 import settings from './redux/settings.tsx';
-import { UserType } from '../../utils/enums.tsx';
+import { RoleType } from '../../utils/enums.tsx';
 
 // ----------------------------------------------------------------------
 
@@ -71,7 +71,7 @@ export default function AccountChangePassword() {
   } = methods;
 
   const onSubmit = handleSubmit(async (data) => {
-    if(user?.uloga == UserType.Admin){
+    if(user?.uloga == RoleType.SuperAdmin){
       await dispatch(settings.callChangePasswordApi({ password: data.newPassword }, (res, msg, state) => {
         if(state){
           enqueueSnackbar(msg, { variant: 'success' });
@@ -80,7 +80,7 @@ export default function AccountChangePassword() {
         }
       }));
 
-    } else if(user?.uloga == UserType.User){
+    } else if(user?.uloga == RoleType.Worker){
       await dispatch(settings.callChangePasswordRadnikApi({ id: user?.id, password: data.newPassword }, (res, msg, state) => {
         if(state){
           enqueueSnackbar(msg, { variant: 'success' });

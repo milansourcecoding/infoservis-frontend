@@ -12,7 +12,6 @@
 /* eslint-disable prefer-template */
 /* eslint-disable no-lonely-if */
 import React from 'react';
-import { useFormik } from 'formik';
 import { Icon } from '@iconify/react';
 import InputMask from 'react-input-mask';
 
@@ -31,30 +30,30 @@ import DialogTitle from '@mui/material/DialogTitle';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import TextField from '@mui/material/TextField';
-import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 import FormHelperText from '@mui/material/FormHelperText';
-import Select from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
+// import InputLabel from '@mui/material/InputLabel';
+// import Select from '@mui/material/Select';
+// import MenuItem from '@mui/material/MenuItem';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
 
-import { createRow, updateRow, formatPhoneNumnber } from '../../../utils/utils.tsx';
-import { UserType, UpravnikType } from '../../../utils/enums.tsx';
-
 // components
 import { useSnackbar } from 'src/components/snackbar';
 import Block from 'src/components/block/block';
+import DropdownAutocomplete from 'src/components/autocomplete/DropdownAutocomplete.tsx';
 // import SelectAutocomplete from 'src/components/autocomplete/SelectAutocomplete.tsx';
 
 // Redux
 import { useDispatch } from 'react-redux';
-import { RootState, AppDispatch, useTypedSelector } from '../../../utils/store.tsx';
-import slice, { API, getFields, FormikContext, formSchema, initialValues, prepareForm, prepareData } from './reduxSlice.tsx';
-import listSlice from '../../../utils/slice/form/listSlice.tsx';
-// import selectAutocompleteSlice from '../../../components/autocomplete/selectAutocompleteSlice.tsx';
+import { AppDispatch, useTypedSelector } from '../../utils/store.tsx';
+import slice, { name as sliceName, getFields, useFormik, FormikContext, formSchema, initialValues, prepareForm, prepareData } from './slice.tsx';
+// import selectAutocompleteSlice from '../../components/autocomplete/selectAutocompleteSlice.tsx';
+
+import { formatPhoneNumnber, getRoles, getCities } from '../../utils/utils.tsx';
+// import {  } from '../../utils/enums.tsx';
 
 // ----------------------------------------------------------------------
 
@@ -69,10 +68,10 @@ export default function Form(props: any) {
   const { enqueueSnackbar } = useSnackbar();
 
   const dispatch = useDispatch<AppDispatch>();
-  const { rows, total, searchQuery } = useTypedSelector((state: RootState) => state.listSlice);
-  const { isLoading, show, details, id } = useTypedSelector((state: any) => state[API + 'ReduxSlice']);
+  const { isLoading, show, details, id } = useTypedSelector((state: any) => state[sliceName]);
 
   const password = useBoolean();
+  const password_confirmation = useBoolean();
 
 
   React.useEffect(() => {
@@ -100,7 +99,7 @@ export default function Form(props: any) {
   React.useEffect(() => {
     dispatch(slice.setLoading(true));
     let form = prepareForm(details, initialValues);
-    setValues(form);
+    resetForm({ values: form });
     setTimeout(() => {
       setErrors({});
     }, 0);
@@ -112,21 +111,13 @@ export default function Form(props: any) {
     initialValues: initialValues,
     validationSchema: formSchema(t, id),
     validateOnMount: false,
-    validateOnChange: true,
-    onSubmit: values => {
-      onSubmit(values, (data: any) => {
-        if(props && props.onSave){
-          props.onSave(data);
-        }
-
-        onCancel();
-      });
-    },
+    validateOnChange: false,
+    onSubmit: (values: any) => onSubmit(values),
   });
-  const { values, errors, setValues, setErrors, handleChange, setFieldValue, validateForm, handleSubmit }: any = formik;
+  const { values, errors, setErrors, resetForm, handleChange, setFieldValue, handleSubmit }: any = formik;
 
 
-  const onSubmit = (values: any, callback: (data: any) => void) => {
+  const onSubmit = (values: any) => {
     let data = prepareData(values, id);
     if(id > 0){
       dispatch(slice.callUpdateApi(data, (state: boolean, data: any, message: string) => {
@@ -135,11 +126,11 @@ export default function Form(props: any) {
             enqueueSnackbar(message, { variant: state ? 'success' : 'error' });
           }
 
-          const newRows: any = updateRow(rows, data);
-          dispatch(listSlice.changeRows(newRows));
-          dispatch(listSlice.calStatsApi(API, searchQuery));
+          if(props && props.onUpdate){
+            props.onUpdate(data);
+          }
 
-          callback(data);
+          onCancel();
         } else {
           if(message && message != ''){
             enqueueSnackbar(message, { variant: 'error' });
@@ -153,14 +144,11 @@ export default function Form(props: any) {
             enqueueSnackbar(message, { variant: state ? 'success' : 'error' });
           }
 
-          const newRows: any = createRow(rows, data);
-          const newTotal = (total + 1)
-
-          dispatch(listSlice.changeRows(newRows));
-          dispatch(listSlice.changeTotal(newTotal));
-          dispatch(listSlice.calStatsApi(API, searchQuery));
-
-          callback(data);
+          if(props && props.onCreate){
+            props.onCreate(data);
+          }
+          
+          onCancel();
         } else {
           if(message && message != ''){
             enqueueSnackbar(message, { variant: 'error' });
@@ -172,8 +160,7 @@ export default function Form(props: any) {
   const onCancel = () => {
     dispatch(slice.setShow({ show: false, id: null, payload: null }));
     let form = prepareForm(null, initialValues);
-    setValues(form);
-    dispatch(slice.setValues(form));
+    resetForm({ values: form });
     setTimeout(() => {
       setErrors({});
     }, 0);
@@ -212,11 +199,42 @@ export default function Form(props: any) {
           InputLabelProps={{ shrink: true }}
           size={'small'}
           autoFocus
-          value={values.imePrezime}
-          error={Boolean(errors.imePrezime)}
-          helperText={errors.imePrezime as string}
+          value={values.name}
+          error={Boolean(errors.name)}
+          helperText={errors.name as string}
           onChange={handleChange}
-          {...getFields(t, 'imePrezime')}
+          {...getFields(t, 'name')}
+        />
+      </Grid>
+      <Grid item xs={12}>
+        <TextField
+          fullWidth
+          InputLabelProps={{ shrink: true }}
+          size={'small'}
+          value={values.jmbg}
+          error={Boolean(errors.jmbg)}
+          helperText={errors.jmbg as string}
+          onChange={(e) => {
+            const value = e.target.value.replace(/\D/g, '');
+            setFieldValue('jmbg', value);
+          }}
+          {...getFields(t, 'jmbg')}
+        />
+      </Grid>
+      <Grid item xs={12}>
+        <TextField
+          fullWidth
+          InputLabelProps={{ shrink: true }}
+          size={'small'}
+          name={'phone'}
+          value={values.phone}
+          error={Boolean(errors.phone)}
+          helperText={errors.phone as string}
+          onChange={handleChange}
+          InputProps={{
+            inputComponent: PhoneInput
+          }}
+          {...getFields(t, 'phone')}
         />
       </Grid>
       <Grid item xs={12}>
@@ -234,7 +252,7 @@ export default function Form(props: any) {
           {...getFields(t, 'email')}
         />
       </Grid>
-      {/* <Grid item xs={12}>
+      <Grid item xs={12}>
         <TextField
           fullWidth
           InputLabelProps={{ shrink: true }}
@@ -257,75 +275,96 @@ export default function Form(props: any) {
           }}
           {...getFields(t, 'password')}
         />
-      </Grid> */}
+      </Grid>
       <Grid item xs={12}>
         <TextField
           fullWidth
           InputLabelProps={{ shrink: true }}
           size={'small'}
-          name={'brojTelefona'}
-          value={values.brojTelefona}
-          error={Boolean(errors.brojTelefona)}
-          helperText={errors.brojTelefona as string}
+          name={'password_confirmation'}
+          autoComplete="new-password"
+          value={values.password_confirmation}
+          error={Boolean(errors.password_confirmation)}
+          helperText={errors.password_confirmation as string}
           onChange={handleChange}
+          type={password_confirmation.value ? 'text' : 'password'}
           InputProps={{
-            inputComponent: PhoneInput
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton onClick={password_confirmation.onToggle} edge="end" size={'small'}>
+                  <Icon icon={password_confirmation.value ? 'solar:eye-bold' : 'solar:eye-closed-bold'} />
+                </IconButton>
+              </InputAdornment>
+            ),
           }}
-          {...getFields(t, 'brojTelefona')}
+          {...getFields(t, 'password_confirmation')}
         />
       </Grid>
       <Grid item xs={12}>
-        <TextField
-          fullWidth
-          name={'grad'}
-          InputLabelProps={{ shrink: true }}
-          size={'small'}
-          value={values.grad}
-          error={Boolean(errors.grad)}
-          helperText={errors.grad as string}
-          onChange={handleChange}
-          {...getFields(t, 'grad')}
-        />
-      </Grid>
-      <Grid item xs={12}>
-        <TextField
-          fullWidth
-          name={'adresa'}
-          InputLabelProps={{ shrink: true }}
-          size={'small'}
-          value={values.adresa}
-          error={Boolean(errors.adresa)}
-          helperText={errors.adresa as string}
-          onChange={handleChange}
-          {...getFields(t, 'adresa')}
-        />
-      </Grid>
-      <Grid item xs={12}>
-        <FormControl fullWidth error={Boolean(errors.tip)}>
-          <InputLabel>{getFields(t, 'tip')?.label}</InputLabel>
-          <Select
-            size={'small'}
-            value={values.tip}
-            onChange={(e: any) => {
-              setFieldValue('tip', e.target.value);
+        <FormControl fullWidth error={Boolean(errors.city)}>
+          <DropdownAutocomplete
+            freeSolo={false}
+            multiple={false}
+            disableClearable
+            labelField={'name'}
+            label={getFields(t, 'city').label}
+            options={getCities()}
+            value={values.city}
+            onChange={(e, value) => {
+              e.preventDefault();
+              e.stopPropagation();
+
+              setFieldValue('city', value?.name || '');
             }}
-            {...getFields(t, 'tip')}
-          >
-            <MenuItem value={UpravnikType.DomaceLice}>{t('enums.upravnikType.domaceLice')}</MenuItem>
-            <MenuItem value={UpravnikType.ProfesionalniUpravnik}>{t('enums.upravnikType.profesionalniUpravnik')}</MenuItem>
-          </Select>
-          <FormHelperText>{errors.tip as string}</FormHelperText>
+            onInputChange={(e, value) => {}}
+            error={Boolean(errors.city)}
+          />
+          <FormHelperText>{errors.city as string}</FormHelperText>
+        </FormControl>
+      </Grid>
+      <Grid item xs={12}>
+        <TextField
+          fullWidth
+          name={'address'}
+          InputLabelProps={{ shrink: true }}
+          size={'small'}
+          value={values.address}
+          error={Boolean(errors.address)}
+          helperText={errors.address as string}
+          onChange={handleChange}
+          {...getFields(t, 'address')}
+        />
+      </Grid>
+      <Grid item xs={12}>
+        <FormControl fullWidth error={Boolean(errors.roles)}>
+          <DropdownAutocomplete
+            freeSolo={false}
+            multiple
+            disableClearable
+            label={getFields(t, 'roles').label}
+            options={getRoles()}
+            value={values.roles}
+            onChange={(e, value) => {
+              e.preventDefault();
+              e.stopPropagation();
+
+              setFieldValue('roles', value);
+            }}
+            onInputChange={(e, value) => {}}
+            error={Boolean(errors.roles)}
+          />
+          <FormHelperText>{errors.roles as string}</FormHelperText>
         </FormControl>
       </Grid>
       <Grid item xs={12}>
         <FormControlLabel
           control={<Switch
-            checked={values.isActive}
+            checked={values.is_active}
             onChange={(e: any) => {
-              setFieldValue('isActive', e.target.checked);
+              setFieldValue('is_active', e.target.checked);
             }}
           />}
-          {...getFields(t, 'isActive')}
+          {...getFields(t, 'is_active')}
         />
       </Grid>
     </React.Fragment>

@@ -42,6 +42,7 @@ const ICONS = {
   ecommerce: icon('ic_ecommerce'),
   analytics: icon('ic_analytics'),
   dashboard: icon('ic_dashboard'),
+  settings: <Iconify icon="solar:settings-bold-duotone" />,
 };
 
 
@@ -56,12 +57,12 @@ const NAV_ITEMS_BY_ROLE = {
     {
       title: 'menu.Resident.settings',
       path: '/settings',
-      icon: ICONS.invoice,
+      icon: ICONS.settings,
     },
     {
-      title: 'menu.Resident.category',
-      path: '/sifarnici/kategorija-list',
-      icon: ICONS.job,
+      title: 'menu.Resident.users',
+      path: '/users',
+      icon: ICONS.user,
     },
   ],
 
@@ -74,11 +75,11 @@ const NAV_ITEMS_BY_ROLE = {
     {
       title: 'menu.Manager.settings',
       path: '/settings',
-      icon: ICONS.banking,
+      icon: ICONS.settings,
     },
     {
-      title: 'menu.Manager.category',
-      path: '/sifarnici/kategorija-list',
+      title: 'menu.Manager.users',
+      path: '/users',
       icon: ICONS.user,
     },
     {
@@ -97,12 +98,12 @@ const NAV_ITEMS_BY_ROLE = {
     {
       title: 'menu.OrganizationAdmin.settings',
       path: '/settings',
-      icon: ICONS.user,
+      icon: ICONS.settings,
     },
     {
-      title: 'menu.OrganizationAdmin.category',
-      path: '/sifarnici/kategorija-list',
-      icon: ICONS.banking,
+      title: 'menu.OrganizationAdmin.users',
+      path: '/users',
+      icon: ICONS.user,
     },
     {
       title: 'menu.OrganizationAdmin.reports',
@@ -120,12 +121,12 @@ const NAV_ITEMS_BY_ROLE = {
     {
       title: 'menu.SuperAdmin.settings',
       path: '/settings',
-      icon: ICONS.user,
+      icon: ICONS.settings,
     },
     {
-      title: 'menu.SuperAdmin.category',
-      path: '/sifarnici/kategorija-list',
-      icon: ICONS.banking,
+      title: 'menu.SuperAdmin.users',
+      path: '/users',
+      icon: ICONS.user,
     },
     {
       title: 'menu.SuperAdmin.reports',
@@ -143,12 +144,12 @@ const NAV_ITEMS_BY_ROLE = {
     {
       title: 'menu.Accountant.settings',
       path: '/settings',
-      icon: ICONS.user,
+      icon: ICONS.settings,
     },
     {
-      title: 'menu.Accountant.category',
-      path: '/sifarnici/kategorija-list',
-      icon: ICONS.banking,
+      title: 'menu.Accountant.users',
+      path: '/users',
+      icon: ICONS.user,
     },
     {
       title: 'menu.Accountant.reports',
@@ -166,12 +167,12 @@ const NAV_ITEMS_BY_ROLE = {
     {
       title: 'menu.Worker.settings',
       path: '/settings',
-      icon: ICONS.user,
+      icon: ICONS.settings,
     },
     {
-      title: 'menu.Worker.category',
-      path: '/sifarnici/kategorija-list',
-      icon: ICONS.banking,
+      title: 'menu.Worker.users',
+      path: '/users',
+      icon: ICONS.user,
     },
     {
       title: 'menu.Worker.reports',
@@ -189,12 +190,12 @@ const NAV_ITEMS_BY_ROLE = {
     {
       title: 'menu.Technician.settings',
       path: '/settings',
-      icon: ICONS.user,
+      icon: ICONS.settings,
     },
     {
-      title: 'menu.Technician.category',
-      path: '/sifarnici/kategorija-list',
-      icon: ICONS.banking,
+      title: 'menu.Technician.users',
+      path: '/users',
+      icon: ICONS.user,
     },
     {
       title: 'menu.Technician.reports',
@@ -212,12 +213,12 @@ const NAV_ITEMS_BY_ROLE = {
     {
       title: 'menu.Cleaner.settings',
       path: '/settings',
-      icon: ICONS.user,
+      icon: ICONS.settings,
     },
     {
-      title: 'menu.Cleaner.category',
-      path: '/sifarnici/kategorija-list',
-      icon: ICONS.banking,
+      title: 'menu.Cleaner.users',
+      path: '/users',
+      icon: ICONS.user,
     },
     {
       title: 'menu.Cleaner.reports',
