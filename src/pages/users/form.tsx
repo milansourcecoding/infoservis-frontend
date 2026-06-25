@@ -52,7 +52,7 @@ import { AppDispatch, useTypedSelector } from '../../utils/store.tsx';
 import slice, { name as sliceName, getFields, useFormik, FormikContext, formSchema, initialValues, prepareForm, prepareData } from './slice.tsx';
 // import selectAutocompleteSlice from '../../components/autocomplete/selectAutocompleteSlice.tsx';
 
-import { formatPhoneNumnber, getRoles, getCities } from '../../utils/utils.tsx';
+import { formatPhoneNumnber, getRoles, getCities, escapeChars } from '../../utils/utils.tsx';
 // import {  } from '../../utils/enums.tsx';
 
 // ----------------------------------------------------------------------
@@ -82,17 +82,11 @@ export default function Form(props: any) {
 
   React.useEffect(() => {
     if(show){
+      resetSubmitted();
+
       if(id && id > 0){
         dispatch(slice.callDetailsApi(id, (state: boolean, data: any, message: string) => {}));
-      } else {
-        setTimeout(() => {
-          setErrors({});
-        }, 0);
       }
-    } else {
-      setTimeout(() => {
-        setErrors({});
-      }, 0);
     }
   }, [show, id]);
 
@@ -114,7 +108,7 @@ export default function Form(props: any) {
     validateOnChange: false,
     onSubmit: (values: any) => onSubmit(values),
   });
-  const { values, errors, setErrors, resetForm, handleChange, setFieldValue, handleSubmit }: any = formik;
+  const { values, errors, setErrors, resetForm, handleChange, setFieldValue, handleSubmit, resetSubmitted }: any = formik;
 
 
   const onSubmit = (values: any) => {
@@ -203,10 +197,11 @@ export default function Form(props: any) {
           error={Boolean(errors.name)}
           helperText={errors.name as string}
           onChange={handleChange}
+          onKeyDown={escapeChars}
           {...getFields(t, 'name')}
         />
       </Grid>
-      <Grid item xs={12}>
+      <Grid item xs={12} md={6}>
         <TextField
           fullWidth
           InputLabelProps={{ shrink: true }}
@@ -221,7 +216,7 @@ export default function Form(props: any) {
           {...getFields(t, 'jmbg')}
         />
       </Grid>
-      <Grid item xs={12}>
+      <Grid item xs={12} md={6}>
         <TextField
           fullWidth
           InputLabelProps={{ shrink: true }}
@@ -252,7 +247,7 @@ export default function Form(props: any) {
           {...getFields(t, 'email')}
         />
       </Grid>
-      <Grid item xs={12}>
+      <Grid item xs={12} md={6}>
         <TextField
           fullWidth
           InputLabelProps={{ shrink: true }}
@@ -267,7 +262,7 @@ export default function Form(props: any) {
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
-                <IconButton onClick={password.onToggle} edge="end" size={'small'}>
+                <IconButton tabIndex={-1} onClick={password.onToggle} edge="end" size={'small'}>
                   <Icon icon={password.value ? 'solar:eye-bold' : 'solar:eye-closed-bold'} />
                 </IconButton>
               </InputAdornment>
@@ -276,7 +271,7 @@ export default function Form(props: any) {
           {...getFields(t, 'password')}
         />
       </Grid>
-      <Grid item xs={12}>
+      <Grid item xs={12} md={6}>
         <TextField
           fullWidth
           InputLabelProps={{ shrink: true }}
@@ -291,7 +286,7 @@ export default function Form(props: any) {
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
-                <IconButton onClick={password_confirmation.onToggle} edge="end" size={'small'}>
+                <IconButton tabIndex={-1} onClick={password_confirmation.onToggle} edge="end" size={'small'}>
                   <Icon icon={password_confirmation.value ? 'solar:eye-bold' : 'solar:eye-closed-bold'} />
                 </IconButton>
               </InputAdornment>
@@ -300,7 +295,7 @@ export default function Form(props: any) {
           {...getFields(t, 'password_confirmation')}
         />
       </Grid>
-      <Grid item xs={12}>
+      <Grid item xs={12} md={6}>
         <FormControl fullWidth error={Boolean(errors.city)}>
           <DropdownAutocomplete
             freeSolo={false}
@@ -322,7 +317,7 @@ export default function Form(props: any) {
           <FormHelperText>{errors.city as string}</FormHelperText>
         </FormControl>
       </Grid>
-      <Grid item xs={12}>
+      <Grid item xs={12} md={6}>
         <TextField
           fullWidth
           name={'address'}
@@ -379,7 +374,7 @@ export default function Form(props: any) {
     }}
     PaperProps={{
       sx: {
-        width: 400,
+        width: '40%',
         backgroundColor: 'white'
       },
     }}
@@ -389,7 +384,6 @@ export default function Form(props: any) {
           position: 'sticky',
           top: '0px',
           zIndex: 2,
-          backgroundColor: '#f4f6f8',
           margin: '0px',
         }}
       >
@@ -412,8 +406,8 @@ export default function Form(props: any) {
       </Box>
 
       <DialogContent sx={{ backgroundColor: 'white' }}>
-        <Box sx={{ mt: 2, mb: 2, paddingBottom: '50px', height: 'calc(100vh - 178px)' }}>
-          <Grid container spacing={2}>{form()}</Grid>
+        <Box sx={{ mt: 3, mb: 3, paddingBottom: '50px', height: 'calc(100vh - 178px)' }}>
+          <Grid container spacing={2.5}>{form()}</Grid>
         </Box>
       </DialogContent>
 
@@ -422,7 +416,6 @@ export default function Form(props: any) {
           bottom: '0px',
           width: '100%',
           zIndex: 2,
-          backgroundColor: '#f4f6f8',
           margin: '0px',
         }}
       >

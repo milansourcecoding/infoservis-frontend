@@ -51,6 +51,7 @@ export default function DropdownAutocomplete({
       freeSolo={freeSolo}
       multiple={multiple}
       disableClearable={disableClearable}
+      disableCloseOnSelect={multiple}
       size={'small'}
 
       open={isOpen}

@@ -19,7 +19,7 @@ import InputAdornment from '@mui/material/InputAdornment';
 
 import CustomPopover, { usePopover } from 'src/components/custom-popover';
 
-import { downloadPDF, viewPDF, downloadCSV } from '../../utils/utils.tsx';
+import { downloadPDF, viewPDF, downloadCSV, escapeChars, escapeCharsInStringOnPaste } from '../../utils/utils.tsx';
 
 // Redux
 import { useDispatch } from 'react-redux';
@@ -28,7 +28,7 @@ import listSlice from '../../utils/slice/form/listSlice.tsx';
 
 // ----------------------------------------------------------------------
 
-export default function BasicSearchToolbar({ path, title, onSearch, extraFilterComponent, preFilterComponent }: any) {
+export default function BasicSearchToolbar({ path, title, onSearch, extraFilterComponent, preFilterComponent, disabled = false }: any) {
   const { t } = useLocales();
 
   const popover = usePopover();
@@ -72,7 +72,19 @@ export default function BasicSearchToolbar({ path, title, onSearch, extraFilterC
               size={'small'}
               value={search ? search : ''}
               onChange={handleInputChange}
+              onKeyDown={(e) => {
+                escapeChars(e);
+              }}
+              onPaste={(e: React.ClipboardEvent<HTMLInputElement>) => {
+                e.preventDefault();
+
+                const pastedText = e.clipboardData.getData('text');
+                const cleanedText = escapeCharsInStringOnPaste(pastedText);
+
+                dispatch(listSlice.changeSearch(cleanedText));
+              }}
               placeholder={t('search')}
+              disabled={disabled}
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
@@ -89,7 +101,7 @@ export default function BasicSearchToolbar({ path, title, onSearch, extraFilterC
             <Grid item xs />
           </Hidden>
           <Grid item xs={'auto'}>
-            <IconButton onClick={popover.onOpen}>
+            <IconButton disabled={disabled} onClick={popover.onOpen}>
               <Icon icon={'eva:more-vertical-fill'} />
             </IconButton>
           </Grid>
@@ -169,4 +181,5 @@ BasicSearchToolbar.propTypes = {
   onSearch: PropTypes.func,
   extraFilterComponent: PropTypes.element,
   preFilterComponent: PropTypes.element,
+  disabled: PropTypes.bool,
 };

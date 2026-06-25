@@ -109,7 +109,7 @@
   },
 
   "search": "Pretraga...",
-  "resultsFound": "rezultata pronadjeno",
+  "resultsFound": "rezultata",
 
   "stavke": "Stavke",
   "ukupno": "Ukupno",
@@ -141,6 +141,8 @@
   },
 
   "status": {
+    "search": "Pretraga:",
+    "filter": "Filter:",
     "label": "Status:",
     "all": "Sve",
     "active": "Aktivni",

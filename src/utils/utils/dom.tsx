@@ -70,3 +70,10 @@ export const escapeChars = (e: any = null) => {
 
   return false;
 }
+export const escapeCharsInStringOnPaste = (str: any = '') => {
+  let cleanedText = str;
+  CHARACTERS.forEach((character) => {
+      cleanedText = cleanedText.split(character).join('');
+  });
+  return cleanedText;
+}

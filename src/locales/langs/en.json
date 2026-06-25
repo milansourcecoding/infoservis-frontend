@@ -109,7 +109,7 @@
   },
 
   "search": "Search...",
-  "resultsFound": "results found",
+  "resultsFound": "results",
   
   "stavke": "items",
   "ukupno": "Total",
@@ -141,6 +141,8 @@
   },
 
   "status": {
+    "search": "Search:",
+    "filter": "Filter:",
     "label": "Status:",
     "all": "All",
     "active": "Active",

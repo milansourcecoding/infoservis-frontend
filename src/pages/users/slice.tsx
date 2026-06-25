@@ -19,7 +19,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import axios from '../../utils/axios.jsx';
 import Yup from '../../utils/yup.tsx';
-import { isNumeric } from '../../utils/utils.tsx';
+import { isNumeric, getRoles } from '../../utils/utils.tsx';
 // import {  } from '../../utils/enums.tsx';
 
 
@@ -197,7 +197,7 @@ export const prepareForm = (values: any = null, defValues: any = null) => {
     data['password'] = '';
     data['password_confirmation'] = '';
     
-    let roles = (values?.roles && values?.roles.length > 0) ? values?.roles.map((x: any) => ({ id: x, value: x })) : [];
+    let roles = (values?.roles && values?.roles.length > 0) ? values?.roles.map((x: any) => ({ id: x, value: (getRoles().find((y: any) => y.id === x)?.value || x) })) : [];
     data['roles'] = roles;
 
     data['is_active'] = form?.is_active || false;
@@ -312,24 +312,10 @@ function NewReducer() {
       state.details = action.payload;
     },
 
-    startCreate: (state: InitState) => {
+    start: (state: InitState) => {
       state.isLoading = true;
     },
-    finishCreate: (state: InitState, action: PayloadAction<any>) => {
-      state.isLoading = false;
-    },
-
-    startUpdate: (state: InitState) => {
-      state.isLoading = true;
-    },
-    finishUpdate: (state: InitState, action: PayloadAction<any>) => {
-      state.isLoading = false;
-    },
-
-    startDelete: (state: InitState) => {
-      state.isLoading = true;
-    },
-    finishDelete: (state: InitState, action: PayloadAction<any>) => {
+    finish: (state: InitState, action: PayloadAction<any>) => {
       state.isLoading = false;
     },
   };
@@ -369,50 +355,50 @@ function NewReducer() {
     },
 
     callCreateApi: (params: any, callback: (state: boolean, data: any, message: string) => void) => async (dispatch: any) => {
-      dispatch(actions.startCreate());
+      dispatch(actions.start());
 
       await axios.post(API, params).then((result: any) => {
         const { data, message } = result.data;
 
         callback(true, data, message);
-        dispatch(actions.finishCreate(data));
+        dispatch(actions.finish(data));
       }).catch((error: any) => {
         const { message } = error;
 
         callback(false, null, message);
-        dispatch(actions.finishCreate(null));
+        dispatch(actions.finish(null));
       });
     },
 
     callUpdateApi: (params: any, callback: (state: boolean, data: any, message: string) => void) => async (dispatch: any) => {
-      dispatch(actions.startUpdate());
+      dispatch(actions.start());
 
       await axios.put(API + '/' + params?.id, params).then((result: any) => {
         const { data, message } = result.data;
 
         callback(true, data, message);
-        dispatch(actions.finishUpdate(data));
+        dispatch(actions.finish(data));
       }).catch((error: any) => {
         const { message } = error;
 
         callback(false, null, message);
-        dispatch(actions.finishUpdate(null));
+        dispatch(actions.finish(null));
       });
     },
 
     callDeleteApi: (params: any, callback: (state: boolean, data: any, message: string) => void) => async (dispatch: any) => {
-      dispatch(actions.startDelete());
+      dispatch(actions.start());
 
       await axios.delete(API + '/' + params?.id, { data: params }).then((result: any) => {
         const { data, message } = result.data;
 
         callback(true, data, message);
-        dispatch(actions.finishDelete(data));
+        dispatch(actions.finish(data));
       }).catch((error: any) => {
         const { message } = error;
 
         callback(false, null, message);
-        dispatch(actions.finishDelete(null));
+        dispatch(actions.finish(null));
       });
     },
   };

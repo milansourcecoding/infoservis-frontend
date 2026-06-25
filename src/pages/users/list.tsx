@@ -14,8 +14,6 @@ import { Icon } from '@iconify/react';
 import { useLocales } from 'src/locales';
 
 // @mui
-import { alpha } from '@mui/material/styles';
-
 import {
   Tab,
   Tabs,
@@ -30,6 +28,7 @@ import {
   Select,
   MenuItem,
 } from '@mui/material';
+import { alpha } from '@mui/material/styles';
 // import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 // import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 // import { startOfWeek, endOfWeek } from 'date-fns'
@@ -38,7 +37,6 @@ import {
 
 import {
   useTable,
-  emptyRows,
   TableNoData,
   TableEmptyRows,
   TableHeadCustom,
@@ -46,18 +44,15 @@ import {
   TablePaginationCustom,
 } from 'src/components/table';
 
-import ListRow from './listRow.tsx';
+// components
 import BasicSearchToolbar from '../../components/toolbar/basicSearchToolbar.tsx';
 import BasicTabsToolbar from '../../components/toolbar/basicTabsToolbar.tsx';
-
-// components
 import MainContainer from 'src/components/container/MainContainer.tsx';
 import CustomBreadcrumbs from 'src/components/custom-breadcrumbs/index.js';
 import Label from 'src/components/label/index.js';
 import Scrollbar from 'src/components/scrollbar/index.js';
 
-import Form from './form.tsx';
-
+// utils
 import { removeRow, createRow, updateRow, downloadPDF, viewPDF, downloadCSV } from '../../utils/utils.tsx';
 import { RoleType, RemoveAction } from '../../utils/enums.tsx';
 
@@ -69,42 +64,42 @@ import listSlice from '../../utils/slice/form/listSlice.tsx';
 import removeSlice from '../../utils/slice/remove/removeSlice.tsx';
 import RemovePopup from '../../utils/slice/remove/removePopup.tsx';
 
+import Form from './form.tsx';
+import ListRow from './listRow.tsx';
+
 // ----------------------------------------------------------------------
 
 const List = () => {
   const { t } = useLocales();
 
-  const DEFAULT_FILTER = 1;
-  const MAIN_STATUS = 'active';
+  const DEFAULT_IS_ACTIVE = 1;
+  const DEFAULT_TAB_VALUE = 'active';
+  const DEFAULT_TAB_LABEL = t('status.active') ;
+  const defaultFilters = { value: DEFAULT_TAB_VALUE, label: DEFAULT_TAB_LABEL };
 
   const TABLE_HEAD = [
-    { id: 'name', label: getFields(t, 'name')?.label },
-    { id: 'address', label: getFields(t, 'address')?.label },
-    { id: 'phone', label: getFields(t, 'phone')?.label },
-    { id: 'jmbg', label: getFields(t, 'jmbg')?.label },
-    { id: 'roles', label: getFields(t, 'roles')?.label, disableSort: true },
-    { id: 'isActive', label: getFields(t, 'is_active')?.label },
-    { id: 'registered_at', label: t('table.registered_at'), width: 180, disableSort: true },
+    { id: 'name', label: getFields(t, 'name')?.label, disableSort: false },
+    { id: 'address', label: getFields(t, 'address')?.label, disableSort: false },
+    { id: 'phone', label: getFields(t, 'phone')?.label, disableSort: false },
+    { id: 'jmbg', label: getFields(t, 'jmbg')?.label, disableSort: false },
+    { id: 'roles', label: getFields(t, 'roles')?.label, width: 300, disableSort: false },
+    { id: 'isActive', label: getFields(t, 'is_active')?.label, disableSort: false },
+    { id: 'created_at', label: t('table.registered_at'), width: 180, disableSort: false },
     { id: '', width: 50 },
   ];
 
-  const defaultFilters = {
-    name: '',
-    role: [],
-    status: MAIN_STATUS,
-  };
 
   const { isLoading, rows, total, page, per_page, sortColumn, sortDir, search, stats, customField, from, to } = useTypedSelector((state: RootState) => state.listSlice);
   const dispatch = useDispatch<AppDispatch>();
 
 
   useEffect(() => {
-    dispatch(listSlice.changeIsActive(DEFAULT_FILTER));
+    dispatch(listSlice.changeIsActive(DEFAULT_IS_ACTIVE));
     // dispatch(listSlice.calStatsApi(API, search));
     const statsData = [
-      { value: 'all', label: 'All', count: 1 },
-      { value: 'active', label: 'Active', count: 1 },
-      { value: 'inactive', label: 'Inactive', count: 1 },
+      { value: 'all', label: t('status.all'), count: total },
+      { value: 'active', label: t('status.active'), count: 1 },
+      { value: 'inactive', label: t('status.inactive'), count: 0 },
     ];
     dispatch(listSlice.finishStats({ data: statsData, msg: '', state: true}));
     dispatch(listSlice.calReadApi(API));
@@ -121,31 +116,149 @@ const List = () => {
   const notFound = (!(rows && rows.length > 0) && canReset) || !(rows && rows.length > 0);
 
 
-  const handleFilters = useCallback(
-    (name: any, value: any) => {
+  const onChangeTab = useCallback(
+    (value: any) => {
       table.onResetPage();
       setFilters((prevState) => {
-        const lbl = stats.find((x: any) => x.value === value);
+        const itm = stats.find((x: any) => x.value === value);
         return {
           ...prevState,
-          [name]: value,
-          label: lbl ? lbl.label : value
+          value,
+          label: itm ? itm.label : value
         }
       });
 
       const isActive = (value === 'all') ? null : (value === 'active') ? 1 : 0;
       dispatch(listSlice.changeIsActive(isActive));
-
       dispatch(listSlice.calReadApi(API));
     },
     [table]
   );
 
 
-  const extraFilterComponent = () => {
+  const breadcrumbsElement = () => {
+    return <CustomBreadcrumbs
+      heading={t(LANGUAGE + '.list')}
+      links={[
+
+        { name: t('menu.dashboard'), href: '/dashboard' },
+        { name: t('form.listTitle') }
+      ]}
+      action={
+        <Button
+          variant="contained"
+          startIcon={<Icon icon={'mingcute:add-line'} />}
+          disabled={table.selected.length > 0}
+          onClick={() => {
+            dispatch(slice.setShow({ show: true, id: null, payload: null }))
+          }}
+        >
+          {t('buttons.add')}
+        </Button>
+      }
+      sx={{
+        mb: { xs: 3, md: 5 },
+      }}
+      moreLink={null}
+      activeLast={null}
+    />
+  }
+
+  const tabsElement = () => {
+    return <Tabs
+      value={filters.value}
+      onChange={(e: any, newValue: any) => {
+        onChangeTab(newValue);
+      }}
+      sx={{
+        px: 2.5,
+        boxShadow: (theme) => `inset 0 -2px 0 0 ${alpha(theme.palette.grey[500], 0.08)}`,
+      }}
+    >
+      {stats.map((tab) => (
+        <Tab
+          key={tab.value}
+          disabled={table.selected.length > 0}
+          iconPosition="end"
+          value={tab.value}
+          label={tab.label}
+          icon={
+            <Label
+              variant={
+                ((tab.value === 'all' || tab.value === filters.value) && 'filled') || 'soft'
+              }
+              color={
+                (tab.value === 'active' && 'success') ||
+                (tab.value === 'inactive' && 'error') ||
+                'default'
+              }
+            >
+              {tab.value === 'all' && tab.count}
+              {tab.value === 'active' && tab.count}
+              {tab.value === 'inactive' && tab.count}
+            </Label>
+          }
+        />
+      ))}
+    </Tabs>
+  }
+
+  const searchElement = () => {
+    return <BasicSearchToolbar
+      path={API}
+      title={t(LANGUAGE + '.title')}
+      disabled={table.selected.length > 0}
+      onSearch={(searchValue: any) => {
+        if(searchValue != null){
+          dispatch(listSlice.changePage(1));
+          dispatch(listSlice.changeSearch(searchValue));
+          if(searchValue === ''){
+            dispatch(listSlice.changeCustomField({ customField, customFieldValue: ((customField != '') ? '' : null) }));
+          }
+          dispatch(listSlice.calReadApi(API));
+          // dispatch(listSlice.calStatsApi(API, searchValue));
+        }
+      }}
+      extraFilterComponent={extraFilterElement()}
+    />
+  }
+
+  const tabsToolbarElement = () => {
+    return <>
+      {/* {(canReset) && <BasicTabsToolbar */}
+      <BasicTabsToolbar
+        mainStatus={DEFAULT_TAB_VALUE}
+        filters={filters}
+        search={search}
+        customField={{ value: customField, label: getFilterOptions(t).find((x: any) => x?.id === customField)?.label }}
+        disabled={table.selected.length > 0}
+        onChangeTab={onChangeTab}
+        onRemoveSearch={() => {
+          dispatch(listSlice.changeSearch(null));
+          dispatch(listSlice.calReadApi(API));
+        }}
+        onRemoveCustomField={() => {
+          dispatch(listSlice.changeCustomField({ customField: null, customFieldValue: null }));
+          dispatch(listSlice.calReadApi(API));
+        }}
+        onResetFilters={() => {
+          setFilters(defaultFilters);
+
+          dispatch(listSlice.changeIsActive(DEFAULT_IS_ACTIVE));
+          dispatch(listSlice.changeCustomField({ customField: null, customFieldValue: null }));
+          dispatch(listSlice.changeSearch(null));
+          dispatch(listSlice.calReadApi(API));
+        }}
+        results={(rows && rows.length > 0) ? rows.length : 0}
+      />
+    </>
+  }
+
+  const extraFilterElement = () => {
     return <FormControl fullWidth>
       <Select
         size={'small'}
+        disabled={table.selected.length > 0}
         value={customField ?? 'all'}
         placeholder={t('status.all')}
         renderValue={(selected) => (selected !== 'all') ? selected : t('status.all')}
@@ -167,273 +280,177 @@ const List = () => {
     </FormControl>
   }
 
-
-  return <MainContainer title={t(LANGUAGE + '.title')} roles={Object.values(RoleType)}>
-    <CustomBreadcrumbs
-      heading={t(LANGUAGE + '.list')}
-      links={[
-
-        { name: t('menu.dashboard'), href: '/dashboard' },
-        { name: t('form.listTitle') }
-      ]}
-      action={
-        <Button
-          variant="contained"
-          startIcon={<Icon icon={'mingcute:add-line'} />}
-          onClick={() => {
-            dispatch(slice.setShow({ show: true, id: null, payload: null }))
-          }}
-        >
-          {t('buttons.add')}
-        </Button>
-      }
-      sx={{
-        mb: { xs: 3, md: 5 },
+  const tableActionElement = () => {
+    return <TableSelectedAction
+      sx={null}
+      dense={table.dense}
+      numSelected={table.selected.length}
+      rowCount={(rows && rows.length > 0) ? rows.length : 0}
+      onSelectAllRows={(checked: boolean) => {
+        table.onSelectAllRows(checked, rows.map((row: any) => row.id))
       }}
-      moreLink={null}
-      activeLast={null}
+      action={
+        <>
+          <Tooltip title={t('buttons.exportCSV')}>
+            <IconButton color="primary" onClick={() => {
+              const title = t(LANGUAGE + '.title');
+              const params: any = { title, orientation: 'portrait', ids: table.selected.join(',') };
+              dispatch(listSlice.calGenerateCSVApi(params, API, (_data: any|null, _state: boolean|null) => {
+                if(_state){
+                  downloadCSV(title, _data);
+                }
+              }))
+            }}>
+              <Icon icon={'ph:file-csv-bold'} />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title={t('buttons.exportPdf')}>
+            <IconButton color="primary" onClick={() => {
+              const title = t(LANGUAGE + '.title');
+              const params: any = { title, orientation: 'portrait', ids: table.selected.join(',') };
+              dispatch(listSlice.calGeneratePDFApi(params, API, (_data: any|null, _state: boolean|null) => {
+                if(_state){
+                  downloadPDF(title, _data);
+                }
+              }))
+            }}>
+              <Icon icon={'ph:file-pdf-bold'} />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title={t('buttons.print')}>
+            <IconButton color="primary" onClick={() => {
+              const title = t(LANGUAGE + '.title');
+              const params: any = { title, orientation: 'portrait', ids: table.selected.join(',') };
+              dispatch(listSlice.calGeneratePDFApi(params, API, (_data: any|null, _state: boolean|null) => {
+                if(_state){
+                  viewPDF(_data);
+                }
+              }))
+            }}>
+              <Icon icon={'solar:printer-minimalistic-bold'} />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title={t('buttons.deactivate')}>
+            <IconButton color="primary" onClick={() => {
+              const text = `${t('deactivatePopup.questionBatch1')} ${table.selected.length} ${t('deactivatePopup.questionBatch2')}`;
+              const btn = `${t('buttons.deactivate')}`;
+              const ids = table.selected.join(',');
+              dispatch(removeSlice.show({ type: RemoveAction.Deactivate, params: { ids, isActive: false }, title: t('deactivatePopup.title'), text, btn, ids, isBatch: true }))
+            }}>
+              <Icon icon={'fluent:checkbox-unchecked-16-filled'} />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title={t('buttons.activate')}>
+            <IconButton color="primary" onClick={() => {
+              const text = `${t('activatePopup.questionBatch1')} ${table.selected.length} ${t('activatePopup.questionBatch2')}`;
+              const btn = `${t('buttons.activate')}`;
+              const ids = table.selected.join(',');
+              dispatch(removeSlice.show({ type: RemoveAction.Activate, params: { ids, isActive: true }, title: t('activatePopup.title'), text, btn, ids, isBatch: true }))
+            }}>
+              <Icon icon={'fluent:checkbox-checked-16-filled'} />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title={t('buttons.remove')}>
+            <IconButton color="primary" onClick={() => {
+              const text = `${t('deletePopup.questionBatch1')} ${table.selected.length} ${t('deletePopup.questionBatch2')}`;
+              const btn = `${t('buttons.remove')}`;
+              const ids = table.selected.join(',');
+              dispatch(removeSlice.show({ type: RemoveAction.Delete, params: { ids }, title: t('deletePopup.title'), text, btn, ids, isBatch: true }))
+            }}>
+              <Icon icon={'solar:trash-bin-trash-bold'} />
+            </IconButton>
+          </Tooltip>
+        </>
+      }
     />
+  }
 
-    <Card>
-      <Tabs
-        value={filters.status}
-        onChange={(e: any, newValue: any) => {
-          handleFilters('status', newValue);
-
-          if(newValue === 'all'){
-            dispatch(listSlice.changeIsActive(null));
-            dispatch(listSlice.calReadApi(API));
-          } else {
-            dispatch(listSlice.calReadApi(API));
-          }
-        }}
-        sx={{
-          px: 2.5,
-          boxShadow: (theme) => `inset 0 -2px 0 0 ${alpha(theme.palette.grey[500], 0.08)}`,
-        }}
-      >
-        {stats.map((tab) => (
-          <Tab
-            key={tab.value}
-            iconPosition="end"
-            value={tab.value}
-            label={tab.label}
-            icon={
-              <Label
-                variant={
-                  ((tab.value === 'all' || tab.value === filters.status) && 'filled') || 'soft'
-                }
-                color={
-                  (tab.value === 'active' && 'success') ||
-                  (tab.value === 'inactive' && 'error') ||
-                  'default'
-                }
-              >
-                {tab.value === 'all' && tab.count}
-                {tab.value === 'active' && tab.count}
-                {tab.value === 'inactive' && tab.count}
-              </Label>
-            }
-          />
-        ))}
-      </Tabs>
-
-      <BasicSearchToolbar
-        path={API}
-        title={t(LANGUAGE + '.title')}
-        onSearch={(searchValue: any) => {
-          dispatch(listSlice.changePage(1));
-          dispatch(listSlice.changeSearch(searchValue));
-          if(searchValue === ''){
-            dispatch(listSlice.changeCustomField({ customField, customFieldValue: ((customField != '') ? '' : null) }));
-          }
-          dispatch(listSlice.calReadApi(API));
-          // dispatch(listSlice.calStatsApi(API, searchValue));
-        }}
-        extraFilterComponent={extraFilterComponent()}
-      />
-
-      {canReset && (
-        <BasicTabsToolbar
-          mainStatus={MAIN_STATUS}
-          filters={filters}
-          onFilters={handleFilters}
-          onResetFilters={() => {
-            setFilters(defaultFilters);
-
-            dispatch(listSlice.changeIsActive(DEFAULT_FILTER));
-            dispatch(listSlice.changeSearch(null));
+  const tableElement = () => {
+    return <Scrollbar>
+      <Table size={table.dense ? 'small' : 'medium'} sx={{ minWidth: 960 }}>
+        <TableHeadCustom
+          order={sortDir}
+          orderBy={sortColumn}
+          headLabel={TABLE_HEAD}
+          rowCount={(rows && rows.length > 0) ? rows.length : 0}
+          numSelected={table.selected.length}
+          freeze
+          onSort={(id: any, order: any) => {
+            dispatch(listSlice.changeSort({ sortColumn: id, sortDir: (order === 'asc' ? 'desc' : 'asc') }));
             dispatch(listSlice.calReadApi(API));
           }}
-          results={rows.length}
-        />
-      )}
-
-      <TableContainer sx={{ position: 'relative', overflow: 'unset' }}>
-        <TableSelectedAction
-          sx={null}
-          dense={table.dense}
-          numSelected={table.selected.length}
-          rowCount={(rows && rows.length > 0) ? rows.length : 0}
-          onSelectAllRows={(checked: boolean) => {
+          onSelectAllRows={(checked) =>
             table.onSelectAllRows(
               checked,
               rows.map((row: any) => row.id)
             )
-          }}
-          action={
-            <>
-              <Tooltip title={t('buttons.exportCSV')}>
-                <IconButton color="primary" onClick={() => {
-                  const title = t(LANGUAGE + '.title');
-                  const params: any = { title, orientation: 'portrait', ids: table.selected.join(',') };
-                  dispatch(listSlice.calGenerateCSVApi(params, API, (_data: any|null, _state: boolean|null) => {
-                    if(_state){
-                      downloadCSV(title, _data);
-                    }
-                  }))
-                }}>
-                  <Icon icon={'ph:file-csv-bold'} />
-                </IconButton>
-              </Tooltip>
-              <Tooltip title={t('buttons.exportPdf')}>
-                <IconButton color="primary" onClick={() => {
-                  const title = t(LANGUAGE + '.title');
-                  const params: any = { title, orientation: 'portrait', ids: table.selected.join(',') };
-                  dispatch(listSlice.calGeneratePDFApi(params, API, (_data: any|null, _state: boolean|null) => {
-                    if(_state){
-                      downloadPDF(title, _data);
-                    }
-                  }))
-                }}>
-                  <Icon icon={'ph:file-pdf-bold'} />
-                </IconButton>
-              </Tooltip>
-              <Tooltip title={t('buttons.print')}>
-                <IconButton color="primary" onClick={() => {
-                  const title = t(LANGUAGE + '.title');
-                  const params: any = { title, orientation: 'portrait', ids: table.selected.join(',') };
-                  dispatch(listSlice.calGeneratePDFApi(params, API, (_data: any|null, _state: boolean|null) => {
-                    if(_state){
-                      viewPDF(_data);
-                    }
-                  }))
-                }}>
-                  <Icon icon={'solar:printer-minimalistic-bold'} />
-                </IconButton>
-              </Tooltip>
-              <Tooltip title={t('buttons.deactivate')}>
-                <IconButton color="primary" onClick={() => {
-                  const text = `${t('deactivatePopup.questionBatch1')} ${table.selected.length} ${t('deactivatePopup.questionBatch2')}`;
-                  const btn = `${t('buttons.deactivate')}`;
-                  const ids = table.selected.join(',');
-                  dispatch(removeSlice.show({ type: RemoveAction.Deactivate, params: { ids, isActive: false }, title: t('deactivatePopup.title'), text, btn, ids, isBatch: true }))
-                }}>
-                  <Icon icon={'fluent:checkbox-unchecked-16-filled'} />
-                </IconButton>
-              </Tooltip>
-              <Tooltip title={t('buttons.activate')}>
-                <IconButton color="primary" onClick={() => {
-                  const text = `${t('activatePopup.questionBatch1')} ${table.selected.length} ${t('activatePopup.questionBatch2')}`;
-                  const btn = `${t('buttons.activate')}`;
-                  const ids = table.selected.join(',');
-                  dispatch(removeSlice.show({ type: RemoveAction.Activate, params: { ids, isActive: true }, title: t('activatePopup.title'), text, btn, ids, isBatch: true }))
-                }}>
-                  <Icon icon={'fluent:checkbox-checked-16-filled'} />
-                </IconButton>
-              </Tooltip>
-              <Tooltip title={t('buttons.remove')}>
-                <IconButton color="primary" onClick={() => {
-                  const text = `${t('deletePopup.questionBatch1')} ${table.selected.length} ${t('deletePopup.questionBatch2')}`;
-                  const btn = `${t('buttons.remove')}`;
-                  const ids = table.selected.join(',');
-                  dispatch(removeSlice.show({ type: RemoveAction.Delete, params: { ids }, title: t('deletePopup.title'), text, btn, ids, isBatch: true }))
-                }}>
-                  <Icon icon={'solar:trash-bin-trash-bold'} />
-                </IconButton>
-              </Tooltip>
-            </>
           }
         />
 
-        <Scrollbar>
-          <Table size={table.dense ? 'small' : 'medium'} sx={{ minWidth: 960 }}>
-            <TableHeadCustom
-              order={sortDir}
-              orderBy={sortColumn}
-              headLabel={TABLE_HEAD}
-              rowCount={(rows && rows.length > 0) ? rows.length : 0}
-              numSelected={table.selected.length}
-              onSort={(id: any, order: any) => {
-                dispatch(listSlice.changeSort({ sortColumn: id, sortDir: (order === 'asc' ? 'desc' : 'asc') }));
-                dispatch(listSlice.calReadApi(API));
-              }}
-              onSelectAllRows={(checked) =>
-                table.onSelectAllRows(
-                  checked,
-                  rows.map((row: any) => row.id)
-                )
-              }
-              freeze
+        {
+        (rows && rows.length > 0)
+        ?
+        <TableBody>
+          {rows.map((row: any) => (
+            <ListRow
+              key={API + '_' + row.id}
+              row={row}
+              isSelected={table.selected.length > 0}
+              selected={table.selected.includes(row.id)}
+              onSelectRow={() => table.onSelectRow(row.id)}
             />
+          ))}
 
-            {
-            (rows && rows.length > 0)
-            ?
-            <TableBody>
-              {rows
-                .slice(
-                  table.page * table.rowsPerPage,
-                  table.page * table.rowsPerPage + table.rowsPerPage
-                )
-                .map((row: any) => (
-                  <ListRow
-                    key={API + '_' + row.id}
-                    row={row}
-                    selected={table.selected.includes(row.id)}
-                    onSelectRow={() => table.onSelectRow(row.id)}
-                  />
-                ))}
+          <TableEmptyRows emptyRows={rows.length} />
+          <TableNoData notFound={notFound} isLoading={isLoading} />
+        </TableBody>
+        :
+        <TableBody>
+          <TableNoData notFound={notFound} isLoading={isLoading} />
+        </TableBody>
+        }
+      </Table>
+    </Scrollbar>
+  }
 
-              <TableEmptyRows
-                emptyRows={emptyRows(table.page, table.rowsPerPage, rows.length)}
-              />
+  const tablePaginationElement = () => {
+    return <TablePaginationCustom
+      sx={null}
+      count={total}
+      page={(isLoading || !(rows && rows.length > 0)) ? 0 : (page-1)}
+      rowsPerPage={per_page}
+      onPageChange={(e: any, newPage: number) => {
+        dispatch(listSlice.changePage((newPage+1)));
+        dispatch(listSlice.calReadApi(API));
+      }}
+      onRowsPerPageChange={(e: any) => {
+        const newPerPage = e.target.value;
+        if(newPerPage){
+          dispatch(listSlice.changePage(1));
+          dispatch(listSlice.changePerPage(newPerPage));
+          dispatch(listSlice.calReadApi(API));
+        }
+      }}
+      dense={null}
+      onChangeDense={null}
+    />
+  }
 
-              <TableNoData notFound={notFound} isLoading={isLoading} />
-            </TableBody>
-            :
-            <TableBody>
-              <TableEmptyRows
-                emptyRows={emptyRows(table.page, table.rowsPerPage, rows.length)}
-              />
 
-              <TableNoData notFound={notFound} isLoading={isLoading} />
-            </TableBody>
-            }
-          </Table>
-        </Scrollbar>
+  return <MainContainer title={t(LANGUAGE + '.title')} roles={Object.values(RoleType)}>
+    {breadcrumbsElement()}
+
+    <Card>
+      {tabsElement()}
+      {searchElement()}
+      {tabsToolbarElement()}
+
+      <TableContainer sx={{ position: 'relative', overflow: 'unset' }}>
+        {tableActionElement()}
+        {tableElement()}
       </TableContainer>
 
-      <TablePaginationCustom
-        sx={null}
-        count={total}
-        page={(isLoading || !(rows && rows.length > 0)) ? 0 : (page-1)}
-        rowsPerPage={per_page}
-        onPageChange={(e: any, newPage: number) => {
-          dispatch(listSlice.changePage((newPage+1)));
-          dispatch(listSlice.calReadApi(API));
-        }}
-        onRowsPerPageChange={(e: any) => {
-          const newPerPage = e.target.value;
-          if(newPerPage){
-            dispatch(listSlice.changePage(1));
-            dispatch(listSlice.changePerPage(newPerPage));
-            dispatch(listSlice.calReadApi(API));
-          }
-        }}
-        dense={null}
-        onChangeDense={null}
-      />
+      {tablePaginationElement()}
     </Card>
 
     <Form

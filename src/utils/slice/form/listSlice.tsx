@@ -21,7 +21,7 @@ export interface InitState {
   page: number,
   per_page: number,
   search: string|null,
-  isActive: number|null,
+  is_active: number|null,
   sortColumn: string|null,
   sortDir: string|null,
   from: any,
@@ -51,7 +51,7 @@ function NewReducer() {
     page: 1,
     per_page: 10,
     search: null,
-    isActive: null,
+    is_active: null,
     sortColumn: 'created_at',
     sortDir: 'asc',
     from: '',
@@ -88,7 +88,7 @@ function NewReducer() {
       state.search = action.payload;
     },
     changeIsActive: (state: InitState, action: PayloadAction<number|null>) => {
-      state.isActive = action.payload;
+      state.is_active = action.payload;
     },
     changeSortColumn: (state: InitState, action: PayloadAction<string|null>) => {
       state.sortColumn = action.payload;
@@ -209,7 +209,7 @@ function NewReducer() {
     calReadApi: (path: string, callback?: (data: any|null, msg: string|null, state: boolean|null) => void) => async (dispatch: any, getState: any) => {
       dispatch(actions.startRead());
 
-      const { page, per_page, search, isActive, sortColumn, sortDir, from, to, customField, customFieldValue } = getState().listSlice;
+      const { page, per_page, search, is_active, sortColumn, sortDir, from, to, customField, customFieldValue } = getState().listSlice;
 
       const fromVal = prepareDate(from);
       const toVal = prepareDate(to);
@@ -218,7 +218,7 @@ function NewReducer() {
         page,
         per_page,
         search: (customField !== undefined && customField !== null && customField !== '') ? null : search,
-        // isActive,
+        is_active,
         sortColumn,
         sortDir,
         [customField]: customFieldValue,

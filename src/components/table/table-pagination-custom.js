@@ -19,6 +19,7 @@ export default function TablePaginationCustom({
       <TablePagination
         rowsPerPageOptions={rowsPerPageOptions}
         component="div"
+        disabled
         {...other}
         sx={{
           borderTopColor: 'transparent',

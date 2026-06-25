@@ -9,7 +9,7 @@ export interface ApiCallParams {
   page: number,
   per_page: number,
   search: string|null,
-  isActive: number|null,
+  is_active: number|null,
   sortColumn: string|null,
   sortDir: string|null,
 }

@@ -7,18 +7,18 @@ import { Icon } from '@iconify/react';
 import { format } from 'date-fns';
 
 // @mui
-import Box from '@mui/material/Box';
-import Avatar from '@mui/material/Avatar';
-import Tooltip from '@mui/material/Tooltip';
-import TableRow from '@mui/material/TableRow';
-import Checkbox from '@mui/material/Checkbox';
-import TableCell from '@mui/material/TableCell';
-import IconButton from '@mui/material/IconButton';
-import ListItemText from '@mui/material/ListItemText';
-import Hidden from '@mui/material/Hidden';
-import MenuItem from '@mui/material/MenuItem';
-// import Typography from '@mui/material/Typography';
-// import Switch from '@mui/material/Switch';
+import {
+  Stack,
+  Avatar,
+  Tooltip,
+  TableRow,
+  Checkbox,
+  TableCell,
+  IconButton,
+  ListItemText,
+  Hidden,
+  MenuItem,
+} from '@mui/material';
 import { grey } from '@mui/material/colors';
 
 // components
@@ -39,7 +39,7 @@ import { t } from 'i18next';
 
 // ----------------------------------------------------------------------
 
-export default function ListRow({ row, selected, onSelectRow }: any) {
+export default function ListRow({ row, isSelected, selected, onSelectRow }: any) {
   const popover = usePopover();
 
   // const listSlice = useTypedSelector((state: RootState) => state.listSlice);
@@ -70,8 +70,6 @@ export default function ListRow({ row, selected, onSelectRow }: any) {
           position: "sticky",
           left: 0,
           zIndex: 1,
-          backgroundColor: selected ? '#f5faf9' : 'white',
-          borderRight: '1px solid #F4F6F8',
         }}
       >
         <Checkbox checked={selected}
@@ -128,19 +126,21 @@ export default function ListRow({ row, selected, onSelectRow }: any) {
       <TableCell sx={{ whiteSpace: 'nowrap' }}>{row?.jmbg}</TableCell>
 
       <TableCell sx={{ whiteSpace: 'nowrap' }}>
-        {
-          (row?.roles && row?.roles.length > 0)
-          ?
-          row?.roles.map((itm: any, i: number) => (<Label
-            key={`roles_${i}`}
-            variant="soft"
-            color={'default'}
-          >
-            {itm}
-          </Label>))
-          :
-          ''
-        }
+        <Stack direction="row" spacing={1} flexWrap="wrap">
+          {
+            (row?.roles && row?.roles.length > 0)
+            ?
+            row?.roles.map((itm: any, i: number) => (<Label
+              key={`roles_${i}`}
+              variant="soft"
+              color={'default'}
+            >
+              {itm}
+            </Label>))
+            :
+            ''
+          }
+        </Stack>
       </TableCell>
 
       <TableCell>
@@ -183,6 +183,7 @@ export default function ListRow({ row, selected, onSelectRow }: any) {
         <Hidden mdDown>
             <Tooltip title={t('buttons.edit')} placement="top" arrow>
               <IconButton color={'default'}
+                disabled={isSelected}
                 onClick={(e) => {
                   e.stopPropagation();
                   e.preventDefault();
@@ -196,6 +197,7 @@ export default function ListRow({ row, selected, onSelectRow }: any) {
 
             <Tooltip title={t('buttons.remove')} placement="top" arrow>
               <IconButton color={'default'}
+                disabled={isSelected}
                 onClick={(e) => {
                   e.stopPropagation();
                   e.preventDefault();
@@ -220,6 +222,7 @@ export default function ListRow({ row, selected, onSelectRow }: any) {
             hiddenArrow={undefined}
           >
             <MenuItem
+              disabled={isSelected}
               onClick={(e) => {
                 e.stopPropagation();
                 e.preventDefault();
@@ -236,6 +239,7 @@ export default function ListRow({ row, selected, onSelectRow }: any) {
             </MenuItem>
 
             <MenuItem
+              disabled={isSelected}
               onClick={(e) => {
                 e.stopPropagation();
                 e.preventDefault();
@@ -261,5 +265,6 @@ export default function ListRow({ row, selected, onSelectRow }: any) {
 ListRow.propTypes = {
   onSelectRow: PropTypes.func,
   row: PropTypes.object,
+  isSelected: PropTypes.bool,
   selected: PropTypes.bool
 };
