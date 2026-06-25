@@ -24,7 +24,7 @@ import { isNumeric, getRoles } from '../../utils/utils.tsx';
 
 
 export const API = 'user';
-export const LANGUAGE = 'building';
+export const LANGUAGE = 'users';
 export const name = LANGUAGE + 'Slice';
 
 

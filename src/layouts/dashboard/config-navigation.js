@@ -43,6 +43,7 @@ const ICONS = {
   analytics: icon('ic_analytics'),
   dashboard: icon('ic_dashboard'),
   settings: <Iconify icon="solar:settings-bold-duotone" />,
+  building: <Iconify icon="solar:buildings-bold-duotone" />,
 };
 
 
@@ -83,6 +84,11 @@ const NAV_ITEMS_BY_ROLE = {
       icon: ICONS.user,
     },
     {
+      title: 'menu.Manager.building',
+      path: '/building',
+      icon: ICONS.building,
+    },
+    {
       title: 'menu.Manager.tickets',
       path: '/tickets',
       icon: ICONS.job,
@@ -104,6 +110,11 @@ const NAV_ITEMS_BY_ROLE = {
       title: 'menu.OrganizationAdmin.users',
       path: '/users',
       icon: ICONS.user,
+    },
+    {
+      title: 'menu.Manager.building',
+      path: '/building',
+      icon: ICONS.building,
     },
     {
       title: 'menu.OrganizationAdmin.reports',
@@ -129,6 +140,11 @@ const NAV_ITEMS_BY_ROLE = {
       icon: ICONS.user,
     },
     {
+      title: 'menu.Manager.building',
+      path: '/building',
+      icon: ICONS.building,
+    },
+    {
       title: 'menu.SuperAdmin.reports',
       path: '/reports',
       icon: ICONS.analytics,
@@ -152,6 +168,11 @@ const NAV_ITEMS_BY_ROLE = {
       icon: ICONS.user,
     },
     {
+      title: 'menu.Manager.building',
+      path: '/building',
+      icon: ICONS.building,
+    },
+    {
       title: 'menu.Accountant.reports',
       path: '/reports',
       icon: ICONS.analytics,
@@ -173,6 +194,11 @@ const NAV_ITEMS_BY_ROLE = {
       title: 'menu.Worker.users',
       path: '/users',
       icon: ICONS.user,
+    },
+    {
+      title: 'menu.Manager.building',
+      path: '/building',
+      icon: ICONS.building,
     },
     {
       title: 'menu.Worker.reports',

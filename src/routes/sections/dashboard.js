@@ -14,6 +14,7 @@ import { LoadingScreen } from 'src/components/loading-screen';
 const WelcomePage = lazy(() => import('src/pages/dashboard/welcome'));
 const SettingsPage = lazy(() => import('src/pages/settings/settings'));
 const Users = lazy(() => import('src/pages/users/list'));
+const Building = lazy(() => import('src/pages/building/list'));
 
 // ----------------------------------------------------------------------
 
@@ -66,6 +67,23 @@ export const dashboardRoutes = [
     children: [
       { element: <Users />, index: true },
       { path: 'users', element: <Users /> },
+    ],
+  },
+
+  {
+    path: 'building',
+    element: (
+      <AuthGuard>
+        <DashboardLayout>
+          <Suspense fallback={<LoadingScreen />}>
+            <Outlet />
+          </Suspense>
+        </DashboardLayout>
+      </AuthGuard>
+    ),
+    children: [
+      { element: <Building />, index: true },
+      { path: 'building', element: <Building /> },
     ],
   },
 

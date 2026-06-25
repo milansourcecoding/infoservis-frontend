@@ -16,12 +16,14 @@
       "dashboard": "Pocetna",
       "settings": "Podesavanja",
       "users": "Korisnici",
+      "building": "Zgrada",
       "tickets": "Ticketi"
     },
     "OrganizationAdmin": {
       "dashboard": "Pocetna",
       "settings": "Podesavanja",
       "users": "Korisnici",
+      "building": "Zgrada",
       "reports": "Report"
     },
     "SuperAdmin": {
@@ -34,12 +36,14 @@
       "dashboard": "Pocetna",
       "settings": "Podesavanja",
       "users": "Korisnici",
+      "building": "Zgrada",
       "reports": "Report"
     },
     "Worker": {
       "dashboard": "Pocetna",
       "settings": "Podesavanja",
       "users": "Korisnici",
+      "building": "Zgrada",
       "reports": "Report"
     },
     "Technician": {
@@ -222,6 +226,27 @@
     "title": "Korisnik",
     "breadcrumbs": {
       "path": "Korisnik"
+    },
+    "table": {
+      "name": "Ime i prezime",
+      "city": "Grad",
+      "address": "Adresa",
+      "email": "Email",
+      "password": "Lozinka",
+      "password_confirmation": "Ponovi lozinku",
+      "jmbg": "JMBG",
+      "phone": "Broj telefona",
+      "roles": "Uloga",
+      "is_active": "Aktivan"
+    },
+    "allTypes": "Svi tipovi"
+  },
+
+  "building": {
+    "list": "Zgrada",
+    "title": "Zgrada",
+    "breadcrumbs": {
+      "path": "Zgrada"
     },
     "table": {
       "name": "Ime i prezime",

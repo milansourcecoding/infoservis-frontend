@@ -8,6 +8,7 @@ import settings from '../pages/settings/redux/settings.tsx';
 import selectAutocompleteSlice from '../components/autocomplete/selectAutocompleteSlice.tsx';
 
 import usersSlice, { name as usersSliceName} from '../pages/users/slice.tsx';
+import buildingSlice, { name as buildingSliceName} from '../pages/building/slice.tsx';
 
 
 export type RootState = ReturnType<typeof store.getState>;
@@ -22,6 +23,7 @@ const store = configureStore({
     selectAutocompleteSlice: selectAutocompleteSlice.reducer,
 
     [usersSliceName]: usersSlice.reducer,
+    [buildingSliceName]: buildingSlice.reducer,
   },
 });
 

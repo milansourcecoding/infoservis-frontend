@@ -16,30 +16,35 @@
       "dashboard": "Dashboard",
       "settings": "Settings",
       "users": "Users",
+      "building": "Building",
       "tickets": "Tickets"
     },
     "OrganizationAdmin": {
       "dashboard": "Dashboard",
       "settings": "Settings",
       "users": "Users",
+      "building": "Building",
       "reports": "Reports"
     },
     "SuperAdmin": {
       "dashboard": "Dashboard",
       "settings": "Settings",
       "users": "Users",
+      "building": "Building",
       "reports": "Reports"
     },
     "Accountant": {
       "dashboard": "Dashboard",
       "settings": "Settings",
       "users": "Users",
+      "building": "Building",
       "reports": "Reports"
     },
     "Worker": {
       "dashboard": "Dashboard",
       "settings": "Settings",
       "users": "Users",
+      "building": "Building",
       "reports": "Reports"
     },
     "Technician": {
@@ -222,6 +227,27 @@
     "title": "User",
     "breadcrumbs": {
       "path": "User"
+    },
+    "table": {
+      "name": "Name",
+      "city": "City",
+      "address": "Address",
+      "email": "Email",
+      "password": "Password",
+      "password_confirmation": "Confirm password",
+      "jmbg": "JMBG",
+      "phone": "Phone number",
+      "roles": "Roles",
+      "is_active": "Active"
+    },
+    "allTypes": "All types"
+  },
+
+  "building": {
+    "list": "Buildings",
+    "title": "Building",
+    "breadcrumbs": {
+      "path": "Building"
     },
     "table": {
       "name": "Name",
