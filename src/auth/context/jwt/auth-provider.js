@@ -4,8 +4,7 @@ import { useEffect, useReducer, useCallback, useMemo } from 'react';
 import axios from 'src/utils/axios';
 //
 import { AuthContext } from './auth-context';
-import { isValidToken, setSession, STORAGE_USER, STORAGE_KEY } from './utils';
-import { getUser } from '../../../utils/utils.tsx';
+import { isValidToken, setSession, STORAGE_USER, STORAGE_KEY, getUser } from '../../../utils/utils.tsx';
 
 // ----------------------------------------------------------------------
 

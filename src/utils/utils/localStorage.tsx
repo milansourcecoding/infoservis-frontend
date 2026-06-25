@@ -14,7 +14,7 @@ import _ from 'lodash';
 // import {  } from '../enums.tsx';
 // import {  } from '../utils.tsx';
 
-import { STORAGE_USER } from '../../auth/context/jwt/utils';
+import { STORAGE_USER } from './auth';
 
 // ----------------------------------------------------------------------
 

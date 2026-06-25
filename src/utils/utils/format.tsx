@@ -13,7 +13,7 @@ import numeral from 'numeral';
 // import { t } from 'i18next';
 // import moment from 'moment';
 // import {  } from '../enums.tsx';
-import { convertMinToHours } from '../utils.tsx';
+import { convertMinToHours } from './convert.tsx';
 
 // ----------------------------------------------------------------------
 

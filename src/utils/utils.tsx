@@ -9,6 +9,7 @@
 /* eslint-disable prefer-template */
 // eslint-disable-next-line import/no-extraneous-dependencies
 
+export * from './utils/auth';
 export * from './utils/localStorage.tsx';
 export * from './utils/table.tsx';
 export * from './utils/download.tsx';
