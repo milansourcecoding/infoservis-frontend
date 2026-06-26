@@ -202,100 +202,6 @@ export default function Form(props: any) {
         />
       </Grid>
       <Grid item xs={12} md={6}>
-        <TextField
-          fullWidth
-          InputLabelProps={{ shrink: true }}
-          size={'small'}
-          value={values.jmbg}
-          error={Boolean(errors.jmbg)}
-          helperText={errors.jmbg as string}
-          onChange={(e) => {
-            const value = e.target.value.replace(/\D/g, '');
-            setFieldValue('jmbg', value);
-          }}
-          {...getFields(t, 'jmbg')}
-        />
-      </Grid>
-      <Grid item xs={12} md={6}>
-        <TextField
-          fullWidth
-          InputLabelProps={{ shrink: true }}
-          size={'small'}
-          name={'phone'}
-          value={values.phone}
-          error={Boolean(errors.phone)}
-          helperText={errors.phone as string}
-          onChange={handleChange}
-          InputProps={{
-            inputComponent: PhoneInput
-          }}
-          {...getFields(t, 'phone')}
-        />
-      </Grid>
-      <Grid item xs={12}>
-        <TextField
-          fullWidth
-          InputLabelProps={{ shrink: true }}
-          size={'small'}
-          type={'email'}
-          name={'email'}
-          autoComplete='off'
-          value={values.email}
-          error={Boolean(errors.email)}
-          helperText={errors.email as string}
-          onChange={handleChange}
-          {...getFields(t, 'email')}
-        />
-      </Grid>
-      <Grid item xs={12} md={6}>
-        <TextField
-          fullWidth
-          InputLabelProps={{ shrink: true }}
-          size={'small'}
-          name={'password'}
-          autoComplete="new-password"
-          value={values.password}
-          error={Boolean(errors.password)}
-          helperText={errors.password as string}
-          onChange={handleChange}
-          type={password.value ? 'text' : 'password'}
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <IconButton tabIndex={-1} onClick={password.onToggle} edge="end" size={'small'}>
-                  <Icon icon={password.value ? 'solar:eye-bold' : 'solar:eye-closed-bold'} />
-                </IconButton>
-              </InputAdornment>
-            ),
-          }}
-          {...getFields(t, 'password')}
-        />
-      </Grid>
-      <Grid item xs={12} md={6}>
-        <TextField
-          fullWidth
-          InputLabelProps={{ shrink: true }}
-          size={'small'}
-          name={'password_confirmation'}
-          autoComplete="new-password"
-          value={values.password_confirmation}
-          error={Boolean(errors.password_confirmation)}
-          helperText={errors.password_confirmation as string}
-          onChange={handleChange}
-          type={password_confirmation.value ? 'text' : 'password'}
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <IconButton tabIndex={-1} onClick={password_confirmation.onToggle} edge="end" size={'small'}>
-                  <Icon icon={password_confirmation.value ? 'solar:eye-bold' : 'solar:eye-closed-bold'} />
-                </IconButton>
-              </InputAdornment>
-            ),
-          }}
-          {...getFields(t, 'password_confirmation')}
-        />
-      </Grid>
-      <Grid item xs={12} md={6}>
         <FormControl fullWidth error={Boolean(errors.city)}>
           <DropdownAutocomplete
             freeSolo={false}
@@ -330,27 +236,22 @@ export default function Form(props: any) {
           {...getFields(t, 'address')}
         />
       </Grid>
-      <Grid item xs={12}>
-        <FormControl fullWidth error={Boolean(errors.roles)}>
-          <DropdownAutocomplete
-            freeSolo={false}
-            multiple
-            disableClearable
-            label={getFields(t, 'roles').label}
-            options={getRoles()}
-            value={values.roles}
-            onChange={(e, value) => {
-              e.preventDefault();
-              e.stopPropagation();
 
-              setFieldValue('roles', value);
-            }}
-            onInputChange={(e, value) => {}}
-            error={Boolean(errors.roles)}
-          />
-          <FormHelperText>{errors.roles as string}</FormHelperText>
-        </FormControl>
+      <Grid item xs={12} md={6}>
+        <TextField
+          fullWidth
+          name={'country'}
+          InputLabelProps={{ shrink: true }}
+          size={'small'}
+          value={values.country}
+          error={Boolean(errors.country)}
+          helperText={errors.country as string}
+          onChange={handleChange}
+          {...getFields(t, 'country')}
+        />
       </Grid>
+
+
       <Grid item xs={12}>
         <FormControlLabel
           control={<Switch
