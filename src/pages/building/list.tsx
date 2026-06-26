@@ -80,9 +80,8 @@ const List = () => {
   const TABLE_HEAD = [
     { id: 'name', label: getFields(t, 'name')?.label, disableSort: false },
     { id: 'address', label: getFields(t, 'address')?.label, disableSort: false },
-    { id: 'phone', label: getFields(t, 'phone')?.label, disableSort: false },
-    { id: 'jmbg', label: getFields(t, 'jmbg')?.label, disableSort: false },
-    { id: 'roles', label: getFields(t, 'roles')?.label, width: 300, disableSort: false },
+    { id: 'city', label: getFields(t, 'city')?.label, disableSort: false },
+    { id: 'country', label: getFields(t, 'country')?.label, disableSort: false },
     { id: 'isActive', label: getFields(t, 'is_active')?.label, disableSort: false },
     { id: 'created_at', label: t('table.registered_at'), width: 180, disableSort: false },
     { id: '', width: 50 },
@@ -207,7 +206,7 @@ const List = () => {
     return <BasicSearchToolbar
       path={API}
       title={t(LANGUAGE + '.title')}
-      disabled={table.selected.length > 0}
+      // disabled={table.selected.length > 0}
       onSearch={(searchValue: any) => {
         if(searchValue != null){
           dispatch(listSlice.changePage(1));

@@ -111,8 +111,8 @@ export default function ListRow({ row, isSelected, selected, onSelectRow }: any)
 
       <TableCell sx={{ whiteSpace: 'nowrap' }}>
         <ListItemText
-          primary={row?.city}
-          secondary={row?.address}
+          primary={row?.address}
+          secondary={row?.city}
           primaryTypographyProps={{ typography: 'body2', noWrap: true }}
           secondaryTypographyProps={{
             mt: 0.5,
@@ -121,27 +121,8 @@ export default function ListRow({ row, isSelected, selected, onSelectRow }: any)
           }}
         />
       </TableCell>
-
-      <TableCell sx={{ whiteSpace: 'nowrap' }}>{row?.phone}</TableCell>
-      <TableCell sx={{ whiteSpace: 'nowrap' }}>{row?.jmbg}</TableCell>
-
-      <TableCell sx={{ whiteSpace: 'nowrap' }}>
-        <Stack direction="row" spacing={1} flexWrap="wrap">
-          {
-            (row?.roles && row?.roles.length > 0)
-            ?
-            row?.roles.map((itm: any, i: number) => (<Label
-              key={`roles_${i}`}
-              variant="soft"
-              color={'default'}
-            >
-              {itm}
-            </Label>))
-            :
-            ''
-          }
-        </Stack>
-      </TableCell>
+<TableCell sx={{ whiteSpace: 'nowrap' }}>{row?.city}</TableCell>
+      <TableCell sx={{ whiteSpace: 'nowrap' }}>{row?.country}</TableCell>
 
       <TableCell>
         <Label
@@ -158,7 +139,7 @@ export default function ListRow({ row, isSelected, selected, onSelectRow }: any)
 
       <TableCell sx={{ whiteSpace: 'nowrap' }}>
         <ListItemText
-          primary={format(new Date(row?.registered_at), dateTimeFormat())}
+          primary={format(new Date(row?.created_at), dateTimeFormat())}
           secondary={row?.updated_user_name}
           primaryTypographyProps={{ typography: 'body2', noWrap: true }}
           secondaryTypographyProps={{

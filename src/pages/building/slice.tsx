@@ -23,7 +23,7 @@ import { isNumeric, getRoles } from '../../utils/utils.tsx';
 // import {  } from '../../utils/enums.tsx';
 
 
-export const API = 'user';
+export const API = 'building';
 export const LANGUAGE = 'building';
 export const name = LANGUAGE + 'Slice';
 
@@ -34,30 +34,6 @@ export const getFields = (t: any, field: string) => {
       id: 'name',
       name: 'name',
       label: t(LANGUAGE + '.table.name'),
-      placeholder: '',
-    },
-    {
-      id: 'phone',
-      name: 'phone',
-      label: t(LANGUAGE + '.table.phone'),
-      placeholder: '',
-    },
-    {
-      id: 'email',
-      name: 'email',
-      label: t(LANGUAGE + '.table.email'),
-      placeholder: '',
-    },
-    {
-      id: 'password',
-      name: 'password',
-      label: t(LANGUAGE + '.table.password'),
-      placeholder: '',
-    },
-    {
-      id: 'password_confirmation',
-      name: 'password_confirmation',
-      label: t(LANGUAGE + '.table.password_confirmation'),
       placeholder: '',
     },
     {
@@ -73,15 +49,9 @@ export const getFields = (t: any, field: string) => {
       placeholder: '',
     },
     {
-      id: 'jmbg',
-      name: 'jmbg',
-      label: t(LANGUAGE + '.table.jmbg'),
-      placeholder: '',
-    },
-    {
-      id: 'roles',
-      name: 'roles',
-      label: t(LANGUAGE + '.table.roles'),
+      id: 'country',
+      name: 'country',
+      label: t(LANGUAGE + '.table.country'),
       placeholder: '',
     },
     {
@@ -98,11 +68,9 @@ export const getFields = (t: any, field: string) => {
 export const getFilterOptions = (t: any) => {
   return [
     { ...getFields(t, 'name') },
-    { ...getFields(t, 'email') },
-    { ...getFields(t, 'phone') },
-    { ...getFields(t, 'jmbg') },
     { ...getFields(t, 'address') },
     { ...getFields(t, 'city') },
+    { ...getFields(t, 'country') },
   ];
 }
 
@@ -111,26 +79,7 @@ export const formSchema = (t: any, id: number|null = null) => {
     name: Yup.string().required().label(getFields(t, 'name')?.label),
     city: Yup.string().required().label(getFields(t, 'city')?.label),
     address: Yup.string().required().label(getFields(t, 'address')?.label),
-    jmbg: Yup.string().jmbg().required().label(getFields(t, 'jmbg')?.label),
-    phone: Yup.string().required().label(getFields(t, 'phone')?.label),
-    email: Yup.string().email().required().label(getFields(t, 'email')?.label),
-
-    password: Yup.string().when(['email'], ([email]: any, schema: any) => {
-      return id
-      ?
-      schema.nullable().label(getFields(t, 'password')?.label)
-      :
-      schema.nullable().required().min(6).label(getFields(t, 'password')?.label)
-    }),
-    password_confirmation: Yup.string().when('password', ([password]: any, schema: any) => {
-      return (password != undefined && password != '')
-      ?
-      schema.nullable().required().min(6).oneOf([Yup.ref('password')], 'Passwords must match').label(getFields(t, 'password')?.label)
-      :
-      schema.nullable().label(getFields(t, 'password_confirmation')?.label)
-    }),
-
-    roles: Yup.array().min(1).label(getFields(t, 'roles')?.label),
+    country: Yup.string().required().label(getFields(t, 'country')?.label),
     is_active: Yup.boolean(),
   })
 }
@@ -191,14 +140,7 @@ export const prepareForm = (values: any = null, defValues: any = null) => {
     data['name'] = form?.name || '';
     data['city'] = form?.city || '';
     data['address'] = form?.address || '';
-    data['jmbg'] = form?.jmbg || '';
-    data['phone'] = form?.phone || '';
-    data['email'] = form?.email || '';
-    data['password'] = '';
-    data['password_confirmation'] = '';
-    
-    let roles = (values?.roles && values?.roles.length > 0) ? values?.roles.map((x: any) => ({ id: x, value: (getRoles().find((y: any) => y.id === x)?.value || x) })) : [];
-    data['roles'] = roles;
+    data['country'] = form?.country || '';
 
     data['is_active'] = form?.is_active || false;
   }
@@ -212,19 +154,9 @@ export const prepareData = (values: any = null, id: number|null) => {
     data['name'] = values?.name || '';
     data['city'] = values?.city || '';
     data['address'] = values?.address || '';
-    data['jmbg'] = values?.jmbg || '';
-    data['phone'] = values?.phone || '';
-    data['email'] = values?.email || '';
+    data['country'] = values?.country || '';
 
-    let roles = (values?.roles && values?.roles.length > 0) ? values?.roles.map((x: any) => x.id) : [];
-    data['roles'] = roles;
-    
     data['is_active'] = values?.is_active || false;
-
-    if (values?.password && values?.password !== '') {
-      data['password'] = values?.password || '';
-      data['password_confirmation'] = values?.password_confirmation || '';
-    }
 
     if (isNumeric(id)) {
       data['id'] = id;
@@ -239,24 +171,14 @@ export interface initialValuesStruct {
   name: string,
   city: string,
   address: string,
-  jmbg: string,
-  phone: string,
-  email: string,
-  password: string,
-  password_confirmation: string,
-  roles: Array<any>,
+  country: string,
   is_active: boolean,
 };
 export const initialValues: initialValuesStruct = {
   name: '',
   city: '',
   address: '',
-  jmbg: '',
-  phone: '',
-  email: '',
-  password: '',
-  password_confirmation: '',
-  roles: [],
+  country: '',
   is_active: true,
 };
 
