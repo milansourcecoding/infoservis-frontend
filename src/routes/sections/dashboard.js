@@ -15,6 +15,10 @@ const WelcomePage = lazy(() => import('src/pages/dashboard/welcome'));
 const SettingsPage = lazy(() => import('src/pages/settings/settings'));
 const Users = lazy(() => import('src/pages/users/list'));
 const Building = lazy(() => import('src/pages/building/list'));
+const BuildingDetails = lazy(() => import('src/pages/building/details'));
+const BuildingEditPage = lazy(() => import('src/pages/building/edit'));
+const BuildingUnitCreatePage = lazy(() => import('src/pages/building/units/create'));
+const BuildingManagerCreatePage = lazy(() => import('src/pages/building/managers/create'));
 
 // ----------------------------------------------------------------------
 
@@ -83,7 +87,10 @@ export const dashboardRoutes = [
     ),
     children: [
       { element: <Building />, index: true },
-      { path: 'building', element: <Building /> },
+      { path: ':id', element: <BuildingDetails /> },
+      { path: ':id/edit', element: <BuildingEditPage /> },
+      { path: ':id/units/create', element: <BuildingUnitCreatePage /> },
+      { path: ':id/managers/create', element: <BuildingManagerCreatePage /> },
     ],
   },
 

@@ -37,6 +37,9 @@ import slice from './slice.tsx';
 import removeSlice from '../../utils/slice/remove/removeSlice.tsx';
 import { t } from 'i18next';
 
+import { Link as RouterLink } from 'react-router-dom';
+import Link from '@mui/material/Link';
+
 // ----------------------------------------------------------------------
 
 export default function ListRow({ row, isSelected, selected, onSelectRow }: any) {
@@ -99,7 +102,19 @@ export default function ListRow({ row, isSelected, selected, onSelectRow }: any)
         }
 
         <ListItemText
-          primary={row?.name}
+          primary={
+            <Link
+              component={RouterLink}
+              to={`/building/${row.id}`}
+              color="inherit"
+              underline="hover"
+              onClick={(e) => {
+                e.stopPropagation();
+              }}
+            >
+              {row?.name}
+            </Link>
+          }
           secondary={row?.email}
           primaryTypographyProps={{ typography: 'body2' }}
           secondaryTypographyProps={{
@@ -122,7 +137,23 @@ export default function ListRow({ row, isSelected, selected, onSelectRow }: any)
         />
       </TableCell>
 <TableCell sx={{ whiteSpace: 'nowrap' }}>{row?.city}</TableCell>
-      <TableCell sx={{ whiteSpace: 'nowrap' }}>{row?.country}</TableCell>
+
+<TableCell sx={{ whiteSpace: 'nowrap' }}>{row?.units_number}</TableCell>
+<TableCell sx={{ whiteSpace: 'nowrap' }}>{row?.pib}</TableCell>
+<TableCell sx={{ whiteSpace: 'nowrap' }}>{row?.registration_number}</TableCell>
+<TableCell sx={{ whiteSpace: 'nowrap' }}>{row?.bank_account}</TableCell>
+<TableCell sx={{ whiteSpace: 'nowrap' }}>{row?.bank_ammount}</TableCell>
+<TableCell sx={{ whiteSpace: 'nowrap' }}>{row?.area}</TableCell>
+<TableCell sx={{ whiteSpace: 'nowrap' }}>{row?.year_of_construction}</TableCell>
+<TableCell sx={{ whiteSpace: 'nowrap' }}>{row?.number_of_floors}</TableCell>
+<TableCell sx={{ whiteSpace: 'nowrap' }}>{row?.number_of_elevators}</TableCell>
+<TableCell sx={{ whiteSpace: 'nowrap' }}>{row?.roof_type}</TableCell>
+<TableCell sx={{ whiteSpace: 'nowrap' }}>{row?.lightning_rod}</TableCell>
+<TableCell sx={{ whiteSpace: 'nowrap' }}>{row?.shelter}</TableCell>
+<TableCell sx={{ whiteSpace: 'nowrap' }}>{row?.remote_heating}</TableCell>
+<TableCell sx={{ whiteSpace: 'nowrap' }}>{row?.parking}</TableCell>
+<TableCell sx={{ whiteSpace: 'nowrap' }}>{row?.description}</TableCell>
+      {/* <TableCell sx={{ whiteSpace: 'nowrap' }}>{row?.country}</TableCell> */}
 
       <TableCell>
         <Label
@@ -163,7 +194,7 @@ export default function ListRow({ row, isSelected, selected, onSelectRow }: any)
       >
         <Hidden mdDown>
             <Tooltip title={t('buttons.edit')} placement="top" arrow>
-              <IconButton color={'default'}
+              {/* <IconButton color={'default'}
                 disabled={isSelected}
                 onClick={(e) => {
                   e.stopPropagation();
@@ -173,7 +204,19 @@ export default function ListRow({ row, isSelected, selected, onSelectRow }: any)
                 }}
               >
                 <Icon icon={'solar:pen-bold'} />
-              </IconButton>
+              </IconButton> */}
+
+                <IconButton
+                  component={RouterLink}
+                  to={`/building/${row.id}`}
+                  color="default"
+                  disabled={isSelected}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                  }}
+                >
+                  <Icon icon={'solar:pen-bold'} />
+                </IconButton>
             </Tooltip>
 
             <Tooltip title={t('buttons.remove')} placement="top" arrow>
