@@ -237,7 +237,198 @@ export default function Form(props: any) {
         />
       </Grid>
 
+
       <Grid item xs={12} md={6}>
+        <TextField
+          fullWidth
+          name={'units_number'}
+          InputLabelProps={{ shrink: true }}
+          size={'small'}
+          value={values.units_number}
+          error={Boolean(errors.units_number)}
+          helperText={errors.units_number as string}
+          onChange={handleChange}
+          {...getFields(t, 'units_number')}
+        />
+      </Grid>
+
+
+      <Grid item xs={12} md={6}>
+        <TextField
+          fullWidth
+          name={'pib'}
+          InputLabelProps={{ shrink: true }}
+          size={'small'}
+          value={values.pib}
+          error={Boolean(errors.pib)}
+          helperText={errors.pib as string}
+          onChange={handleChange}
+          {...getFields(t, 'pib')}
+        />
+      </Grid>
+      <Grid item xs={12} md={6}>
+        <TextField
+          fullWidth
+          name={'registration_number'}
+          InputLabelProps={{ shrink: true }}
+          size={'small'}
+          value={values.registration_number}
+          error={Boolean(errors.registration_number)}
+          helperText={errors.registration_number as string}
+          onChange={handleChange}
+          {...getFields(t, 'registration_number')}
+        />
+      </Grid>
+
+      <Grid item xs={12} md={6}>
+        <TextField
+          fullWidth
+          name={'bank_account'}
+          InputLabelProps={{ shrink: true }}
+          size={'small'}
+          value={values.bank_account}
+          error={Boolean(errors.bank_account)}
+          helperText={errors.bank_account as string}
+          onChange={handleChange}
+          {...getFields(t, 'bank_account')}
+        />
+      </Grid>
+
+      <Grid item xs={12} md={6}>
+        <TextField
+          fullWidth
+          name={'bank_ammount'}
+          InputLabelProps={{ shrink: true }}
+          size={'small'}
+          value={values.bank_ammount}
+          error={Boolean(errors.bank_ammount)}
+          helperText={errors.bank_ammount as string}
+          onChange={handleChange}
+          {...getFields(t, 'bank_ammount')}
+        />
+      </Grid>
+
+      <Grid item xs={12} md={6}>
+        <TextField
+          fullWidth
+          name={'area'}
+          InputLabelProps={{ shrink: true }}
+          size={'small'}
+          value={values.area}
+          error={Boolean(errors.area)}
+          helperText={errors.area as string}
+          onChange={handleChange}
+          {...getFields(t, 'area')}
+        />
+      </Grid>
+      <Grid item xs={12} md={6}>
+        <TextField
+          fullWidth
+          name={'year_of_construction'}
+          InputLabelProps={{ shrink: true }}
+          size={'small'}
+          value={values.year_of_construction}
+          error={Boolean(errors.year_of_construction)}
+          helperText={errors.year_of_construction as string}
+          onChange={handleChange}
+          {...getFields(t, 'year_of_construction')}
+        />
+      </Grid>
+      <Grid item xs={12} md={6}>
+        <TextField
+          fullWidth
+          name={'number_of_floors'}
+          InputLabelProps={{ shrink: true }}
+          size={'small'}
+          value={values.number_of_floors}
+          error={Boolean(errors.number_of_floors)}
+          helperText={errors.number_of_floors as string}
+          onChange={handleChange}
+          {...getFields(t, 'number_of_floors')}
+        />
+      </Grid>
+
+      <Grid item xs={12} md={6}>
+        <TextField
+          fullWidth
+          name={'number_of_elevators'}
+          InputLabelProps={{ shrink: true }}
+          size={'small'}
+          value={values.number_of_elevators}
+          error={Boolean(errors.number_of_elevators)}
+          helperText={errors.number_of_elevators as string}
+          onChange={handleChange}
+          {...getFields(t, 'number_of_elevators')}
+        />
+      </Grid>
+      <Grid item xs={12} md={6}>
+        <TextField
+          fullWidth
+          name={'roof_type'}
+          InputLabelProps={{ shrink: true }}
+          size={'small'}
+          value={values.roof_type}
+          error={Boolean(errors.roof_type)}
+          helperText={errors.roof_type as string}
+          onChange={handleChange}
+          {...getFields(t, 'roof_type')}
+        />
+      </Grid>
+      <Grid item xs={12} md={6}>
+        <TextField
+          fullWidth
+          name={'lightning_rod'}
+          InputLabelProps={{ shrink: true }}
+          size={'small'}
+          value={values.lightning_rod}
+          error={Boolean(errors.lightning_rod)}
+          helperText={errors.lightning_rod as string}
+          onChange={handleChange}
+          {...getFields(t, 'lightning_rod')}
+        />
+      </Grid>
+      <Grid item xs={12} md={6}>
+        <TextField
+          fullWidth
+          name={'shelter'}
+          InputLabelProps={{ shrink: true }}
+          size={'small'}
+          value={values.shelter}
+          error={Boolean(errors.shelter)}
+          helperText={errors.shelter as string}
+          onChange={handleChange}
+          {...getFields(t, 'shelter')}
+        />
+      </Grid>
+      <Grid item xs={12} md={6}>
+        <TextField
+          fullWidth
+          name={'remote_heating'}
+          InputLabelProps={{ shrink: true }}
+          size={'small'}
+          value={values.remote_heating}
+          error={Boolean(errors.remote_heating)}
+          helperText={errors.remote_heating as string}
+          onChange={handleChange}
+          {...getFields(t, 'remote_heating')}
+        />
+      </Grid>
+      <Grid item xs={12} md={6}>
+        <TextField
+          fullWidth
+          name={'parking'}
+          InputLabelProps={{ shrink: true }}
+          size={'small'}
+          value={values.parking}
+          error={Boolean(errors.parking)}
+          helperText={errors.parking as string}
+          onChange={handleChange}
+          {...getFields(t, 'parking')}
+        />
+      </Grid>
+
+
+      {/* <Grid item xs={12} md={6}>
         <TextField
           fullWidth
           name={'country'}
@@ -249,7 +440,7 @@ export default function Form(props: any) {
           onChange={handleChange}
           {...getFields(t, 'country')}
         />
-      </Grid>
+      </Grid> */}
 
 
       <Grid item xs={12}>

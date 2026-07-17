@@ -49,11 +49,113 @@ export const getFields = (t: any, field: string) => {
       placeholder: '',
     },
     {
-      id: 'country',
-      name: 'country',
-      label: t(LANGUAGE + '.table.country'),
+      id: 'pib',
+      name: 'pib',
+      label: t(LANGUAGE + '.table.pib'),
       placeholder: '',
     },
+
+    {
+      id: 'registration_number',
+      name: 'registration_number',
+      label: t(LANGUAGE + '.table.registration_number'),
+      placeholder: '',
+    },
+    {
+      id: 'bank_account',
+      name: 'bank_account',
+      label: t(LANGUAGE + '.table.bank_account'),
+      placeholder: '',
+    },    
+    {
+      id: 'bank_ammount',
+      name: 'bank_ammount',
+      label: t(LANGUAGE + '.table.bank_ammount'),
+      placeholder: '',
+    },
+
+    {
+      id: 'units_number',
+      name: 'units_number',
+      label: t(LANGUAGE + '.table.units_number'),
+      placeholder: '',
+    },
+    {
+      id: 'area',
+      name: 'area',
+      label: t(LANGUAGE + '.table.area'),
+      placeholder: '',
+    },
+    {
+      id: 'year_of_construction',
+      name: 'year_of_construction',
+      label: t(LANGUAGE + '.table.year_of_construction'),
+      placeholder: '',
+    },
+
+    {
+      id: 'number_of_floors',
+      name: 'number_of_floors',
+      label: t(LANGUAGE + '.table.number_of_floors'),
+      placeholder: '',
+    },
+    {
+      id: 'number_of_elevators',
+      name: 'number_of_elevators',
+      label: t(LANGUAGE + '.table.number_of_elevators'),
+      placeholder: '',
+    },
+    {
+      id: 'roof_type',
+      name: 'roof_type',
+      label: t(LANGUAGE + '.table.roof_type'),
+      placeholder: '',
+    },
+    {
+      id: 'lightning_rod',
+      name: 'lightning_rod',
+      label: t(LANGUAGE + '.table.lightning_rod'),
+      placeholder: '',
+    },
+    {
+      id: 'shelter',
+      name: 'shelter',
+      label: t(LANGUAGE + '.table.shelter'),
+      placeholder: '',
+    },
+    {
+      id: 'remote_heating',
+      name: 'remote_heating',
+      label: t(LANGUAGE + '.table.remote_heating'),
+      placeholder: '',
+    },
+    {
+      id: 'parking',
+      name: 'parking',
+      label: t(LANGUAGE + '.table.parking'),
+      placeholder: '',
+    },
+    {
+      id: 'description',
+      name: 'description',
+      label: t(LANGUAGE + '.table.description'),
+      placeholder: '',
+    },
+
+
+
+
+
+
+
+
+
+    // {
+    //   id: 'country',
+    //   name: 'country',
+    //   label: t(LANGUAGE + '.table.country'),
+    //   placeholder: '',
+    // },
     {
       id: 'is_active',
       name: 'is_active',
@@ -70,7 +172,7 @@ export const getFilterOptions = (t: any) => {
     { ...getFields(t, 'name') },
     { ...getFields(t, 'address') },
     { ...getFields(t, 'city') },
-    { ...getFields(t, 'country') },
+    // { ...getFields(t, 'country') },
   ];
 }
 
@@ -79,7 +181,22 @@ export const formSchema = (t: any, id: number|null = null) => {
     name: Yup.string().required().label(getFields(t, 'name')?.label),
     city: Yup.string().required().label(getFields(t, 'city')?.label),
     address: Yup.string().required().label(getFields(t, 'address')?.label),
-    country: Yup.string().required().label(getFields(t, 'country')?.label),
+    units_number: Yup.number().label(getFields(t, 'units_number')?.label),
+    area: Yup.number().label(getFields(t, 'area')?.label),
+    year_of_construction: Yup.number().label(getFields(t, 'year_of_construction')?.label),
+    number_of_floors: Yup.number().label(getFields(t, 'number_of_floors')?.label),
+    number_of_elevators: Yup.number().label(getFields(t, 'number_of_elevators')?.label),
+    roof_type: Yup.string().label(getFields(t, 'roof_type')?.label),
+    lightning_rod: Yup.boolean(),
+    shelter: Yup.boolean(),
+    remote_heating: Yup.boolean(),
+    parking: Yup.boolean(),
+    description: Yup.string().max(255).label(getFields(t, 'description')?.label),
+    registration_number: Yup.string().max(255).label(getFields(t, 'registration_number')?.label),
+    bank_account: Yup.string().max(255).label(getFields(t, 'bank_account')?.label),
+    bank_ammount: Yup.number().label(getFields(t, 'bank_ammount')?.label),
+    pib: Yup.string().max(255).label(getFields(t, 'pib')?.label),
+    // country: Yup.string().required().label(getFields(t, 'country')?.label),
     is_active: Yup.boolean(),
   })
 }
@@ -140,7 +257,22 @@ export const prepareForm = (values: any = null, defValues: any = null) => {
     data['name'] = form?.name || '';
     data['city'] = form?.city || '';
     data['address'] = form?.address || '';
-    data['country'] = form?.country || '';
+    data['units_number'] = form?.units_number || '';
+    data['area'] = form?.area || '';
+    data['year_of_construction'] = form?.year_of_construction || '';
+    data['number_of_floors'] = form?.number_of_floors || '';
+    data['number_of_elevators'] = form?.number_of_elevators || '';
+    data['roof_type'] = form?.roof_type || '';
+    data['lightning_rod'] = form?.lightning_rod || false;
+    data['shelter'] = form?.shelter || false;
+    data['remote_heating'] = form?.remote_heating || false;
+    data['parking'] = form?.parking || false;
+    data['description'] = form?.description || '';
+    data['registration_number'] = form?.registration_number || '';
+    data['bank_account'] = form?.bank_account || '';
+    data['bank_ammount'] = form?.bank_ammount || '';
+    data['pib'] = form?.pib || '';
+    // data['country'] = form?.country || '';
 
     data['is_active'] = form?.is_active || false;
   }
@@ -154,7 +286,22 @@ export const prepareData = (values: any = null, id: number|null) => {
     data['name'] = values?.name || '';
     data['city'] = values?.city || '';
     data['address'] = values?.address || '';
-    data['country'] = values?.country || '';
+    data['units_number'] = values?.units_number || '';
+    data['area'] = values?.area || '';
+    data['year_of_construction'] = values?.year_of_construction || '';
+    data['number_of_floors'] = values?.number_of_floors || '';
+    data['number_of_elevators'] = values?.number_of_elevators || '';
+    data['roof_type'] = values?.roof_type || '';
+    data['lightning_rod'] = values?.lightning_rod || false;
+    data['shelter'] = values?.shelter || false;
+    data['remote_heating'] = values?.remote_heating || false;
+    data['parking'] = values?.parking || false;
+    data['description'] = values?.description || '';
+    data['registration_number'] = values?.registration_number || '';
+    data['bank_account'] = values?.bank_account || '';
+    data['bank_ammount'] = values?.bank_ammount || '';
+    data['pib'] = values?.pib || '';
+    // data['country'] = values?.country || '';
 
     data['is_active'] = values?.is_active || false;
 
@@ -171,14 +318,14 @@ export interface initialValuesStruct {
   name: string,
   city: string,
   address: string,
-  country: string,
+  // country: string,
   is_active: boolean,
 };
 export const initialValues: initialValuesStruct = {
   name: '',
   city: '',
   address: '',
-  country: '',
+  // country: '',
   is_active: true,
 };
 

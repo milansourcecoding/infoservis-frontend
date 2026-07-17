@@ -35,3 +35,25 @@ export const RoleType = {
   Accountant: 'accountant',
   SuperAdmin: 'super_admin',
 }
+
+export const ManagerType = {
+  ProfessionalManager: 'professional_manager',
+  ResidentManager: 'resident_manager'
+}
+
+export const UnitType = {
+     Apartment: 'apartment',
+     Basement: 'basement',
+     Attic: 'attic',
+     Commercial: 'commercial',
+     Garage: 'garage',
+     Office: 'office',
+     Storage: 'storage',
+     Common: 'common',
+     BoilerRoom: 'boiler_room',
+     LaundryRoom: 'laundry_room',
+     SecurityRoom: 'security_room',
+     TechnicalRoom: 'technical_room',
+     ParkingSpace: 'parking_space',
+     Other: 'other'
+}
