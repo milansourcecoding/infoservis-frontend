@@ -271,8 +271,6 @@ const List = () => {
           // dispatch(listSlice.calStatsApi(API, search));
         }}
       >
-        <MenuItem value={'all'}>{t('status.all')}</MenuItem>
-
         {getFilterOptions(t).map((itm: any, i: number) => {
           return <MenuItem key={'filter_option_' + i} value={itm?.id}>{itm?.label}</MenuItem>
         })}

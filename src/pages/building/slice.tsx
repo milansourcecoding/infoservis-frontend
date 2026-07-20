@@ -169,6 +169,12 @@ export const getFields = (t: any, field: string) => {
 
 export const getFilterOptions = (t: any) => {
   return [
+    {
+      id: 'all',
+      name: 'all',
+      label: t('status.all'),
+      placeholder: '',
+    },
     { ...getFields(t, 'name') },
     { ...getFields(t, 'address') },
     { ...getFields(t, 'city') },
