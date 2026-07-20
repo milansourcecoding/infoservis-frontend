@@ -471,7 +471,7 @@ const List = () => {
 
     <RemovePopup
       path={API}
-      callback={async (item: any|null, msg: string|null, state: boolean|null, type: number, isBatch: boolean) => {
+      callback={async (ids: any, item: any|null, msg: string|null, state: boolean|null, type: number, isBatch: boolean) => {
         table.onSelectAllRows(false);
         // dispatch(listSlice.calStatsApi(API, search));
 
@@ -488,8 +488,9 @@ const List = () => {
             dispatch(listSlice.changePage(1));
             dispatch(listSlice.calReadApi(API));
           } else {
+            const removedItem = rows.find((x: any) => x.id == ids);
             const newTotal = (item instanceof Array) ? (total - item.length) : (total - 1)
-            const newRows: any = await removeRow(rows, item);
+            const newRows: any = await removeRow(rows, removedItem);
             dispatch(listSlice.changeRows(newRows));
             dispatch(listSlice.changeTotal(newTotal));
           }

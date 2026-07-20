@@ -148,10 +148,40 @@ export default function ListRow({ row, isSelected, selected, onSelectRow }: any)
 <TableCell sx={{ whiteSpace: 'nowrap' }}>{row?.number_of_floors}</TableCell>
 <TableCell sx={{ whiteSpace: 'nowrap' }}>{row?.number_of_elevators}</TableCell>
 <TableCell sx={{ whiteSpace: 'nowrap' }}>{row?.roof_type}</TableCell>
-<TableCell sx={{ whiteSpace: 'nowrap' }}>{row?.lightning_rod}</TableCell>
-<TableCell sx={{ whiteSpace: 'nowrap' }}>{row?.shelter}</TableCell>
-<TableCell sx={{ whiteSpace: 'nowrap' }}>{row?.remote_heating}</TableCell>
-<TableCell sx={{ whiteSpace: 'nowrap' }}>{row?.parking}</TableCell>
+
+<TableCell>
+  <Label
+    variant="soft"
+    color={row?.lightning_rod ? 'info' : 'default'}
+  >
+  {row?.lightning_rod ? t('buttons.yes') : t('buttons.no')}
+  </Label>
+</TableCell>
+<TableCell>
+  <Label
+    variant="soft"
+    color={row?.shelter ? 'info' : 'default'}
+  >
+  {row?.shelter ? t('buttons.yes') : t('buttons.no')}
+  </Label>
+</TableCell>
+<TableCell>
+  <Label
+    variant="soft"
+    color={row?.remote_heating ? 'info' : 'default'}
+  >
+  {row?.remote_heating ? t('buttons.yes') : t('buttons.no')}
+  </Label>
+</TableCell>
+<TableCell>
+  <Label
+    variant="soft"
+    color={row?.parking ? 'info' : 'default'}
+  >
+  {row?.parking ? t('buttons.yes') : t('buttons.no')}
+  </Label>
+</TableCell>
+
 <TableCell sx={{ whiteSpace: 'nowrap' }}>{row?.description}</TableCell>
       {/* <TableCell sx={{ whiteSpace: 'nowrap' }}>{row?.country}</TableCell> */}
 
