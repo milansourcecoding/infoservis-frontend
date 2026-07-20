@@ -1,10 +1,15 @@
 import PropTypes from 'prop-types';
-import { useEffect, useCallback, useState } from 'react';
+import { useEffect, useCallback, useState, lazy } from 'react';
+import { useLocation } from 'react-router-dom';
+
 // routes
 import { paths } from 'src/routes/paths';
 import { useRouter } from 'src/routes/hooks';
 //
 import { useAuthContext } from '../hooks';
+import { NAV_ITEMS_BY_ROLE } from '../../layouts/dashboard/config-navigation';
+
+import { NotFoundView } from '../../sections/error';
 
 // ----------------------------------------------------------------------
 
@@ -16,10 +21,15 @@ const loginPaths = {
 
 export default function AuthGuard({ children }) {
   const router = useRouter();
+  const location = useLocation();
 
-  const { authenticated, method } = useAuthContext();
+  const { authenticated, method, user } = useAuthContext();
 
   const [checked, setChecked] = useState(false);
+
+
+  const userRoles = user?.roles;
+
 
   const check = useCallback(() => {
     if (!authenticated) {
@@ -33,7 +43,13 @@ export default function AuthGuard({ children }) {
 
       router.replace(href);
     } else {
-      setChecked(true);
+      const items = userRoles.flatMap((role) => NAV_ITEMS_BY_ROLE[role] || []);
+
+      if (items?.some((role) => role?.path?.includes(location.pathname))) {
+        setChecked(true);
+      } else {
+        setChecked(false);
+      }
     }
   }, [authenticated, method, router]);
 
@@ -43,7 +59,7 @@ export default function AuthGuard({ children }) {
   }, []);
 
   if (!checked) {
-    return null;
+    return <NotFoundView />
   }
 
   return <>{children}</>;
