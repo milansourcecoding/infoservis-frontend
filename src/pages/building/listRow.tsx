@@ -170,7 +170,7 @@ export default function ListRow({ row, isSelected, selected, onSelectRow }: any)
 
       <TableCell sx={{ whiteSpace: 'nowrap' }}>
         <ListItemText
-          primary={format(new Date(row?.created_at), dateTimeFormat())}
+          primary={(row?.created_at) ? format(new Date(row?.created_at), dateTimeFormat()) : ''}
           secondary={row?.updated_user_name}
           primaryTypographyProps={{ typography: 'body2', noWrap: true }}
           secondaryTypographyProps={{
