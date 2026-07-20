@@ -52,6 +52,6 @@ export default function RoleBasedGuard({ hasContent, roles, children, sx }) {
 RoleBasedGuard.propTypes = {
   children: PropTypes.node,
   hasContent: PropTypes.bool,
-  roles: PropTypes.arrayOf(PropTypes.number),
+  roles: PropTypes.arrayOf(PropTypes.string),
   sx: PropTypes.object,
 };

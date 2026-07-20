@@ -45,7 +45,7 @@ const RemovePopup = ({path, callback}: any) => {
               }
 
               if(callback){
-                callback(data, msg, state, type, isBatch);
+                callback(ids, data, msg, state, type, isBatch);
               }
             }))
 
@@ -59,7 +59,7 @@ const RemovePopup = ({path, callback}: any) => {
                 }
 
                 if(callback){
-                  callback(data, msg, state, type, isBatch);
+                  callback(ids, data, msg, state, type, isBatch);
                 }
               }))
 
@@ -72,7 +72,7 @@ const RemovePopup = ({path, callback}: any) => {
                 }
 
                 if(callback){
-                  callback(data, msg, state, type, isBatch);
+                  callback(ids, data, msg, state, type, isBatch);
                 }
               }))
             }
@@ -87,7 +87,7 @@ const RemovePopup = ({path, callback}: any) => {
                 }
 
                 if(callback){
-                  callback(data, msg, state, type, isBatch);
+                  callback(ids, data, msg, state, type, isBatch);
                 }
               }))
 
@@ -100,7 +100,7 @@ const RemovePopup = ({path, callback}: any) => {
                 }
 
                 if(callback){
-                  callback(data, msg, state, type, isBatch);
+                  callback(ids, data, msg, state, type, isBatch);
                 }
               }))
             }

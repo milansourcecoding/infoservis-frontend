@@ -13,7 +13,6 @@
 /* eslint-disable no-lonely-if */
 import React from 'react';
 import { Icon } from '@iconify/react';
-import InputMask from 'react-input-mask';
 
 
 import { useLocales } from 'src/locales';
@@ -52,15 +51,10 @@ import { AppDispatch, useTypedSelector } from '../../utils/store.tsx';
 import slice, { name as sliceName, getFields, useFormik, FormikContext, formSchema, initialValues, prepareForm, prepareData } from './slice.tsx';
 // import selectAutocompleteSlice from '../../components/autocomplete/selectAutocompleteSlice.tsx';
 
-import { formatPhoneNumnber, getRoles, getCities, escapeChars } from '../../utils/utils.tsx';
+import { getCities, escapeChars } from '../../utils/utils.tsx';
 // import {  } from '../../utils/enums.tsx';
 
 // ----------------------------------------------------------------------
-
-const PhoneInput = (props: any) => (
-  <InputMask {...props} mask={formatPhoneNumnber()} />
-);
-
 
 export default function Form(props: any) {
   const { t } = useLocales();
@@ -69,9 +63,6 @@ export default function Form(props: any) {
 
   const dispatch = useDispatch<AppDispatch>();
   const { isLoading, show, details, id } = useTypedSelector((state: any) => state[sliceName]);
-
-  const password = useBoolean();
-  const password_confirmation = useBoolean();
 
 
   React.useEffect(() => {
@@ -374,73 +365,66 @@ export default function Form(props: any) {
           {...getFields(t, 'roof_type')}
         />
       </Grid>
-      <Grid item xs={12} md={6}>
+
+      <Grid item xs={12}>
         <TextField
           fullWidth
-          name={'lightning_rod'}
           InputLabelProps={{ shrink: true }}
           size={'small'}
-          value={values.lightning_rod}
-          error={Boolean(errors.lightning_rod)}
-          helperText={errors.lightning_rod as string}
+          multiline
+          rows={3}
+          value={values.description}
+          error={Boolean(errors.description)}
+          helperText={errors.description as string}
           onChange={handleChange}
+          {...getFields(t, 'description')}
+        />
+      </Grid>
+
+      <Grid item xs={12} md={6}>
+        <FormControlLabel
+          control={<Switch
+            checked={values.lightning_rod}
+            onChange={(e: any) => {
+              setFieldValue('lightning_rod', e.target.checked);
+            }}
+          />}
           {...getFields(t, 'lightning_rod')}
         />
       </Grid>
       <Grid item xs={12} md={6}>
-        <TextField
-          fullWidth
-          name={'shelter'}
-          InputLabelProps={{ shrink: true }}
-          size={'small'}
-          value={values.shelter}
-          error={Boolean(errors.shelter)}
-          helperText={errors.shelter as string}
-          onChange={handleChange}
+        <FormControlLabel
+          control={<Switch
+            checked={values.shelter}
+            onChange={(e: any) => {
+              setFieldValue('shelter', e.target.checked);
+            }}
+          />}
           {...getFields(t, 'shelter')}
         />
       </Grid>
       <Grid item xs={12} md={6}>
-        <TextField
-          fullWidth
-          name={'remote_heating'}
-          InputLabelProps={{ shrink: true }}
-          size={'small'}
-          value={values.remote_heating}
-          error={Boolean(errors.remote_heating)}
-          helperText={errors.remote_heating as string}
-          onChange={handleChange}
+        <FormControlLabel
+          control={<Switch
+            checked={values.remote_heating}
+            onChange={(e: any) => {
+              setFieldValue('remote_heating', e.target.checked);
+            }}
+          />}
           {...getFields(t, 'remote_heating')}
         />
       </Grid>
       <Grid item xs={12} md={6}>
-        <TextField
-          fullWidth
-          name={'parking'}
-          InputLabelProps={{ shrink: true }}
-          size={'small'}
-          value={values.parking}
-          error={Boolean(errors.parking)}
-          helperText={errors.parking as string}
-          onChange={handleChange}
+        <FormControlLabel
+          control={<Switch
+            checked={values.parking}
+            onChange={(e: any) => {
+              setFieldValue('parking', e.target.checked);
+            }}
+          />}
           {...getFields(t, 'parking')}
         />
       </Grid>
-
-
-      {/* <Grid item xs={12} md={6}>
-        <TextField
-          fullWidth
-          name={'country'}
-          InputLabelProps={{ shrink: true }}
-          size={'small'}
-          value={values.country}
-          error={Boolean(errors.country)}
-          helperText={errors.country as string}
-          onChange={handleChange}
-          {...getFields(t, 'country')}
-        />
-      </Grid> */}
 
 
       <Grid item xs={12}>
@@ -466,7 +450,10 @@ export default function Form(props: any) {
     }}
     PaperProps={{
       sx: {
-        width: '40%',
+        width: {
+          xs: '100%',
+          md: '40%',
+        },
         backgroundColor: 'white'
       },
     }}

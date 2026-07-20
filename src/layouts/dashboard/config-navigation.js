@@ -48,7 +48,7 @@ const ICONS = {
 
 
 
-const NAV_ITEMS_BY_ROLE = {
+export const NAV_ITEMS_BY_ROLE = {
   resident: [
     {
       title: 'menu.Resident.dashboard',

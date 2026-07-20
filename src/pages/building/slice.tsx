@@ -14,18 +14,23 @@ import React, { createContext, useContext } from 'react';
 import { useFormik as useFormikOriginal } from 'formik';
 import _ from 'lodash';
 
+import {
+  Grid,
+  ListItemText,
+} from '@mui/material';
 
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import axios from '../../utils/axios.jsx';
 import Yup from '../../utils/yup.tsx';
-import { isNumeric, getRoles } from '../../utils/utils.tsx';
-// import {  } from '../../utils/enums.tsx';
+import { isNumeric } from '../../utils/utils.tsx';
+import { RoleType, ManagerType, UnitType } from '../../utils/enums.tsx';
 
 
 export const API = 'building';
 export const LANGUAGE = 'building';
 export const name = LANGUAGE + 'Slice';
+export const pageRoles = [RoleType.SuperAdmin, RoleType.OrganizationAdmin, RoleType.Manager, RoleType.Accountant, RoleType.Worker];
 
 
 export const getFields = (t: any, field: string) => {
@@ -52,13 +57,14 @@ export const getFields = (t: any, field: string) => {
       id: 'pib',
       name: 'pib',
       label: t(LANGUAGE + '.table.pib'),
+      labelTable: t(LANGUAGE + '.table.pib_registration_number'),
       placeholder: '',
     },
-
     {
       id: 'registration_number',
       name: 'registration_number',
       label: t(LANGUAGE + '.table.registration_number'),
+      labelTable: t(LANGUAGE + '.table.mb'),
       placeholder: '',
     },
     {
@@ -141,21 +147,6 @@ export const getFields = (t: any, field: string) => {
       label: t(LANGUAGE + '.table.description'),
       placeholder: '',
     },
-
-
-
-
-
-
-
-
-
-    // {
-    //   id: 'country',
-    //   name: 'country',
-    //   label: t(LANGUAGE + '.table.country'),
-    //   placeholder: '',
-    // },
     {
       id: 'is_active',
       name: 'is_active',
@@ -169,10 +160,15 @@ export const getFields = (t: any, field: string) => {
 
 export const getFilterOptions = (t: any) => {
   return [
+    {
+      id: 'all',
+      name: 'all',
+      label: t('status.all'),
+      placeholder: '',
+    },
     { ...getFields(t, 'name') },
     { ...getFields(t, 'address') },
     { ...getFields(t, 'city') },
-    // { ...getFields(t, 'country') },
   ];
 }
 
@@ -196,7 +192,6 @@ export const formSchema = (t: any, id: number|null = null) => {
     bank_account: Yup.string().max(255).label(getFields(t, 'bank_account')?.label),
     bank_ammount: Yup.number().label(getFields(t, 'bank_ammount')?.label),
     pib: Yup.string().max(255).label(getFields(t, 'pib')?.label),
-    // country: Yup.string().required().label(getFields(t, 'country')?.label),
     is_active: Yup.boolean(),
   })
 }
@@ -272,7 +267,6 @@ export const prepareForm = (values: any = null, defValues: any = null) => {
     data['bank_account'] = form?.bank_account || '';
     data['bank_ammount'] = form?.bank_ammount || '';
     data['pib'] = form?.pib || '';
-    // data['country'] = form?.country || '';
 
     data['is_active'] = form?.is_active || false;
   }
@@ -301,7 +295,6 @@ export const prepareData = (values: any = null, id: number|null) => {
     data['bank_account'] = values?.bank_account || '';
     data['bank_ammount'] = values?.bank_ammount || '';
     data['pib'] = values?.pib || '';
-    // data['country'] = values?.country || '';
 
     data['is_active'] = values?.is_active || false;
 
@@ -314,18 +307,124 @@ export const prepareData = (values: any = null, id: number|null) => {
 };
 
 
+export const getManagerTypeLabel = (managerType: string, t: any) => {
+  switch (managerType) {
+    case ManagerType.ProfessionalManager:
+      return t('building.details.professional_manager');
+
+    case ManagerType.ResidentManager:
+      return t('building.details.resident_manager');
+
+    default:
+      return '-';
+  }
+};
+export const getUnitTypeLabel = (unitType: string, t: any) => {
+  switch (unitType) {
+    case UnitType.Apartment:
+      return t('building.details.apartment');
+
+    case UnitType.Basement:
+      return t('building.details.basement');
+
+    case UnitType.Attic:
+      return t('building.details.attic');
+
+    case UnitType.Commercial:
+      return t('building.details.commercial');
+
+    case UnitType.Garage:
+      return t('building.details.garage');
+
+    case UnitType.Office:
+      return t('building.details.office');
+
+    case UnitType.Storage:
+      return t('building.details.storage');
+
+    case UnitType.Common:
+      return t('building.details.common');
+
+    case UnitType.BoilerRoom:
+      return t('building.details.boiler_room');
+
+    case UnitType.LaundryRoom:
+      return t('building.details.laundry_room');
+
+    case UnitType.SecurityRoom:
+      return t('building.details.security_room');
+
+    case UnitType.TechnicalRoom:
+      return t('building.details.technical_room');
+
+    case UnitType.ParkingSpace:
+      return t('building.details.parking_space');
+
+    case UnitType.Other:
+      return t('building.details.other');
+
+    default:
+      return '-';
+  }
+};
+export const renderField = (label: string, value: any, options: { xs: number, sm: number, md: number } = { xs: 12, sm: 6, md: 4 }) => (
+  <Grid item xs={options?.xs} sm={options?.sm} md={options?.md}>
+    <ListItemText
+      primary={value || '-'}
+      secondary={label}
+      primaryTypographyProps={{ typography: 'body2' }}
+      secondaryTypographyProps={{
+        component: 'span',
+        typography: 'caption',
+        color: 'text.disabled',
+      }}
+    />
+  </Grid>
+);
+
+
 export interface initialValuesStruct {
   name: string,
   city: string,
   address: string,
-  // country: string,
+  units_number: number|null,
+  pib: string,
+  registration_number: string,
+  bank_account: string,
+  bank_ammount: string,
+  description: string,
+  area: string,
+  year_of_construction: string,
+  number_of_floors: string,
+  number_of_elevators: string,
+  roof_type: string,
+  lightning_rod: boolean,
+  shelter: boolean,
+  remote_heating: boolean,
+  parking: boolean,
+  manager_id: number|null,
   is_active: boolean,
 };
 export const initialValues: initialValuesStruct = {
   name: '',
   city: '',
   address: '',
-  // country: '',
+  units_number: null,
+  pib: '',
+  registration_number: '',
+  bank_account: '',
+  bank_ammount: '',
+  description: '',
+  area: '',
+  year_of_construction: '',
+  number_of_floors: '',
+  number_of_elevators: '',
+  roof_type: '',
+  lightning_rod: false,
+  shelter: false,
+  remote_heating: false,
+  parking: false,
+  manager_id: null,
   is_active: true,
 };
 

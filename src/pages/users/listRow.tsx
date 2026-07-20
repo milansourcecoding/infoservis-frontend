@@ -66,6 +66,7 @@ export default function ListRow({ row, isSelected, selected, onSelectRow }: any)
     >
       <TableCell padding="checkbox"
         sx={{
+          backgroundColor: selected ? '#f5faf9' : 'white',
           whiteSpace: "nowrap",
           position: "sticky",
           left: 0,
@@ -158,7 +159,7 @@ export default function ListRow({ row, isSelected, selected, onSelectRow }: any)
 
       <TableCell sx={{ whiteSpace: 'nowrap' }}>
         <ListItemText
-          primary={format(new Date(row?.registered_at), dateTimeFormat())}
+          primary={(row?.registered_at) ? format(new Date(row?.registered_at), dateTimeFormat()) : ''}
           secondary={row?.updated_user_name}
           primaryTypographyProps={{ typography: 'body2', noWrap: true }}
           secondaryTypographyProps={{
