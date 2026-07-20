@@ -34,9 +34,23 @@ export const dateViewFormat = () => {
 }
 
 
-export const formatNumber = (numb = 0, format = '0,0.00', currency = ' RSD') => {
+export const formatNumber = (numb = 0, format = '0,0.00', postfix = '') => {
+  try {
+    return numeral(numb).format(format) + postfix;
+  } catch (e) {
+    return numb;
+  }
+}
+export const formatCurrency = (numb = 0, format = '0,0.00', currency = ' RSD') => {
   try {
     return numeral(numb).format(format) + currency;
+  } catch (e) {
+    return numb;
+  }
+}
+export const formatArea = (numb = 0, format = '0,0.00', unit = ' m²') => {
+  try {
+    return numeral(numb).format(format) + unit;
   } catch (e) {
     return numb;
   }

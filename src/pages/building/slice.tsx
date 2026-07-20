@@ -14,18 +14,23 @@ import React, { createContext, useContext } from 'react';
 import { useFormik as useFormikOriginal } from 'formik';
 import _ from 'lodash';
 
+import {
+  Grid,
+  ListItemText,
+} from '@mui/material';
 
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import axios from '../../utils/axios.jsx';
 import Yup from '../../utils/yup.tsx';
-import { isNumeric, getRoles } from '../../utils/utils.tsx';
-// import {  } from '../../utils/enums.tsx';
+import { isNumeric } from '../../utils/utils.tsx';
+import { RoleType, ManagerType, UnitType } from '../../utils/enums.tsx';
 
 
 export const API = 'building';
 export const LANGUAGE = 'building';
 export const name = LANGUAGE + 'Slice';
+export const pageRoles = [RoleType.SuperAdmin, RoleType.OrganizationAdmin, RoleType.Manager, RoleType.Accountant, RoleType.Worker];
 
 
 export const getFields = (t: any, field: string) => {
@@ -52,6 +57,7 @@ export const getFields = (t: any, field: string) => {
       id: 'pib',
       name: 'pib',
       label: t(LANGUAGE + '.table.pib'),
+      labelTable: t(LANGUAGE + '.table.pib_registration_number'),
       placeholder: '',
     },
 
@@ -59,6 +65,7 @@ export const getFields = (t: any, field: string) => {
       id: 'registration_number',
       name: 'registration_number',
       label: t(LANGUAGE + '.table.registration_number'),
+      labelTable: t(LANGUAGE + '.table.mb'),
       placeholder: '',
     },
     {
@@ -318,6 +325,84 @@ export const prepareData = (values: any = null, id: number|null) => {
 
   return data;
 };
+
+
+export const getManagerTypeLabel = (managerType: string, t: any) => {
+  switch (managerType) {
+    case ManagerType.ProfessionalManager:
+      return t('building.details.professional_manager');
+
+    case ManagerType.ResidentManager:
+      return t('building.details.resident_manager');
+
+    default:
+      return '-';
+  }
+};
+export const getUnitTypeLabel = (unitType: string, t: any) => {
+  switch (unitType) {
+    case UnitType.Apartment:
+      return t('building.details.apartment');
+
+    case UnitType.Basement:
+      return t('building.details.basement');
+
+    case UnitType.Attic:
+      return t('building.details.attic');
+
+    case UnitType.Commercial:
+      return t('building.details.commercial');
+
+    case UnitType.Garage:
+      return t('building.details.garage');
+
+    case UnitType.Office:
+      return t('building.details.office');
+
+    case UnitType.Storage:
+      return t('building.details.storage');
+
+    case UnitType.Common:
+      return t('building.details.common');
+
+    case UnitType.BoilerRoom:
+      return t('building.details.boiler_room');
+
+    case UnitType.LaundryRoom:
+      return t('building.details.laundry_room');
+
+    case UnitType.SecurityRoom:
+      return t('building.details.security_room');
+
+    case UnitType.TechnicalRoom:
+      return t('building.details.technical_room');
+
+    case UnitType.ParkingSpace:
+      return t('building.details.parking_space');
+
+    case UnitType.Other:
+      return t('building.details.other');
+
+    default:
+      return '-';
+  }
+};
+
+
+export const renderField = (label: string, value: any, options: { xs: number, sm: number, md: number } = { xs: 12, sm: 6, md: 4 }) => (
+  <Grid item xs={options?.xs} sm={options?.sm} md={options?.md}>
+    <ListItemText
+      primary={value || '-'}
+      secondary={label}
+      primaryTypographyProps={{ typography: 'body2' }}
+      secondaryTypographyProps={{
+        component: 'span',
+        typography: 'caption',
+        color: 'text.disabled',
+      }}
+    />
+  </Grid>
+);
 
 
 export interface initialValuesStruct {

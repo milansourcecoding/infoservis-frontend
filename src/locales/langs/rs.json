@@ -184,7 +184,8 @@
     "import": "Uvezi",
     "printAll": "Stampaj sve",
     "exportAllPdf": "Izvezi sve u PDF",
-    "exportAllCSV": "Izvezi sve u CSV"
+    "exportAllCSV": "Izvezi sve u CSV",
+    "actions": "Akcija"
   },
 
   "enums": {
@@ -252,13 +253,9 @@
       "name": "Naziv zgrade",
       "city": "Grad",
       "address": "Adresa",
-      "email": "Email",
-      "password": "Lozinka",
-      "password_confirmation": "Ponovi lozinku",
-      "jmbg": "JMBG",
-      "phone": "Broj telefona",
-      "roles": "Uloga",
       "is_active": "Aktivan",
+      "pib_registration_number": "Maticni broj i PIB",
+      "mb": "MB",
       "pib": "PIB",
       "units_number": "Broj stambenih jedinica",
       "registration_number": "Maticni broj",
@@ -273,7 +270,8 @@
       "remote_heating": "Daljinsko grejanje",
       "shelter": "Sklonište",
       "parking": "Parking",
-      "description": "Opis"
+      "description": "Opis",
+      "manager": "Upravnik"
     },
     "details": {
       "title": "Detalji zgrade",

@@ -79,30 +79,25 @@ const List = () => {
 
   const TABLE_HEAD = [
     { id: 'name', label: getFields(t, 'name')?.label, disableSort: false },
-    { id: 'address', label: getFields(t, 'address')?.label, disableSort: false },
-    { id: 'city', label: getFields(t, 'city')?.label, disableSort: false },
+    // { id: 'address', label: getFields(t, 'address')?.label, disableSort: false },
+    // { id: 'city', label: getFields(t, 'city')?.label, disableSort: false },
 
-    { id: 'units_number', label: getFields(t, 'units_number')?.label, disableSort: false },
+    // { id: 'units_number', label: getFields(t, 'units_number')?.label, disableSort: false },
     { id: 'pib', label: getFields(t, 'pib')?.label, disableSort: false },
     { id: 'registration_number', label: getFields(t, 'registration_number')?.label, disableSort: false },
     { id: 'bank_account', label: getFields(t, 'bank_account')?.label, disableSort: false },
     { id: 'bank_ammount', label: getFields(t, 'bank_ammount')?.label, disableSort: false },
-    { id: 'area', label: getFields(t, 'area')?.label, disableSort: false },
-    { id: 'year_of_construction', label: getFields(t, 'year_of_construction')?.label, disableSort: false },
-    { id: 'number_of_floors', label: getFields(t, 'number_of_floors')?.label, disableSort: false },
-    { id: 'number_of_elevators', label: getFields(t, 'number_of_elevators')?.label, disableSort: false },
-    { id: 'roof_type', label: getFields(t, 'roof_type')?.label, disableSort: false },
-    { id: 'lightning_rod', label: getFields(t, 'lightning_rod')?.label, disableSort: false },
-    { id: 'shelter', label: getFields(t, 'shelter')?.label, disableSort: false },
-    { id: 'remote_heating', label: getFields(t, 'remote_heating')?.label, disableSort: false },
-    { id: 'parking', label: getFields(t, 'parking')?.label, disableSort: false },
-    { id: 'description', label: getFields(t, 'description')?.label, disableSort: false },
-
-
-
-
-
-    // { id: 'country', label: getFields(t, 'country')?.label, disableSort: false },
+    // { id: 'area', label: getFields(t, 'area')?.label, disableSort: false },
+    // { id: 'year_of_construction', label: getFields(t, 'year_of_construction')?.label, disableSort: false },
+    // { id: 'number_of_floors', label: getFields(t, 'number_of_floors')?.label, disableSort: false },
+    // { id: 'number_of_elevators', label: getFields(t, 'number_of_elevators')?.label, disableSort: false },
+    // { id: 'roof_type', label: getFields(t, 'roof_type')?.label, disableSort: false },
+    // { id: 'lightning_rod', label: getFields(t, 'lightning_rod')?.label, disableSort: false },
+    // { id: 'shelter', label: getFields(t, 'shelter')?.label, disableSort: false },
+    // { id: 'remote_heating', label: getFields(t, 'remote_heating')?.label, disableSort: false },
+    // { id: 'parking', label: getFields(t, 'parking')?.label, disableSort: false },
+    // { id: 'description', label: getFields(t, 'description')?.label, disableSort: false },
+    { id: 'manager', label: t('building.table.manager'), disableSort: true },
     { id: 'isActive', label: getFields(t, 'is_active')?.label, disableSort: false },
     { id: 'created_at', label: t('table.registered_at'), width: 180, disableSort: false },
     { id: '', width: 50 },

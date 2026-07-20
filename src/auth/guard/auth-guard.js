@@ -45,7 +45,12 @@ export default function AuthGuard({ children }) {
     } else {
       const items = userRoles.flatMap((role) => NAV_ITEMS_BY_ROLE[role] || []);
 
-      if (items?.some((role) => role?.path?.includes(location.pathname))) {
+      const hasAccess = items?.some((item) =>
+        location.pathname === item.path ||
+        location.pathname.startsWith(`${item.path}/`)
+      ) ?? false;
+
+      if (hasAccess) {
         setChecked(true);
       } else {
         setChecked(false);
