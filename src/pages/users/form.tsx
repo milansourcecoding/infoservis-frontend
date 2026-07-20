@@ -374,7 +374,10 @@ export default function Form(props: any) {
     }}
     PaperProps={{
       sx: {
-        width: '40%',
+        width: {
+          xs: '100%',
+          md: '40%',
+        },
         backgroundColor: 'white'
       },
     }}
