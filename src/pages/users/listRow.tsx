@@ -66,6 +66,7 @@ export default function ListRow({ row, isSelected, selected, onSelectRow }: any)
     >
       <TableCell padding="checkbox"
         sx={{
+          backgroundColor: selected ? '#f5faf9' : 'white',
           whiteSpace: "nowrap",
           position: "sticky",
           left: 0,
