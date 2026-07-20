@@ -194,12 +194,12 @@ export default function ListRow({ row, isSelected, selected, onSelectRow }: any)
           <Hidden mdDown>
             <Tooltip title={t('buttons.edit')} placement="top" arrow>
               <IconButton
-                component={RouterLink}
-                to={`/building/${row.id}`}
-                color="default"
                 disabled={isSelected}
                 onClick={(e) => {
                   e.stopPropagation();
+                  e.preventDefault();
+
+                  onEditRow();
                 }}
               >
                 <Icon icon={'solar:pen-bold'} />

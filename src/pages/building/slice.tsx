@@ -60,7 +60,6 @@ export const getFields = (t: any, field: string) => {
       labelTable: t(LANGUAGE + '.table.pib_registration_number'),
       placeholder: '',
     },
-
     {
       id: 'registration_number',
       name: 'registration_number',
@@ -148,21 +147,6 @@ export const getFields = (t: any, field: string) => {
       label: t(LANGUAGE + '.table.description'),
       placeholder: '',
     },
-
-
-
-
-
-
-
-
-
-    // {
-    //   id: 'country',
-    //   name: 'country',
-    //   label: t(LANGUAGE + '.table.country'),
-    //   placeholder: '',
-    // },
     {
       id: 'is_active',
       name: 'is_active',
@@ -185,7 +169,6 @@ export const getFilterOptions = (t: any) => {
     { ...getFields(t, 'name') },
     { ...getFields(t, 'address') },
     { ...getFields(t, 'city') },
-    // { ...getFields(t, 'country') },
   ];
 }
 
@@ -209,7 +192,6 @@ export const formSchema = (t: any, id: number|null = null) => {
     bank_account: Yup.string().max(255).label(getFields(t, 'bank_account')?.label),
     bank_ammount: Yup.number().label(getFields(t, 'bank_ammount')?.label),
     pib: Yup.string().max(255).label(getFields(t, 'pib')?.label),
-    // country: Yup.string().required().label(getFields(t, 'country')?.label),
     is_active: Yup.boolean(),
   })
 }
@@ -285,7 +267,6 @@ export const prepareForm = (values: any = null, defValues: any = null) => {
     data['bank_account'] = form?.bank_account || '';
     data['bank_ammount'] = form?.bank_ammount || '';
     data['pib'] = form?.pib || '';
-    // data['country'] = form?.country || '';
 
     data['is_active'] = form?.is_active || false;
   }
@@ -314,7 +295,6 @@ export const prepareData = (values: any = null, id: number|null) => {
     data['bank_account'] = values?.bank_account || '';
     data['bank_ammount'] = values?.bank_ammount || '';
     data['pib'] = values?.pib || '';
-    // data['country'] = values?.country || '';
 
     data['is_active'] = values?.is_active || false;
 
@@ -387,8 +367,6 @@ export const getUnitTypeLabel = (unitType: string, t: any) => {
       return '-';
   }
 };
-
-
 export const renderField = (label: string, value: any, options: { xs: number, sm: number, md: number } = { xs: 12, sm: 6, md: 4 }) => (
   <Grid item xs={options?.xs} sm={options?.sm} md={options?.md}>
     <ListItemText
@@ -409,14 +387,44 @@ export interface initialValuesStruct {
   name: string,
   city: string,
   address: string,
-  // country: string,
+  units_number: number|null,
+  pib: string,
+  registration_number: string,
+  bank_account: string,
+  bank_ammount: string,
+  description: string,
+  area: string,
+  year_of_construction: string,
+  number_of_floors: string,
+  number_of_elevators: string,
+  roof_type: string,
+  lightning_rod: boolean,
+  shelter: boolean,
+  remote_heating: boolean,
+  parking: boolean,
+  manager_id: number|null,
   is_active: boolean,
 };
 export const initialValues: initialValuesStruct = {
   name: '',
   city: '',
   address: '',
-  // country: '',
+  units_number: null,
+  pib: '',
+  registration_number: '',
+  bank_account: '',
+  bank_ammount: '',
+  description: '',
+  area: '',
+  year_of_construction: '',
+  number_of_floors: '',
+  number_of_elevators: '',
+  roof_type: '',
+  lightning_rod: false,
+  shelter: false,
+  remote_heating: false,
+  parking: false,
+  manager_id: null,
   is_active: true,
 };
 
