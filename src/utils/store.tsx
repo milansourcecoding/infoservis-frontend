@@ -9,6 +9,7 @@ import selectAutocompleteSlice from '../components/autocomplete/selectAutocomple
 
 import usersSlice, { name as usersSliceName} from '../pages/users/slice.tsx';
 import buildingSlice, { name as buildingSliceName} from '../pages/building/slice.tsx';
+import organizationSlice, { name as organizationSliceName} from '../pages/organization/slice.tsx';
 
 
 export type RootState = ReturnType<typeof store.getState>;
@@ -24,6 +25,7 @@ const store = configureStore({
 
     [usersSliceName]: usersSlice.reducer,
     [buildingSliceName]: buildingSlice.reducer,
+    [organizationSliceName]: organizationSlice.reducer,
   },
 });
 

@@ -57,3 +57,15 @@ export const UnitType = {
      ParkingSpace: 'parking_space',
      Other: 'other'
 }
+
+export const OrganizationType = {
+     General: 'general',
+     Elevators: 'elevators',
+     Cleaning: 'cleaning',
+     Heating: 'heating',
+     Plumbing: 'plumbing',
+     Accounting: 'accounting',
+     Technical: 'technical',
+     Security: 'security',
+     Other: 'other'
+}

@@ -250,6 +250,10 @@ export default function BuildingDetailsPage() {
             t('building.details.description'),
             details?.manager.description
           )}
+          {renderField(
+            t('building.details.organization'),
+            details?.manager?.organization?.name
+          )}
         </Grid>
       ) : (
         <Typography variant="body2" color="text.secondary">
