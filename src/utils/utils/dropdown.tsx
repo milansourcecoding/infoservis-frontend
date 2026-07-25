@@ -11,7 +11,7 @@
 import _ from 'lodash';
 // import { t } from 'i18next';
 import { City }  from 'country-state-city';
-import { RoleType, UnitType, ManagerType } from '../enums.tsx';
+import { RoleType, UnitType, ManagerType, OrganizationType } from '../enums.tsx';
 
 // ----------------------------------------------------------------------
 
@@ -28,8 +28,14 @@ export const getUnitTypes = () =>
     value: key,
   }));
 
-  export const getManagerTypes = () =>
+export const getManagerTypes = () =>
   Object.entries(ManagerType).map(([key, value]) => ({
+    id: value,
+    value: key,
+  }));
+
+export const getOrganizationTypes = () =>
+  Object.entries(OrganizationType).map(([key, value]) => ({
     id: value,
     value: key,
   }));

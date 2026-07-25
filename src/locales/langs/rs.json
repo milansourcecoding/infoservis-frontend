@@ -17,7 +17,8 @@
       "settings": "Podesavanja",
       "users": "Korisnici",
       "building": "Zgrada",
-      "tickets": "Ticketi"
+      "tickets": "Ticketi",
+      "organizations": "Poslovne Organizacije"
     },
     "OrganizationAdmin": {
       "dashboard": "Pocetna",
@@ -345,7 +346,47 @@
       "active": "Aktivan"
     },
     "allTypes": "Svi tipovi"
+  },
+  "organization": {
+    "list": "Poslovne Organizacije",
+    "table": {
+      "name": "Naziv",
+      "address": "Adresa",
+      "city": "Grad",
+      "pib": "PIB",
+      "registration_number": "Matični broj",
+      "bank_account": "Tekući račun",
+      "description": "Opis",
+      "is_active": "Aktivan",
+      "responsible_person": "Odgovorno Lice",
+      "type": "Vrsta Organizacije"
+    },
+    "details" : {
+      "title" : "Detalji Organizacije",
+      "add_employee": "Dodaj zaposlenog",
+      "add_service": "Dodaj uslugu",
+      "basic_information": "Osnovne informacije",
+      "name": "Naziv zgrade",
+      "email": "Email",
+      "address": "Adresa",
+      "city": "Grad",
+      "description": "Opis",
+      "technical_information": "Tehničke informacije",
+      "legal_information": "Pravne i bankarske informacije",
+      "pib": "PIB",
+      "registration_number": "Matični broj",
+      "bank_account": "Tekući račun",
+      "responsible_person":"Odgovorno Lice",
+      "system_information": "Sistemske informacije",
+      "created_at": "Kreirano",
+      "updated_by": "Poslednju izmenu izvršio",
+      "back_to_list": "Nazad na listu",
+      "edit_organization": "Izmeni zgradu",
+      "employees": "Zaposleni u organizaciji",
+      "employee_name" : "Ime",
+      "services": "Usluge",
+      "service_name": "Naziv usluge"
+    }
   }
-
 }
 

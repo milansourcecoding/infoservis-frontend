@@ -17,6 +17,10 @@ const icon = (name) => (
   // https://www.streamlinehq.com/icons
 );
 
+const iconOrganization = () => (
+  <SvgColor src={`/assets/icons/components/ic_extra_organization_chart.svg`} sx={{ width: 1, height: 1 }} />
+);
+
 const ICONS = {
   job: icon('ic_job'),
   blog: icon('ic_blog'),
@@ -44,6 +48,7 @@ const ICONS = {
   dashboard: icon('ic_dashboard'),
   settings: <Iconify icon="solar:settings-bold-duotone" />,
   building: <Iconify icon="solar:buildings-bold-duotone" />,
+  organization: iconOrganization()
 };
 
 
@@ -89,6 +94,11 @@ export const NAV_ITEMS_BY_ROLE = {
       icon: ICONS.building,
     },
     {
+      title: 'menu.Manager.organizations',
+      path: '/organization',
+      icon: ICONS.organization,
+    },
+    {
       title: 'menu.Manager.tickets',
       path: '/tickets',
       icon: ICONS.job,
@@ -115,6 +125,11 @@ export const NAV_ITEMS_BY_ROLE = {
       title: 'menu.Manager.building',
       path: '/building',
       icon: ICONS.building,
+    },
+    {
+      title: 'menu.Manager.organizations',
+      path: '/organization',
+      icon: ICONS.organization,
     },
     {
       title: 'menu.OrganizationAdmin.reports',
@@ -145,6 +160,11 @@ export const NAV_ITEMS_BY_ROLE = {
       icon: ICONS.building,
     },
     {
+      title: 'menu.Manager.organizations',
+      path: '/organization',
+      icon: ICONS.organization,
+    },
+    {
       title: 'menu.SuperAdmin.reports',
       path: '/reports',
       icon: ICONS.analytics,
@@ -171,6 +191,11 @@ export const NAV_ITEMS_BY_ROLE = {
       title: 'menu.Manager.building',
       path: '/building',
       icon: ICONS.building,
+    },
+    {
+      title: 'menu.Manager.organizations',
+      path: '/organization',
+      icon: ICONS.organization,
     },
     {
       title: 'menu.Accountant.reports',
@@ -201,6 +226,11 @@ export const NAV_ITEMS_BY_ROLE = {
       icon: ICONS.building,
     },
     {
+      title: 'menu.Manager.organizations',
+      path: '/organization',
+      icon: ICONS.organization,
+    },
+    {
       title: 'menu.Worker.reports',
       path: '/reports',
       icon: ICONS.analytics,
@@ -224,6 +254,11 @@ export const NAV_ITEMS_BY_ROLE = {
       icon: ICONS.user,
     },
     {
+      title: 'menu.Manager.organizations',
+      path: '/organization',
+      icon: ICONS.organization,
+    },
+    {
       title: 'menu.Technician.reports',
       path: '/reports',
       icon: ICONS.analytics,
@@ -245,6 +280,11 @@ export const NAV_ITEMS_BY_ROLE = {
       title: 'menu.Cleaner.users',
       path: '/users',
       icon: ICONS.user,
+    },
+    {
+      title: 'menu.Manager.organizations',
+      path: '/organization',
+      icon: ICONS.organization,
     },
     {
       title: 'menu.Cleaner.reports',

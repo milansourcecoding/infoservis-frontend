@@ -19,6 +19,8 @@ const BuildingDetails = lazy(() => import('src/pages/building/details'));
 const BuildingEditPage = lazy(() => import('src/pages/building/edit'));
 const BuildingUnitCreatePage = lazy(() => import('src/pages/building/units/create'));
 const BuildingManagerCreatePage = lazy(() => import('src/pages/building/managers/create'));
+const Organization = lazy(() => import('src/pages/organization/list'));
+const OrganizationDetails = lazy(() => import('src/pages/organization/details'));
 
 // ----------------------------------------------------------------------
 
@@ -91,6 +93,24 @@ export const dashboardRoutes = [
       { path: ':id/edit', element: <BuildingEditPage /> },
       { path: ':id/units/create', element: <BuildingUnitCreatePage /> },
       { path: ':id/managers/create', element: <BuildingManagerCreatePage /> },
+    ],
+  },
+
+
+  {
+    path: 'organization',
+    element: (
+      <AuthGuard>
+        <DashboardLayout>
+          <Suspense fallback={<LoadingScreen />}>
+            <Outlet />
+          </Suspense>
+        </DashboardLayout>
+      </AuthGuard>
+    ),
+    children: [
+      { element: <Organization />, index: true },
+      { path: ':id', element: <OrganizationDetails /> },
     ],
   },
 

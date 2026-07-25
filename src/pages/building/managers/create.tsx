@@ -31,6 +31,11 @@ interface ManagerTypeOption {
   value: string;
 }
 
+interface OrganizationOption {
+  id: string;
+  value: string;
+}
+
 export default function BuildingManagerCreatePage() {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -39,14 +44,19 @@ export default function BuildingManagerCreatePage() {
   const [userOptions, setUserOptions] = useState<UserOption[]>([]);
   const [selectedUser, setSelectedUser] = useState<UserOption | null>(null);
 
+  const [organizationOptions, setOrganizationOptions] = useState<OrganizationOption[]>([]);
+  const [selectedOrganization, setSelectedOrganization] = useState<OrganizationOption | null>(null);
+
   const [managerType, setManagerType] = useState('');
   const [organizationId, setOrganizationId] = useState('');
   const [licenseNumber, setLicenseNumber] = useState('');
   const [description, setDescription] = useState('');
 
   const [loadingUsers, setLoadingUsers] = useState(false);
+  const [loadingOrganizations, setLoadingOrganizations] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [userError, setUserError] = useState(false);
+  const [organizationError, setOrganizationError] = useState(false);
 
   const [managerTypeOptions] = useState<ManagerTypeOption[]>(getManagerTypes().map((option) => ({
   ...option,
@@ -79,6 +89,30 @@ const [selectedManagerType, setSelectedManagerType] =
     }
   };
 
+    const searchOrganizations = async (_event: any, search: string) => {
+    if (search.length < 3) {
+      setOrganizationOptions([]);
+      return;
+    }
+
+    try {
+      setLoadingOrganizations(true);
+
+      const response = await axiosInstance.get('/organization/all', {
+        params: {
+          search,
+        },
+      });
+
+      setOrganizationOptions(response.data.data ?? []);
+    } catch (error) {
+      console.error('Unable to load organizations:', error);
+      setOrganizationOptions([]);
+    } finally {
+      setLoadingOrganizations(false);
+    }
+  };
+
   const handleSubmit = async () => {
     if (!selectedUser) {
       setUserError(true);
@@ -91,7 +125,7 @@ const [selectedManagerType, setSelectedManagerType] =
       await axiosInstance.post(`/building/${id}/manager`, {
         user_id: selectedUser.id,
         managerType: selectedManagerType?.id,
-        organizationId,
+        organization_id: selectedOrganization?.id,
         licenseNumber,
         description
       });
@@ -167,12 +201,24 @@ const [selectedManagerType, setSelectedManagerType] =
             }}
             onInputChange={() => {}}
           />
-
-          <TextField
+          
+          <DropdownAutocomplete
+            freeSolo={false}
+            multiple={false}
+            disableClearable
+            labelField="name"
             label={t('building.details.organization')}
-            value={organizationId}
-            onChange={(event) => setOrganizationId(event.target.value)}
-            fullWidth
+            options={organizationOptions}
+            value={selectedOrganization}
+            onChange={(event, value: OrganizationOption | null) => {
+              event?.preventDefault();
+              event?.stopPropagation();
+
+              setSelectedOrganization(value);
+              setOrganizationError(false);
+            }}
+            onInputChange={searchOrganizations}
+            error={organizationError}
           />
 
           <TextField
