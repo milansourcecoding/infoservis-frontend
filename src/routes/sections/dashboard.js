@@ -21,6 +21,11 @@ const BuildingUnitCreatePage = lazy(() => import('src/pages/building/units/creat
 const BuildingManagerCreatePage = lazy(() => import('src/pages/building/managers/create'));
 const Organization = lazy(() => import('src/pages/organization/list'));
 const OrganizationDetails = lazy(() => import('src/pages/organization/details'));
+const UnitDetailsPage = lazy(() => import('src/pages/building/units/details'));
+const BuildingBillableServiceCreatePage = lazy(() => import('src/pages/building/billableServices/create'));
+const BuildingBillableServiceDetailsPage = lazy(() => import('src/pages/building/billableServices/details'));
+const UnitBillableServiceCreatePage = lazy(() => import('src/pages/building/units/billableServices/create'));
+const UnitBillableServiceDetailsPage = lazy(() => import('src/pages/building/units/billableServices/details'));
 
 // ----------------------------------------------------------------------
 
@@ -93,6 +98,12 @@ export const dashboardRoutes = [
       { path: ':id/edit', element: <BuildingEditPage /> },
       { path: ':id/units/create', element: <BuildingUnitCreatePage /> },
       { path: ':id/managers/create', element: <BuildingManagerCreatePage /> },
+      { path: ':building_id/units/:id', element: <UnitDetailsPage /> },
+      { path: ':id/units/create', element: <BuildingUnitCreatePage /> },
+      { path: ':id/billable-services/create', element: <BuildingBillableServiceCreatePage /> },
+      { path: ':building_id/billable-services/:id', element: <BuildingBillableServiceDetailsPage /> },
+      { path: ':id/units/:unit_id/billable-services/create', element: <UnitBillableServiceCreatePage /> },
+      { path: ':building_id/units/:unit_id/billable-services/:id', element: <UnitBillableServiceDetailsPage /> },
     ],
   },
 

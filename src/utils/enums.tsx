@@ -47,6 +47,7 @@ export const UnitType = {
      Attic: 'attic',
      Commercial: 'commercial',
      Garage: 'garage',
+     GarageSpot: 'garage_spot',
      Office: 'office',
      Storage: 'storage',
      Common: 'common',
@@ -68,4 +69,13 @@ export const OrganizationType = {
      Technical: 'technical',
      Security: 'security',
      Other: 'other'
+}
+
+export const BillingType = {
+  PerUnit: 'per_unit',
+  PerArea: 'per_area',
+  PerPerson: 'per_person',
+  PerHour: 'per_hour',
+  PerMass: 'per_mass',
+  PerKwh: 'per_kwh'
 }

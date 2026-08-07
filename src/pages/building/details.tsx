@@ -4,7 +4,7 @@
 /* eslint-disable no-else-return */
 import React from 'react';
 
-import { useParams, useNavigate, Link as RouterLink } from 'react-router-dom';
+import { useParams, useNavigate, Link as RouterLink, useLocation } from 'react-router-dom';
 import { format } from 'date-fns';
 
 import { useDispatch } from 'react-redux';
@@ -27,6 +27,8 @@ import {
   ListItemText,
   TableContainer,
   IconButton,
+  Tab,
+  Tabs
 } from '@mui/material';
 import { Icon } from '@iconify/react';
 
@@ -36,7 +38,7 @@ import Label from 'src/components/label';
 import EmptyContent from 'src/components/empty-content';
 
 import { RootState, AppDispatch, useTypedSelector } from '../../utils/store.tsx';
-import slice, { LANGUAGE, pageRoles, getManagerTypeLabel, getUnitTypeLabel, renderField } from './slice.tsx';
+import slice, { LANGUAGE, pageRoles, getManagerTypeLabel, getUnitTypeLabel, getBillingTypeLabel, renderField } from './slice.tsx';
 
 import { dateTimeFormat, formatCurrency, formatArea } from '../../utils/utils.tsx';
 // import {  } from '../../utils/enums.tsx';
@@ -112,20 +114,34 @@ export default function BuildingDetailsPage() {
       </Stack>
 
       <Stack direction="row" spacing={1}>
-        <Button
+        {/* <Button
           variant="contained"
           startIcon={<Icon icon="mingcute:add-line" />}
           onClick={() => navigate(`/building/${details?.id}/units/create`)}
         >
           {t('building.details.add_unit')}
-        </Button>
+        </Button> */}
 
-        <Button
+        {/* <Button
           variant="outlined"
           startIcon={<Icon icon="mingcute:user-add-line" />}
           onClick={() => navigate(`/building/${details?.id}/managers/create`)}
         >
           {t('building.details.add_manager')}
+        </Button> */}
+
+        <Button
+          variant="outlined"
+          onClick={() => navigate('/building')}
+        >
+          {t('building.details.back_to_list')}
+        </Button>
+
+        <Button
+          variant="contained"
+          onClick={() => navigate(`/building/${details?.id}/edit`)}
+        >
+          {t('building.details.edit_building')}
         </Button>
       </Stack>
     </Stack>
@@ -216,7 +232,15 @@ export default function BuildingDetailsPage() {
           >
             {t('building.details.view_manager')}
           </Button>
+          
         )}
+        <Button
+          variant="contained"
+          startIcon={<Icon icon="mingcute:user-add-line" />}
+          onClick={() => navigate(`/building/${details?.id}/managers/create`)}
+        >
+          {t('building.details.add_manager')}
+        </Button>
       </Stack>
 
       {details?.manager ? (
@@ -268,6 +292,13 @@ export default function BuildingDetailsPage() {
       <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ p: 3, pb: 2 }} > 
         <Typography variant="h6"> {t('building.details.units')}</Typography> 
         <Typography variant="body2" color="text.secondary">{(details && details.units && details.units.length > 0) ? details.units.length : 0} </Typography> 
+        <Button
+          variant="contained"
+          startIcon={<Icon icon="mingcute:add-line" />}
+          onClick={() => navigate(`/building/${details?.id}/units/create`)}
+        >
+          {t('building.details.add_unit')}
+        </Button>
       </Stack> 
       <TableContainer> 
         <Table> 
@@ -327,7 +358,7 @@ export default function BuildingDetailsPage() {
 
         {renderField(t('building.details.updated_by'), details?.updated_user_name)}
       </Grid>
-
+{/* 
       <Divider sx={{ my: 3 }} />
 
       <Stack direction="row" spacing={1}>
@@ -344,9 +375,115 @@ export default function BuildingDetailsPage() {
         >
           {t('building.details.edit_building')}
         </Button>
-      </Stack>
+      </Stack> */}
     </Card>
   }
+
+  const buildingInfo = () => {
+    return <Box>
+        {basicDataSection()}
+        {legalInformationSection()}
+        {systemInformationSection()}
+      </Box>
+  }
+
+  const billableServicesSection = () => {
+    return <Card sx={{ mb: 3 }}> 
+      <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ p: 3, pb: 2 }} > 
+        <Typography variant="h6"> {t('building.details.billable_services')}</Typography> 
+        <Typography variant="body2" color="text.secondary">{(details && details.billable_services && details.billable_services.length > 0) ? details.billable_services.length : 0} </Typography> 
+        <Button
+          variant="contained"
+          startIcon={<Icon icon="mingcute:add-line" />}
+          onClick={() => navigate(`/building/${details?.id}/billable-services/create`)}
+        >
+          {t('building.details.add_billable_service')}
+        </Button>
+      </Stack> 
+      <TableContainer> 
+        <Table> 
+          <TableHead> 
+            <TableRow> 
+              <TableCell> {t('building.billable_service.name')} </TableCell> 
+              <TableCell> {t('building.billable_service.description')} </TableCell>
+              <TableCell> {t('building.billable_service.billing_type')} </TableCell>
+              <TableCell> {t('building.billable_service.quantity')} </TableCell>
+              <TableCell> {t('building.billable_service.price')} </TableCell>
+              <TableCell> {t('building.billable_service.unit_type')} </TableCell>
+              <TableCell> {t('building.billable_service.start_date')} </TableCell>
+              <TableCell> {t('building.billable_service.end_date')} </TableCell>
+              <TableCell> {t('building.billable_service.created_at')} </TableCell>
+              <TableCell> {t('building.billable_service.updated_at')} </TableCell>
+              <TableCell> {t('building.billable_service.is_active')} </TableCell>
+              <TableCell align="right"> {t('buttons.actions')} </TableCell>
+            </TableRow> 
+          </TableHead> 
+          <TableBody> {(details && details.billable_services && details.billable_services.length > 0) ? ( details.billable_services.map((service: any) => ( <TableRow key={service.id} hover > 
+            <TableCell> {service.name ?? '-'} </TableCell>
+            <TableCell> {service.description ?? '-'} </TableCell>
+            <TableCell> {getBillingTypeLabel(service.billing_type, t) ?? '-'}  </TableCell>
+            <TableCell> {service.quantity ?? '-'} </TableCell>
+            <TableCell> {service.price ?? '-'} </TableCell>
+            <TableCell> {getUnitTypeLabel(service.unit_type, t) ?? '-'}  </TableCell>
+            <TableCell> {service.start_date ?? '-'} </TableCell>
+            <TableCell> {service.end_date ?? '-'} </TableCell>
+            <TableCell> {service.created_at ?? '-'} </TableCell>
+            <TableCell> {service.updated_at ?? '-'} </TableCell>
+            <TableCell> {service.is_active ? t('building.billable_service.active') : t('building.billable_service.inactive')} </TableCell>
+
+            <TableCell align="right"> 
+              <Button size="small" onClick={() => navigate(`/building/${details?.id}/billable-services/${service.id}`) }> {t('buttons.view')} </Button>
+            </TableCell> 
+            </TableRow> )) ) : 
+            ( <TableRow> 
+                <TableCell colSpan={10} align="center" sx={{ py: 4 }} > 
+                  <Typography variant="body2" color="text.secondary" > {t('table.noData')} </Typography> 
+                </TableCell> 
+              </TableRow> )} 
+          </TableBody> 
+        </Table> 
+      </TableContainer> 
+    </Card>
+  }
+
+    const TABS = [
+      {
+        value: 'basic',
+        label: t('building.details.basic_information'),
+        icon: <Icon icon={'solar:user-id-bold'} width={24} />,
+      },
+      {
+        value: 'technical',
+        label: t('building.details.technical_information'),
+        icon: <Icon icon={'ic:round-vpn-key'} width={24} />
+      },
+      {
+        value: 'manager',
+        label: t('building.details.manager'),
+        icon: <Icon icon={'ic:round-vpn-key'} width={24} />
+      },
+      {
+        value: 'units',
+        label: t('building.details.units'),
+        icon: <Icon icon={'ic:round-vpn-key'} width={24} />
+      },
+      {
+        value: 'billable_services',
+        label: t('building.details.billable_services'),
+        icon: <Icon icon={'ic:round-vpn-key'} width={24} />
+      },
+    ];
+
+    const location = useLocation();
+
+    const [currentTab, setCurrentTab] = React.useState(
+        location.state?.activeTab || 'basic'
+    );
+    
+    
+    const handleChangeTab = React.useCallback((event: any, newValue: any) => {
+        setCurrentTab(newValue);
+    }, []);
 
 
   return <MainContainer title={t(LANGUAGE + '.title')} roles={pageRoles}>
@@ -355,17 +492,41 @@ export default function BuildingDetailsPage() {
       ?
       <Box>
         {topSection()}
-        {basicDataSection()}
+        {/* {basicDataSection()}
         {technicalInformationSection()}
         {legalInformationSection()}
         {menagerSection()}
         {unitsSection()}
-        {systemInformationSection()}
+        {systemInformationSection()} */}
       </Box>
+      
       :
       loading()
     }
     
     {/* <BlockPage isLoading={isLoading} /> */}
+
+        <Tabs
+          value={currentTab}
+          onChange={handleChangeTab}
+          sx={{
+            mb: { xs: 3, md: 5 },
+          }}
+        >
+          {TABS.map((tab) => (
+            <Tab key={tab.value} label={tab.label} icon={tab.icon} value={tab.value} />
+          ))}
+        </Tabs>
+
+    
+        {currentTab === 'basic' && buildingInfo()}
+    
+        {currentTab === 'technical' && technicalInformationSection()}
+
+        {currentTab === 'manager' && menagerSection()}
+
+        {currentTab === 'units' && unitsSection()}
+
+        {currentTab === 'billable_services' && billableServicesSection()}
   </MainContainer>
 }

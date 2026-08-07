@@ -158,7 +158,16 @@ const [selectedManagerType, setSelectedManagerType] =
 
         <Button
           variant="outlined"
-          onClick={() => navigate(`/building/${id}`)}
+          onClick={() => {
+            navigate(
+              `/building/${id}`,
+              {
+                state: {
+                  activeTab: 'manager',
+                },
+              }
+            );
+          }}
         >
           {t('building.details.back_to_building')}
         </Button>
@@ -246,7 +255,16 @@ const [selectedManagerType, setSelectedManagerType] =
             <Button
               variant="outlined"
               disabled={submitting}
-              onClick={() => navigate(`/building/${id}`)}
+              onClick={() => {
+                navigate(
+                  `/building/${id}`,
+                  {
+                    state: {
+                      activeTab: 'manager',
+                    },
+                  }
+                );
+              }}
             >
               {t('building.details.cancel')}
             </Button>
