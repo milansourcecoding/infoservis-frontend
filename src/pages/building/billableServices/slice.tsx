@@ -20,15 +20,16 @@ import {
 } from '@mui/material';
 
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { da } from 'date-fns/locale';
+import axios from '../../../utils/axios.jsx';
+import Yup from '../../../utils/yup.tsx';
+import { isNumeric, getUnitTypes, getBillingTypes, } from '../../../utils/utils.tsx';
+import { RoleType, ManagerType, UnitType, BillingType } from '../../../utils/enums.tsx';
 
-import axios from '../../utils/axios.jsx';
-import Yup from '../../utils/yup.tsx';
-import { isNumeric } from '../../utils/utils.tsx';
-import { RoleType, ManagerType, UnitType, BillingType } from '../../utils/enums.tsx';
 
 
-export const API = 'building';
-export const LANGUAGE = 'building';
+export const API = 'billable-service';
+export const LANGUAGE = 'billableService';
 export const name = LANGUAGE + 'Slice';
 export const pageRoles = [RoleType.SuperAdmin, RoleType.OrganizationAdmin, RoleType.Manager, RoleType.Accountant, RoleType.Worker];
 
@@ -42,103 +43,44 @@ export const getFields = (t: any, field: string) => {
       placeholder: '',
     },
     {
-      id: 'city',
-      name: 'city',
-      label: t(LANGUAGE + '.table.city'),
-      placeholder: '',
-    },
-    {
-      id: 'address',
-      name: 'address',
-      label: t(LANGUAGE + '.table.address'),
-      placeholder: '',
-    },
-    {
-      id: 'pib',
-      name: 'pib',
-      label: t(LANGUAGE + '.table.pib'),
-      labelTable: t(LANGUAGE + '.table.pib_registration_number'),
-      placeholder: '',
-    },
-    {
-      id: 'registration_number',
-      name: 'registration_number',
-      label: t(LANGUAGE + '.table.registration_number'),
-      labelTable: t(LANGUAGE + '.table.mb'),
-      placeholder: '',
-    },
-    {
-      id: 'bank_account',
-      name: 'bank_account',
-      label: t(LANGUAGE + '.table.bank_account'),
-      placeholder: '',
-    },    
-    {
-      id: 'bank_ammount',
-      name: 'bank_ammount',
-      label: t(LANGUAGE + '.table.bank_ammount'),
+      id: 'unit_type',
+      name: 'unit_type',
+      label: t(LANGUAGE + '.table.unit_type'),
       placeholder: '',
     },
 
     {
-      id: 'units_number',
-      name: 'units_number',
-      label: t(LANGUAGE + '.table.units_number'),
-      placeholder: '',
-    },
-    {
-      id: 'area',
-      name: 'area',
-      label: t(LANGUAGE + '.table.area'),
-      placeholder: '',
-    },
-    {
-      id: 'year_of_construction',
-      name: 'year_of_construction',
-      label: t(LANGUAGE + '.table.year_of_construction'),
+      id: 'billing_type',
+      name: 'billing_type',
+      label: t(LANGUAGE + '.table.billing_type'),
       placeholder: '',
     },
 
     {
-      id: 'number_of_floors',
-      name: 'number_of_floors',
-      label: t(LANGUAGE + '.table.number_of_floors'),
+      id: 'quantity',
+      name: 'quantity',
+      label: t(LANGUAGE + '.table.quantity'),
       placeholder: '',
     },
+
     {
-      id: 'number_of_elevators',
-      name: 'number_of_elevators',
-      label: t(LANGUAGE + '.table.number_of_elevators'),
+      id: 'price',
+      name: 'price',
+      label: t(LANGUAGE + '.table.price'),
       placeholder: '',
     },
+
     {
-      id: 'roof_type',
-      name: 'roof_type',
-      label: t(LANGUAGE + '.table.roof_type'),
+      id: 'start_date',
+      name: 'start_date',
+      label: t(LANGUAGE + '.table.start_date'),
       placeholder: '',
     },
+
     {
-      id: 'lightning_rod',
-      name: 'lightning_rod',
-      label: t(LANGUAGE + '.table.lightning_rod'),
-      placeholder: '',
-    },
-    {
-      id: 'shelter',
-      name: 'shelter',
-      label: t(LANGUAGE + '.table.shelter'),
-      placeholder: '',
-    },
-    {
-      id: 'remote_heating',
-      name: 'remote_heating',
-      label: t(LANGUAGE + '.table.remote_heating'),
-      placeholder: '',
-    },
-    {
-      id: 'parking',
-      name: 'parking',
-      label: t(LANGUAGE + '.table.parking'),
+      id: 'end_date',
+      name: 'end_date',
+      label: t(LANGUAGE + '.table.end_date'),
       placeholder: '',
     },
     {
@@ -148,10 +90,10 @@ export const getFields = (t: any, field: string) => {
       placeholder: '',
     },
     {
-      id: 'is_active',
-      name: 'is_active',
-      label: t(LANGUAGE + '.table.is_active'),
-      placeholder: '',
+        id: 'is_active',
+        name: 'is_active',
+        label: t(LANGUAGE + '.table.is_active'),
+        placeholder: '',
     },
   ];
 
@@ -167,31 +109,29 @@ export const getFilterOptions = (t: any) => {
       placeholder: '',
     },
     { ...getFields(t, 'name') },
-    { ...getFields(t, 'address') },
-    { ...getFields(t, 'city') },
   ];
 }
 
 export const formSchema = (t: any, id: number|null = null) => {
   return Yup.object().shape({
     name: Yup.string().required().label(getFields(t, 'name')?.label),
-    city: Yup.string().required().label(getFields(t, 'city')?.label),
-    address: Yup.string().required().label(getFields(t, 'address')?.label),
-    units_number: Yup.number().label(getFields(t, 'units_number')?.label),
-    area: Yup.number().label(getFields(t, 'area')?.label),
-    year_of_construction: Yup.number().label(getFields(t, 'year_of_construction')?.label),
-    number_of_floors: Yup.number().label(getFields(t, 'number_of_floors')?.label),
-    number_of_elevators: Yup.number().label(getFields(t, 'number_of_elevators')?.label),
-    roof_type: Yup.string().label(getFields(t, 'roof_type')?.label),
-    lightning_rod: Yup.boolean(),
-    shelter: Yup.boolean(),
-    remote_heating: Yup.boolean(),
-    parking: Yup.boolean(),
+    unit_type: Yup.object()
+              .nullable()
+              .required()
+              .label(getFields(t, 'unit_type')?.label),
     description: Yup.string().max(255).label(getFields(t, 'description')?.label),
-    registration_number: Yup.string().max(255).label(getFields(t, 'registration_number')?.label),
-    bank_account: Yup.string().max(255).label(getFields(t, 'bank_account')?.label),
-    bank_ammount: Yup.number().label(getFields(t, 'bank_ammount')?.label),
-    pib: Yup.string().max(255).label(getFields(t, 'pib')?.label),
+    quantity: Yup.number().label(getFields(t, 'quantity')?.label),
+    price: Yup.number().label(getFields(t, 'price')?.label),
+    start_date: Yup.date().nullable().transform((value, originalValue) =>
+                originalValue === '' ? null : value
+              ).label(getFields(t, 'start_date')?.label),
+    end_date: Yup.date().nullable().transform((value, originalValue) =>
+                originalValue === '' ? null : value
+              ).label(getFields(t, 'end_date')?.label),
+    billing_type: Yup.object()
+            .nullable()
+            .required()
+            .label(getFields(t, 'billing_type')?.label),
     is_active: Yup.boolean(),
   })
 }
@@ -250,52 +190,31 @@ export const prepareForm = (values: any = null, defValues: any = null) => {
 
   if(data && form){
     data['name'] = form?.name || '';
-    data['city'] = form?.city || '';
-    data['address'] = form?.address || '';
-    data['units_number'] = form?.units_number || '';
-    data['area'] = form?.area || '';
-    data['year_of_construction'] = form?.year_of_construction || '';
-    data['number_of_floors'] = form?.number_of_floors || '';
-    data['number_of_elevators'] = form?.number_of_elevators || '';
-    data['roof_type'] = form?.roof_type || '';
-    data['lightning_rod'] = form?.lightning_rod || false;
-    data['shelter'] = form?.shelter || false;
-    data['remote_heating'] = form?.remote_heating || false;
-    data['parking'] = form?.parking || false;
     data['description'] = form?.description || '';
-    data['registration_number'] = form?.registration_number || '';
-    data['bank_account'] = form?.bank_account || '';
-    data['bank_ammount'] = form?.bank_ammount || '';
-    data['pib'] = form?.pib || '';
-
+    data['unit_type'] = getUnitTypes().find((option: any) => option.id === form?.unit_type) || null;
+    data['quantity'] = form?.quantity || '';
+    data['price'] = form?.price || '';
+    data['start_date'] = form?.start_date || '';
+    data['end_date'] = form?.end_date || '';
+    data['billing_type'] = getBillingTypes().find((option: any) => option.id === form?.billing_type) || null;
     data['is_active'] = form?.is_active || false;
   }
 
   return data;
 };
+
 export const prepareData = (values: any = null, id: number|null) => {
   let data: any = {};
 
   if(values){
     data['name'] = values?.name || '';
-    data['city'] = values?.city || '';
-    data['address'] = values?.address || '';
-    data['units_number'] = values?.units_number || '';
-    data['area'] = values?.area || '';
-    data['year_of_construction'] = values?.year_of_construction || '';
-    data['number_of_floors'] = values?.number_of_floors || '';
-    data['number_of_elevators'] = values?.number_of_elevators || '';
-    data['roof_type'] = values?.roof_type || '';
-    data['lightning_rod'] = values?.lightning_rod || false;
-    data['shelter'] = values?.shelter || false;
-    data['remote_heating'] = values?.remote_heating || false;
-    data['parking'] = values?.parking || false;
     data['description'] = values?.description || '';
-    data['registration_number'] = values?.registration_number || '';
-    data['bank_account'] = values?.bank_account || '';
-    data['bank_ammount'] = values?.bank_ammount || '';
-    data['pib'] = values?.pib || '';
-
+    data['unit_type'] = values?.unit_type?.id || '';
+    data['quantity'] = values?.quantity || '';
+    data['price'] = values?.price || '';
+    data['start_date'] = values?.start_date || '';
+    data['end_date'] = values?.end_date || '';
+    data['billing_type'] = values?.billing_type?.id || '';
     data['is_active'] = values?.is_active || false;
 
     if (isNumeric(id)) {
@@ -304,20 +223,6 @@ export const prepareData = (values: any = null, id: number|null) => {
   }
 
   return data;
-};
-
-
-export const getManagerTypeLabel = (managerType: string, t: any) => {
-  switch (managerType) {
-    case ManagerType.ProfessionalManager:
-      return t('building.details.professional_manager');
-
-    case ManagerType.ResidentManager:
-      return t('building.details.resident_manager');
-
-    default:
-      return '-';
-  }
 };
 
 export const getUnitTypeLabel = (unitType: string, t: any) => {
@@ -375,22 +280,22 @@ export const getUnitTypeLabel = (unitType: string, t: any) => {
 export const getBillingTypeLabel = (billingType: string, t: any) => {
   switch (billingType) {
     case BillingType.PerUnit:
-      return t('building.billable_service.billing_type_per_unit');
+      return t('billableService.label.per_unit');
 
     case BillingType.PerArea:
-        return t('building.billable_service.billing_type_per_area');
+        return t('billableService.label.per_area');
 
     case BillingType.PerPerson:
-      return t('building.billable_service.billing_type_per_person');
+      return t('billableService.label.per_person');
 
     case BillingType.PerMass:
-      return t('building.billable_service.billing_type_per_area');
+      return t('billableService.label.per_mass');
 
     case BillingType.PerHour:
-      return t('building.billable_service.billing_type_per_hour');
+      return t('billableService.label.per_hour');
 
     case BillingType.PerKwh:
-      return t('building.billable_service.billing_type_per_kwh');
+      return t('billableService.label.per_kwh');
 
     default:
       return '-';
@@ -414,47 +319,25 @@ export const renderField = (label: string, value: any, options: { xs: number, sm
 
 
 export interface initialValuesStruct {
-  name: string,
-  city: string,
-  address: string,
-  units_number: number|null,
-  pib: string,
-  registration_number: string,
-  bank_account: string,
-  bank_ammount: string,
-  description: string,
-  area: string,
-  year_of_construction: string,
-  number_of_floors: string,
-  number_of_elevators: string,
-  roof_type: string,
-  lightning_rod: boolean,
-  shelter: boolean,
-  remote_heating: boolean,
-  parking: boolean,
-  manager_id: number|null,
-  is_active: boolean,
+    name: string,
+    description: string,
+    unit_type: any,
+    quantity: number|null,
+    price: number|null,
+    start_date: string|null,
+    end_date: string|null,
+    billing_type: any,
+    is_active: boolean,
 };
 export const initialValues: initialValuesStruct = {
   name: '',
-  city: '',
-  address: '',
-  units_number: null,
-  pib: '',
-  registration_number: '',
-  bank_account: '',
-  bank_ammount: '',
   description: '',
-  area: '',
-  year_of_construction: '',
-  number_of_floors: '',
-  number_of_elevators: '',
-  roof_type: '',
-  lightning_rod: false,
-  shelter: false,
-  remote_heating: false,
-  parking: false,
-  manager_id: null,
+  unit_type: null,
+  quantity: 1,
+  price: 1,
+  start_date: '',
+  end_date: '',
+  billing_type: null,
   is_active: true,
 };
 

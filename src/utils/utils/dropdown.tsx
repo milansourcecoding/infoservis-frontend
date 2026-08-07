@@ -9,9 +9,11 @@
 /* eslint-disable prefer-template */
 // eslint-disable-next-line import/no-extraneous-dependencies
 import _ from 'lodash';
-// import { t } from 'i18next';
+
+import { t } from 'i18next';
 import { City }  from 'country-state-city';
-import { RoleType, UnitType, ManagerType, OrganizationType } from '../enums.tsx';
+import { RoleType, UnitType, ManagerType, OrganizationType, BillingType } from '../enums.tsx';
+
 
 // ----------------------------------------------------------------------
 
@@ -25,7 +27,13 @@ export const getRoles = () => {
 export const getUnitTypes = () =>
   Object.entries(UnitType).map(([key, value]) => ({
     id: value,
-    value: key,
+    value: t(`unit_types.${key}`),
+  }));
+
+  export const getBillingTypes = () =>
+  Object.entries(BillingType).map(([key, value]) => ({
+    id: value,
+    value: t(`billing_types.${key}`),
   }));
 
 export const getManagerTypes = () =>
