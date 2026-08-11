@@ -15,6 +15,7 @@ import { useLocales } from 'src/locales';
 
 // @mui
 import {
+  Stack,
   Tab,
   Tabs,
   Card,
@@ -66,6 +67,9 @@ import RemovePopup from '../../utils/slice/remove/removePopup.tsx';
 
 import Form from './form.tsx';
 import ListRow from './listRow.tsx';
+
+import BulkInvoicingForm from './bulkInvoicing/form.tsx';
+import bulkInvoicingSlice from './bulkInvoicing/slice.tsx';
 
 // ----------------------------------------------------------------------
 
@@ -160,16 +164,31 @@ const List = () => {
         { name: t('form.listTitle') }
       ]}
       action={
-        <Button
-          variant="contained"
-          startIcon={<Icon icon={'mingcute:add-line'} />}
-          disabled={table.selected.length > 0}
-          onClick={() => {
-            dispatch(slice.setShow({ show: true, id: null, payload: null }))
-          }}
-        >
-          {t('buttons.add')}
-        </Button>
+        <Stack direction="row" alignItems="center" gap={1}>
+          <Tooltip title={t('building.form.generateInvoicesTitle')} placement='top'>
+            <Button
+              variant="outlined"
+              color="info"
+              startIcon={<Icon icon={'ph:file-pdf-bold'} />}
+              disabled={table.selected.length > 0}
+              onClick={() => {
+                dispatch(bulkInvoicingSlice.setShow({ show: true }))
+              }}
+            >
+              {t('buttons.generateInvoices')}
+            </Button>
+          </Tooltip>
+          <Button
+            variant="contained"
+            startIcon={<Icon icon={'mingcute:add-line'} />}
+            disabled={table.selected.length > 0}
+            onClick={() => {
+              dispatch(slice.setShow({ show: true, id: null, payload: null }))
+            }}
+          >
+            {t('buttons.add')}
+          </Button>
+        </Stack>
       }
       sx={{
         mb: { xs: 3, md: 5 },
@@ -510,6 +529,8 @@ const List = () => {
         }
       }}
     />
+
+    <BulkInvoicingForm />
   </MainContainer>
 }
 

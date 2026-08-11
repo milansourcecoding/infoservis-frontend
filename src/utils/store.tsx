@@ -12,6 +12,7 @@ import buildingSlice, { name as buildingSliceName} from '../pages/building/slice
 import organizationSlice, { name as organizationSliceName} from '../pages/organization/slice.tsx';
 import unitSlice, { name as unitSliceName} from '../pages/building/units/slice.tsx';
 import billableServiceSlice, { name as billableServiceSliceName} from '../pages/building/billableServices/slice.tsx';
+import bulkInvoicingSlice, { name as bulkInvoicingSliceName} from '../pages/building/bulkInvoicing/slice.tsx';
 
 
 export type RootState = ReturnType<typeof store.getState>;
@@ -30,6 +31,7 @@ const store = configureStore({
     [organizationSliceName]: organizationSlice.reducer,
     [unitSliceName]: unitSlice.reducer,
     [billableServiceSliceName]: billableServiceSlice.reducer,
+    [bulkInvoicingSliceName]: bulkInvoicingSlice.reducer,
   },
 });
 

@@ -119,6 +119,7 @@
   "stavke": "items",
   "ukupno": "Total",
 
+  "nextQuestion": "Are you sure you want to continue?",
   "deletePopup": {
     "title": "Deleting",
     "question": "Are you sure?",
@@ -186,7 +187,12 @@
     "printAll": "Print all",
     "exportAllPdf": "Export all to PDF",
     "exportAllCSV": "Export all to CSV",
-    "actions": "Actions"
+    "actions": "Actions",
+    "selectAll": "Select All",
+    "deselectAll": "Deselect All",
+    "details": "Details",
+    "generateInvoices": "Generate Invoices",
+    "generate": "Generate"
   },
 
   "enums": {
@@ -273,6 +279,11 @@
       "parking": "Parking",
       "description": "Description",
       "manager": "Manager"
+    },
+    "form": {
+      "generateInvoicesTitle": "Generate invoices for all units in the selected buildings",
+      "generateInvoicesDesc": "Select the buildings for which you want to generate invoices",
+      "selectMonth": "Select the billing month"
     },
     "details": {
       "title": "Building Details",
