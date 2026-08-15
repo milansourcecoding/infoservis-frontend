@@ -102,6 +102,31 @@ function NewReducer() {
     },
   };
 
+  const downloadInvoices = async (invoiceIds: number[]) => {
+    const response = await axios.post(
+      'invoices/bulk-download',
+      {
+        invoice_ids: invoiceIds,
+      },
+      {
+        responseType: 'blob',
+      }
+    );
+
+    const url = window.URL.createObjectURL(response.data);
+
+    const link = document.createElement('a');
+
+    link.href = url;
+    link.download = 'invoices.zip';
+
+    document.body.appendChild(link);
+    link.click();
+
+    link.remove();
+    window.URL.revokeObjectURL(url);
+  };
+
 
   const apis = {
     callReadApi: (params: any, callback: (state: boolean, data: any, message: string) => void) => async (dispatch: any) => {
@@ -126,47 +151,23 @@ function NewReducer() {
 
       const { items } = getState()?.[name];
 
-      let progress = 0;
-      const interval = setInterval(() => {
-        progress += 1;
-
-        dispatch(actions.setProgress(progress));
-
-        if (progress >= 100) {
-          clearInterval(interval);
-        }
-      }, 100);
-
-      setTimeout(() => {
-        const data = {
-          date: params?.date ?? null,
-          files: params?.ids?.split(',').map((itm: string) => ({
-            id: itm,
-            item: items?.find((x: any) => x.id == itm),
-            name: `invoice-${itm}.pdf`,
-            state: `successful`,
-          })),
-        };
-
-        callback(true, data, 'Invoices generated successfully.');
-        dispatch(actions.setProgress(null));
-        dispatch(actions.finish(data));
-      }, 10000);
       
 
-      // dispatch(actions.start());
+      dispatch(actions.start());
 
-      // await axios.post('building/bulk-invoicing', params).then((result: any) => {
-      //   const { data, message } = result.data;
+      await axios.post('building/bulk-invoicing', params).then(async (result: any) => {
+        const { data, message } = result.data;
 
-      //   callback(true, data, message);
-      //   dispatch(actions.finish(data));
-      // }).catch((error: any) => {
-      //   const { message } = error;
+       await downloadInvoices(data.invoice_ids);
 
-      //   callback(false, null, message);
-      //   dispatch(actions.finish(null));
-      // });
+        callback(true, data, message);
+        dispatch(actions.finish(data));
+      }).catch((error: any) => {
+        const { message } = error;
+
+        callback(false, null, message);
+        dispatch(actions.finish(null));
+      });
     },
   };
 

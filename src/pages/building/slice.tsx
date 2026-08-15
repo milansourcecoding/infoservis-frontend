@@ -67,18 +67,18 @@ export const getFields = (t: any, field: string) => {
       labelTable: t(LANGUAGE + '.table.mb'),
       placeholder: '',
     },
-    {
-      id: 'bank_account',
-      name: 'bank_account',
-      label: t(LANGUAGE + '.table.bank_account'),
-      placeholder: '',
-    },    
-    {
-      id: 'bank_ammount',
-      name: 'bank_ammount',
-      label: t(LANGUAGE + '.table.bank_ammount'),
-      placeholder: '',
-    },
+    // {
+    //   id: 'bank_account',
+    //   name: 'bank_account',
+    //   label: t(LANGUAGE + '.table.bank_account'),
+    //   placeholder: '',
+    // },    
+    // {
+    //   id: 'bank_ammount',
+    //   name: 'bank_ammount',
+    //   label: t(LANGUAGE + '.table.bank_ammount'),
+    //   placeholder: '',
+    // },
 
     {
       id: 'units_number',
@@ -189,8 +189,8 @@ export const formSchema = (t: any, id: number|null = null) => {
     parking: Yup.boolean(),
     description: Yup.string().max(255).label(getFields(t, 'description')?.label),
     registration_number: Yup.string().max(255).label(getFields(t, 'registration_number')?.label),
-    bank_account: Yup.string().max(255).label(getFields(t, 'bank_account')?.label),
-    bank_ammount: Yup.number().label(getFields(t, 'bank_ammount')?.label),
+    // bank_account: Yup.string().max(255).label(getFields(t, 'bank_account')?.label),
+    // bank_ammount: Yup.number().label(getFields(t, 'bank_ammount')?.label),
     pib: Yup.string().max(255).label(getFields(t, 'pib')?.label),
     is_active: Yup.boolean(),
   })
@@ -264,8 +264,8 @@ export const prepareForm = (values: any = null, defValues: any = null) => {
     data['parking'] = form?.parking || false;
     data['description'] = form?.description || '';
     data['registration_number'] = form?.registration_number || '';
-    data['bank_account'] = form?.bank_account || '';
-    data['bank_ammount'] = form?.bank_ammount || '';
+    // data['bank_account'] = form?.bank_account || '';
+    // data['bank_ammount'] = form?.bank_ammount || '';
     data['pib'] = form?.pib || '';
 
     data['is_active'] = form?.is_active || false;
@@ -292,8 +292,8 @@ export const prepareData = (values: any = null, id: number|null) => {
     data['parking'] = values?.parking || false;
     data['description'] = values?.description || '';
     data['registration_number'] = values?.registration_number || '';
-    data['bank_account'] = values?.bank_account || '';
-    data['bank_ammount'] = values?.bank_ammount || '';
+    // data['bank_account'] = values?.bank_account || '';
+    // data['bank_ammount'] = values?.bank_ammount || '';
     data['pib'] = values?.pib || '';
 
     data['is_active'] = values?.is_active || false;
@@ -420,8 +420,8 @@ export interface initialValuesStruct {
   units_number: number|null,
   pib: string,
   registration_number: string,
-  bank_account: string,
-  bank_ammount: string,
+  // bank_account: string,
+  // bank_ammount: string,
   description: string,
   area: string,
   year_of_construction: string,
@@ -442,8 +442,8 @@ export const initialValues: initialValuesStruct = {
   units_number: null,
   pib: '',
   registration_number: '',
-  bank_account: '',
-  bank_ammount: '',
+  // bank_account: '',
+  // bank_ammount: '',
   description: '',
   area: '',
   year_of_construction: '',

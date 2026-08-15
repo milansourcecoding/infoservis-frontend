@@ -245,7 +245,7 @@ export default function BuildingEditPage() {
             />
           </Grid>
 
-          <Grid item xs={12} md={6}>
+          {/* <Grid item xs={12} md={6}>
             <TextField
               fullWidth
               name="bank_account"
@@ -257,9 +257,9 @@ export default function BuildingEditPage() {
               onChange={handleChange}
               {...getFields(t, 'bank_account')}
             />
-          </Grid>
+          </Grid> */}
 
-          <Grid item xs={12} md={6}>
+          {/* <Grid item xs={12} md={6}>
             <TextField
               fullWidth
               name="bank_ammount"
@@ -271,7 +271,7 @@ export default function BuildingEditPage() {
               onChange={handleChange}
               {...getFields(t, 'bank_ammount')}
             />
-          </Grid>
+          </Grid> */}
 
           <Grid item xs={12} md={6}>
             <TextField

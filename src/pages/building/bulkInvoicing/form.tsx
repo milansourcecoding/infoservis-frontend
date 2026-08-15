@@ -394,8 +394,6 @@ export default function Form(props: any) {
                   enqueueSnackbar(message, { variant: state ? 'success' : 'error' });
                 }
 
-                console.log("🚀 ~ Form ~ data:", data)
-
                 onCancel();
               } else {
                 if(message && message != ''){

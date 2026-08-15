@@ -358,7 +358,9 @@
       "active": "Aktivan",
       "no_manager": "Nema informacija o upravniku",
       "billable_services": "Usluge za fakturisanje",
-      "add_billable_service": "Dodaj uslugu za fakturisanje"
+      "add_billable_service": "Dodaj uslugu za fakturisanje",
+      "bank_accounts": "Tekući računi",
+      "add_bank_account" : "Dodaj tekući račun"
     },
     "allTypes": "Svi tipovi",
     "billable_service": {
@@ -381,6 +383,16 @@
       "inactive": "Neaktivna",
       "created_at": "Kreirano",
       "updated_at": "Izmenjeno"
+    },
+    "bank_account" : {
+      "bank_name": "Banka",
+      "account_holder_name": "Vlasnik računa",
+      "account_number": "Broj računa",
+      "balance": "Stanje na računu",
+      "currency": "Valuta",
+      "iban": "IBAN",
+      "swift_code": "SWIFT kod",
+      "description":"Opis"
     }
   },
   "organization": {
@@ -527,6 +539,29 @@
       "per_hour": "Po satu",
       "per_mass": "Po masi",
       "per_kwh": "Po kWh"
+    }
+  },
+  "bankAccount": {
+    "details": {
+      "account_number": "Tekući račun",
+      "back_to_list": "Nazad na listu",
+      "edit_bank_account": "Izmeni tekući račun",
+      "account_holder_name":"Vlasnik računa",
+      "bank_name": "Banka",
+      "balance": "Stanje na računu",
+      "currency": "Valuta",
+      "iban": "IBAN",
+      "swift_code": "SWIFT kod"
+    },
+    "table": {
+      "account_number": "Broj računa",
+      "account_holder_name":"Vlasnik računa",
+      "bank_name": "Banka",
+      "balance": "Stanje na računu",
+      "currency": "Valuta",
+      "iban": "IBAN",
+      "swift_code":"SWIFT kod",
+      "description": "Opis"
     }
   }
 }
