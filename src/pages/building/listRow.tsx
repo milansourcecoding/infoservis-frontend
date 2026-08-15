@@ -138,8 +138,8 @@ export default function ListRow({ row, isSelected, selected, onSelectRow }: any)
 
         <TableCell sx={{ whiteSpace: 'nowrap' }}>{row?.pib}</TableCell>
         <TableCell sx={{ whiteSpace: 'nowrap' }}>{row?.registration_number}</TableCell>
-        <TableCell sx={{ whiteSpace: 'nowrap' }}>{row?.bank_account}</TableCell>
-        <TableCell sx={{ whiteSpace: 'nowrap' }}>{formatCurrency(row?.bank_ammount)}</TableCell>
+        {/* <TableCell sx={{ whiteSpace: 'nowrap' }}>{row?.bank_account}</TableCell>
+        <TableCell sx={{ whiteSpace: 'nowrap' }}>{formatCurrency(row?.bank_ammount)}</TableCell> */}
 
         <TableCell sx={{ display: 'flex', alignItems: 'center' }}>
           <ListItemText

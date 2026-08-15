@@ -47,11 +47,11 @@ import DropdownAutocomplete from 'src/components/autocomplete/DropdownAutocomple
 
 // Redux
 import { useDispatch } from 'react-redux';
-import { AppDispatch, useTypedSelector } from '../../utils/store.tsx';
+import { AppDispatch, useTypedSelector } from '../../../utils/store.tsx';
 import slice, { name as sliceName, getFields, useFormik, FormikContext, formSchema, initialValues, prepareForm, prepareData } from './slice.tsx';
 // import selectAutocompleteSlice from '../../components/autocomplete/selectAutocompleteSlice.tsx';
 
-import { getCities, escapeChars } from '../../utils/utils.tsx';
+import { getCities, escapeChars, getBillingTypes, getUnitTypes  } from '../../../utils/utils.tsx';
 // import {  } from '../../utils/enums.tsx';
 
 // ----------------------------------------------------------------------
@@ -69,7 +69,7 @@ export default function Form(props: any) {
     return () => {
       dispatch(slice.resetSlice());
     }
-  }, []);
+  }, [dispatch]);
 
   React.useEffect(() => {
     if(show){
@@ -100,7 +100,6 @@ export default function Form(props: any) {
     onSubmit: (values: any) => onSubmit(values),
   });
   const { values, errors, setErrors, resetForm, handleChange, setFieldValue, handleSubmit, resetSubmitted }: any = formik;
-
 
   const onSubmit = (values: any) => {
     let data = prepareData(values, id);
@@ -149,7 +148,7 @@ export default function Form(props: any) {
     setTimeout(() => {
       setErrors({});
     }, 0);
-    dispatch(slice.resetSlice());
+   // dispatch(slice.resetSlice());
   }
 
 
@@ -184,185 +183,98 @@ export default function Form(props: any) {
           InputLabelProps={{ shrink: true }}
           size={'small'}
           autoFocus
-          value={values.name}
-          error={Boolean(errors.name)}
-          helperText={errors.name as string}
+          value={values.account_number}
+          error={Boolean(errors.account_number)}
+          helperText={errors.account_number as string}
           onChange={handleChange}
           onKeyDown={escapeChars}
-          {...getFields(t, 'name')}
+          {...getFields(t, 'account_number')}
         />
       </Grid>
-      <Grid item xs={12} md={6}>
-        <FormControl fullWidth error={Boolean(errors.city)}>
-          <DropdownAutocomplete
-            freeSolo={false}
-            multiple={false}
-            disableClearable
-            labelField={'name'}
-            label={getFields(t, 'city').label}
-            options={getCities()}
-            value={values.city}
-            onChange={(e, value) => {
-              e.preventDefault();
-              e.stopPropagation();
-
-              setFieldValue('city', value?.name || '');
-            }}
-            onInputChange={(e, value) => {}}
-            error={Boolean(errors.city)}
-          />
-          <FormHelperText>{errors.city as string}</FormHelperText>
-        </FormControl>
-      </Grid>
-      <Grid item xs={12} md={6}>
+      <Grid item xs={12}>
         <TextField
           fullWidth
-          name={'address'}
           InputLabelProps={{ shrink: true }}
           size={'small'}
-          value={values.address}
-          error={Boolean(errors.address)}
-          helperText={errors.address as string}
+          autoFocus
+          value={values.account_holder_name}
+          error={Boolean(errors.account_holder_name)}
+          helperText={errors.account_holder_name as string}
           onChange={handleChange}
-          {...getFields(t, 'address')}
+          onKeyDown={escapeChars}
+          {...getFields(t, 'account_holder_name')}
         />
       </Grid>
-
-
-      <Grid item xs={12} md={6}>
+      <Grid item xs={12}>
         <TextField
           fullWidth
-          name={'units_number'}
           InputLabelProps={{ shrink: true }}
           size={'small'}
-          value={values.units_number}
-          error={Boolean(errors.units_number)}
-          helperText={errors.units_number as string}
+          autoFocus
+          value={values.bank_name}
+          error={Boolean(errors.bank_name)}
+          helperText={errors.bank_name as string}
           onChange={handleChange}
-          {...getFields(t, 'units_number')}
+          onKeyDown={escapeChars}
+          {...getFields(t, 'bank_name')}
         />
       </Grid>
-
-
-      <Grid item xs={12} md={6}>
+      <Grid item xs={12}>
         <TextField
           fullWidth
-          name={'pib'}
           InputLabelProps={{ shrink: true }}
           size={'small'}
-          value={values.pib}
-          error={Boolean(errors.pib)}
-          helperText={errors.pib as string}
+          autoFocus
+          value={values.balance}
+          error={Boolean(errors.balance)}
+          helperText={errors.balance as string}
           onChange={handleChange}
-          {...getFields(t, 'pib')}
+          onKeyDown={escapeChars}
+          {...getFields(t, 'balance')}
         />
       </Grid>
-      <Grid item xs={12} md={6}>
+      <Grid item xs={12}>
         <TextField
           fullWidth
-          name={'registration_number'}
           InputLabelProps={{ shrink: true }}
           size={'small'}
-          value={values.registration_number}
-          error={Boolean(errors.registration_number)}
-          helperText={errors.registration_number as string}
+          autoFocus
+          value={values.currency}
+          error={Boolean(errors.currency)}
+          helperText={errors.currency as string}
           onChange={handleChange}
-          {...getFields(t, 'registration_number')}
+          onKeyDown={escapeChars}
+          {...getFields(t, 'currency')}
         />
       </Grid>
 
-      {/* <Grid item xs={12} md={6}>
+      <Grid item xs={12}>
         <TextField
           fullWidth
-          name={'bank_account'}
           InputLabelProps={{ shrink: true }}
           size={'small'}
-          value={values.bank_account}
-          error={Boolean(errors.bank_account)}
-          helperText={errors.bank_account as string}
+          autoFocus
+          value={values.iban}
+          error={Boolean(errors.iban)}
+          helperText={errors.iban as string}
           onChange={handleChange}
-          {...getFields(t, 'bank_account')}
-        />
-      </Grid> */}
-
-      {/* <Grid item xs={12} md={6}>
-        <TextField
-          fullWidth
-          name={'bank_ammount'}
-          InputLabelProps={{ shrink: true }}
-          size={'small'}
-          value={values.bank_ammount}
-          error={Boolean(errors.bank_ammount)}
-          helperText={errors.bank_ammount as string}
-          onChange={handleChange}
-          {...getFields(t, 'bank_ammount')}
-        />
-      </Grid> */}
-
-      <Grid item xs={12} md={6}>
-        <TextField
-          fullWidth
-          name={'area'}
-          InputLabelProps={{ shrink: true }}
-          size={'small'}
-          value={values.area}
-          error={Boolean(errors.area)}
-          helperText={errors.area as string}
-          onChange={handleChange}
-          {...getFields(t, 'area')}
-        />
-      </Grid>
-      <Grid item xs={12} md={6}>
-        <TextField
-          fullWidth
-          name={'year_of_construction'}
-          InputLabelProps={{ shrink: true }}
-          size={'small'}
-          value={values.year_of_construction}
-          error={Boolean(errors.year_of_construction)}
-          helperText={errors.year_of_construction as string}
-          onChange={handleChange}
-          {...getFields(t, 'year_of_construction')}
-        />
-      </Grid>
-      <Grid item xs={12} md={6}>
-        <TextField
-          fullWidth
-          name={'number_of_floors'}
-          InputLabelProps={{ shrink: true }}
-          size={'small'}
-          value={values.number_of_floors}
-          error={Boolean(errors.number_of_floors)}
-          helperText={errors.number_of_floors as string}
-          onChange={handleChange}
-          {...getFields(t, 'number_of_floors')}
+          onKeyDown={escapeChars}
+          {...getFields(t, 'iban')}
         />
       </Grid>
 
-      <Grid item xs={12} md={6}>
+      <Grid item xs={12}>
         <TextField
           fullWidth
-          name={'number_of_elevators'}
           InputLabelProps={{ shrink: true }}
           size={'small'}
-          value={values.number_of_elevators}
-          error={Boolean(errors.number_of_elevators)}
-          helperText={errors.number_of_elevators as string}
+          autoFocus
+          value={values.swift_code}
+          error={Boolean(errors.swift_code)}
+          helperText={errors.swift_code as string}
           onChange={handleChange}
-          {...getFields(t, 'number_of_elevators')}
-        />
-      </Grid>
-      <Grid item xs={12} md={6}>
-        <TextField
-          fullWidth
-          name={'roof_type'}
-          InputLabelProps={{ shrink: true }}
-          size={'small'}
-          value={values.roof_type}
-          error={Boolean(errors.roof_type)}
-          helperText={errors.roof_type as string}
-          onChange={handleChange}
-          {...getFields(t, 'roof_type')}
+          onKeyDown={escapeChars}
+          {...getFields(t, 'swift_code')}
         />
       </Grid>
 
@@ -378,64 +290,6 @@ export default function Form(props: any) {
           helperText={errors.description as string}
           onChange={handleChange}
           {...getFields(t, 'description')}
-        />
-      </Grid>
-
-      <Grid item xs={12} md={6}>
-        <FormControlLabel
-          control={<Switch
-            checked={values.lightning_rod}
-            onChange={(e: any) => {
-              setFieldValue('lightning_rod', e.target.checked);
-            }}
-          />}
-          {...getFields(t, 'lightning_rod')}
-        />
-      </Grid>
-      <Grid item xs={12} md={6}>
-        <FormControlLabel
-          control={<Switch
-            checked={values.shelter}
-            onChange={(e: any) => {
-              setFieldValue('shelter', e.target.checked);
-            }}
-          />}
-          {...getFields(t, 'shelter')}
-        />
-      </Grid>
-      <Grid item xs={12} md={6}>
-        <FormControlLabel
-          control={<Switch
-            checked={values.remote_heating}
-            onChange={(e: any) => {
-              setFieldValue('remote_heating', e.target.checked);
-            }}
-          />}
-          {...getFields(t, 'remote_heating')}
-        />
-      </Grid>
-      <Grid item xs={12} md={6}>
-        <FormControlLabel
-          control={<Switch
-            checked={values.parking}
-            onChange={(e: any) => {
-              setFieldValue('parking', e.target.checked);
-            }}
-          />}
-          {...getFields(t, 'parking')}
-        />
-      </Grid>
-
-
-      <Grid item xs={12}>
-        <FormControlLabel
-          control={<Switch
-            checked={values.is_active}
-            onChange={(e: any) => {
-              setFieldValue('is_active', e.target.checked);
-            }}
-          />}
-          {...getFields(t, 'is_active')}
         />
       </Grid>
     </React.Fragment>

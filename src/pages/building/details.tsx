@@ -446,6 +446,60 @@ export default function BuildingDetailsPage() {
     </Card>
   }
 
+
+  const bankAccountsSection = () => {
+    return <Card sx={{ mb: 3 }}> 
+      <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ p: 3, pb: 2 }} > 
+        <Typography variant="h6"> {t('building.details.bank_accounts')}</Typography> 
+        <Typography variant="body2" color="text.secondary">{(details && details.bank_accounts && details.bank_accounts.length > 0) ? details.bank_accounts.length : 0} </Typography> 
+        <Button
+          variant="contained"
+          startIcon={<Icon icon="mingcute:add-line" />}
+          onClick={() => navigate(`/building/${details?.id}/bank-accounts/create`)}
+        >
+          {t('building.details.add_bank_account')}
+        </Button>
+      </Stack> 
+      <TableContainer> 
+        <Table> 
+          <TableHead> 
+            <TableRow> 
+              <TableCell> {t('building.bank_account.bank_name')} </TableCell>               
+              <TableCell> {t('building.bank_account.account_holder_name')} </TableCell> 
+              <TableCell> {t('building.bank_account.account_number')} </TableCell> 
+              <TableCell> {t('building.bank_account.balance')} </TableCell>
+              <TableCell> {t('building.bank_account.currency')} </TableCell> 
+              <TableCell> {t('building.bank_account.iban')} </TableCell>  
+              <TableCell> {t('building.bank_account.swift_code')} </TableCell> 
+              <TableCell> {t('building.bank_account.description')} </TableCell>
+              <TableCell align="right"> {t('buttons.actions')} </TableCell>
+            </TableRow> 
+          </TableHead> 
+          <TableBody> {(details && details.bank_accounts && details.bank_accounts.length > 0) ? ( details.bank_accounts.map((account: any) => ( <TableRow key={account.id} hover > 
+            <TableCell> {account.bank_name ?? '-'} </TableCell>
+            <TableCell> {account.account_holder_name ?? '-'} </TableCell>
+            <TableCell> {account.account_number ?? '-'} </TableCell>
+            <TableCell> {account.balance ?? '-'} </TableCell>
+            <TableCell> {account.currency ?? '-'} </TableCell>
+            <TableCell> {account.iban ?? '-'} </TableCell>
+            <TableCell> {account.swift_code ?? '-'} </TableCell>
+            <TableCell> {account.description ?? '-'} </TableCell>
+
+            <TableCell align="right"> 
+              <Button size="small" onClick={() => navigate(`/building/${details?.id}/bank-accounts/${account.id}`) }> {t('buttons.view')} </Button>
+            </TableCell> 
+            </TableRow> )) ) : 
+            ( <TableRow> 
+                <TableCell colSpan={10} align="center" sx={{ py: 4 }} > 
+                  <Typography variant="body2" color="text.secondary" > {t('table.noData')} </Typography> 
+                </TableCell> 
+              </TableRow> )} 
+          </TableBody> 
+        </Table> 
+      </TableContainer> 
+    </Card>
+  }
+
     const TABS = [
       {
         value: 'basic',
@@ -470,6 +524,11 @@ export default function BuildingDetailsPage() {
       {
         value: 'billable_services',
         label: t('building.details.billable_services'),
+        icon: <Icon icon={'ic:round-vpn-key'} width={24} />
+      },
+      {
+        value: 'bank_accounts',
+        label: t('building.details.bank_accounts'),
         icon: <Icon icon={'ic:round-vpn-key'} width={24} />
       },
     ];
@@ -528,5 +587,7 @@ export default function BuildingDetailsPage() {
         {currentTab === 'units' && unitsSection()}
 
         {currentTab === 'billable_services' && billableServicesSection()}
+
+        {currentTab === 'bank_accounts' && bankAccountsSection()}
   </MainContainer>
 }
