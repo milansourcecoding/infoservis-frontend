@@ -360,7 +360,9 @@
       "billable_services": "Usluge za fakturisanje",
       "add_billable_service": "Dodaj uslugu za fakturisanje",
       "bank_accounts": "Tekući računi",
-      "add_bank_account" : "Dodaj tekući račun"
+      "add_bank_account" : "Dodaj tekući račun",
+      "funds": "Fondovi",
+      "add_fund": "Kreiraj fond"
     },
     "allTypes": "Svi tipovi",
     "billable_service": {
@@ -393,6 +395,13 @@
       "iban": "IBAN",
       "swift_code": "SWIFT kod",
       "description":"Opis"
+    },
+    "fund": {
+      "name": "Naziv fonda",
+      "amount": "Sredstva u fondu",
+      "description":"Opis",
+      "start_date": "Datum početka",
+      "end_date": "Datum završetka"
     }
   },
   "organization": {
@@ -562,6 +571,19 @@
       "iban": "IBAN",
       "swift_code":"SWIFT kod",
       "description": "Opis"
+    }
+  },
+  "fund": {
+    "details": {
+      "title": "Pregled fonda",
+      "name": "Naziv fonda",
+      "amount": "Sredstva u fondu",
+      "description":"Opis",
+      "start_date": "Datum početka",
+      "end_date": "Datum završetka",
+      "back_to_list": "Nazad na listu",
+      "edit_fund": "Izmeni fond",
+      "active": "Aktivan"
     }
   }
 }

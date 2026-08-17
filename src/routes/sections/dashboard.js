@@ -28,6 +28,8 @@ const UnitBillableServiceCreatePage = lazy(() => import('src/pages/building/unit
 const UnitBillableServiceDetailsPage = lazy(() => import('src/pages/building/units/billableServices/details'));
 const BuildingBankAccountCreatePage = lazy(() => import('src/pages/building/bankAccounts/create'));
 const BuildingBankAccountDetailsPage = lazy(() => import('src/pages/building/bankAccounts/details'));
+const BuildingFundCreatePage = lazy(() => import('src/pages/building/funds/create'));
+const BuildingFundDetailsPage = lazy(() => import('src/pages/building/funds/details'));
 
 // ----------------------------------------------------------------------
 
@@ -108,6 +110,8 @@ export const dashboardRoutes = [
       { path: ':building_id/units/:unit_id/billable-services/:id', element: <UnitBillableServiceDetailsPage /> },
       { path: ':id/bank-accounts/create', element: <BuildingBankAccountCreatePage /> },
       { path: ':building_id/bank-accounts/:id', element: <BuildingBankAccountDetailsPage /> },
+      { path: ':id/funds/create', element: <BuildingFundCreatePage /> },
+      { path: ':building_id/funds/:id', element: <BuildingFundDetailsPage /> },
     ],
   },
 

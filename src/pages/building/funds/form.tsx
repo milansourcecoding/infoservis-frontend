@@ -194,89 +194,20 @@ export default function Form(props: any) {
         />
       </Grid>
 
-        <Grid item xs={12} md={6}>
-          <FormControl
-            fullWidth
-            error={Boolean(errors.unit_type)}
-          >
-            <DropdownAutocomplete
-              freeSolo={false}
-              multiple={false}
-              disableClearable
-              label={t('building.details.unit_type')}
-              options={getUnitTypes()}
-              value={values.unit_type}
-              onChange={(e: any, value: any) => {
-                e.preventDefault();
-                e.stopPropagation();
-
-                setFieldValue('unit_type', value);
-              }}
-              onInputChange={(e: any, value: any) => {}}
-              error={Boolean(errors.unit_type)}
-            />
-
-            <FormHelperText>
-              {errors.unit_type as string}
-            </FormHelperText>
-          </FormControl>
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <FormControl
-            fullWidth
-            error={Boolean(errors.billing_type)}
-          >
-            <DropdownAutocomplete
-              freeSolo={false}
-              multiple={false}
-              disableClearable
-              label={t('building.details.billing_type')}
-              options={getBillingTypes()}
-              value={values.billing_type}
-              onChange={(e: any, value: any) => {
-                e.preventDefault();
-                e.stopPropagation();
-
-                setFieldValue('billing_type', value);
-              }}
-              onInputChange={(e: any, value: any) => {}}
-              error={Boolean(errors.billing_type)}
-            />
-
-            <FormHelperText>
-              {errors.billing_type as string}
-            </FormHelperText>
-          </FormControl>
-        </Grid>
         <Grid item xs={12}>
         <TextField
           fullWidth
           InputLabelProps={{ shrink: true }}
           size={'small'}
           autoFocus
-          value={values.quantity}
-          error={Boolean(errors.quantity)}
-          helperText={errors.quantity as string}
+          value={values.amount}
+          error={Boolean(errors.amount)}
+          helperText={errors.amount as string}
           onChange={handleChange}
           onKeyDown={escapeChars}
-          {...getFields(t, 'quantity')}
+          {...getFields(t, 'amount')}
         />
       </Grid>
-            <Grid item xs={12}>
-        <TextField
-          fullWidth
-          InputLabelProps={{ shrink: true }}
-          size={'small'}
-          autoFocus
-          value={values.price}
-          error={Boolean(errors.price)}
-          helperText={errors.price as string}
-          onChange={handleChange}
-          onKeyDown={escapeChars}
-          {...getFields(t, 'price')}
-        />
-      </Grid>
-
 
       {/* <Grid item xs={12}>
         <TextField
@@ -292,6 +223,7 @@ export default function Form(props: any) {
           {...getFields(t, 'start_date')}
         />
       </Grid>
+
       <Grid item xs={12}>
         <TextField
           fullWidth
@@ -307,50 +239,44 @@ export default function Form(props: any) {
         />
       </Grid> */}
 
+      <Grid item xs={12}>
+        <DatePicker
+          label={getFields(t, 'start_date')?.label || 'Start date'}
+          value={values.start_date}
+          onChange={(date) => {
+            setFieldValue(
+              'start_date',
+              date ? date.format('YYYY-MM-DD') : null
+            );
+          }}
+        />
 
-        <Grid item xs={12} md={6}>
-          <DatePicker
-            label={t('billableService.details.start_date')}
-            value={values.start_date}
-            onChange={(date) => {
-              setFieldValue(
-                'start_date',
-                date ? date.format('YYYY-MM-DD') : null
-              );
-            }}
-          />
+        {errors.start_date && (
+          <FormHelperText error>
+            {errors.start_date as string}
+          </FormHelperText>
+        )}
+      </Grid>
 
-          {errors.start_date && (
-            <FormHelperText error>
-              {errors.start_date as string}
-            </FormHelperText>
-          )}
-        </Grid>
+      <Grid item xs={12}>
+        <DatePicker
+          label={getFields(t, 'end_date')?.label || 'End date'}
+          value={values.end_date}
+          minDate={values.start_date}
+          onChange={(date) => {
+            setFieldValue(
+              'end_date',
+              date ? date.format('YYYY-MM-DD') : null
+            );
+          }}
+        />
 
-        <Grid item xs={12} md={6}>
-          <DatePicker
-            label={t('billableService.details.end_date')}
-            value={values.end_date}
-            minDate={values.start_date}
-            onChange={(date) => {
-              setFieldValue(
-                'end_date',
-                date ? date.format('YYYY-MM-DD') : null
-              );
-            }}
-          />
-
-          {errors.end_date && (
-            <FormHelperText error>
-              {errors.end_date as string}
-            </FormHelperText>
-          )}
-        </Grid>
-
-
-
-
-      
+        {errors.end_date && (
+          <FormHelperText error>
+            {errors.end_date as string}
+          </FormHelperText>
+        )}
+      </Grid>
 
       <Grid item xs={12}>
         <TextField

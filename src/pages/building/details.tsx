@@ -500,6 +500,54 @@ export default function BuildingDetailsPage() {
     </Card>
   }
 
+
+  const fundsSection = () => {
+    return <Card sx={{ mb: 3 }}> 
+      <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ p: 3, pb: 2 }} > 
+        <Typography variant="h6"> {t('building.details.funds')}</Typography> 
+        <Typography variant="body2" color="text.secondary">{(details && details.funds && details.funds.length > 0) ? details.funds.length : 0} </Typography> 
+        <Button
+          variant="contained"
+          startIcon={<Icon icon="mingcute:add-line" />}
+          onClick={() => navigate(`/building/${details?.id}/funds/create`)}
+        >
+          {t('building.details.add_fund')}
+        </Button>
+      </Stack> 
+      <TableContainer> 
+        <Table> 
+          <TableHead> 
+            <TableRow> 
+              <TableCell> {t('building.fund.name')} </TableCell>
+              <TableCell> {t('building.fund.amount')} </TableCell>
+              <TableCell> {t('building.fund.description')} </TableCell>
+              <TableCell> {t('building.fund.start_date')} </TableCell>
+              <TableCell> {t('building.fund.end_date')} </TableCell>
+              <TableCell align="right"> {t('buttons.actions')} </TableCell>
+            </TableRow> 
+          </TableHead> 
+          <TableBody> {(details && details.funds && details.funds.length > 0) ? ( details.funds.map((fund: any) => ( <TableRow key={fund.id} hover > 
+            <TableCell> {fund.name ?? '-'} </TableCell>
+            <TableCell> {fund.amount ?? '-'} </TableCell>
+            <TableCell> {fund.description ?? '-'} </TableCell>
+            <TableCell> {fund.start_date ?? '-'} </TableCell>
+            <TableCell> {fund.end_date ?? '-'} </TableCell>
+
+            <TableCell align="right"> 
+              <Button size="small" onClick={() => navigate(`/building/${details?.id}/funds/${fund.id}`) }> {t('buttons.view')} </Button>
+            </TableCell> 
+            </TableRow> )) ) : 
+            ( <TableRow> 
+                <TableCell colSpan={10} align="center" sx={{ py: 4 }} > 
+                  <Typography variant="body2" color="text.secondary" > {t('table.noData')} </Typography> 
+                </TableCell> 
+              </TableRow> )} 
+          </TableBody> 
+        </Table> 
+      </TableContainer> 
+    </Card>
+  }
+
     const TABS = [
       {
         value: 'basic',
@@ -529,6 +577,11 @@ export default function BuildingDetailsPage() {
       {
         value: 'bank_accounts',
         label: t('building.details.bank_accounts'),
+        icon: <Icon icon={'ic:round-vpn-key'} width={24} />
+      },
+      {
+        value: 'funds',
+        label: t('building.details.funds'),
         icon: <Icon icon={'ic:round-vpn-key'} width={24} />
       },
     ];
@@ -589,5 +642,7 @@ export default function BuildingDetailsPage() {
         {currentTab === 'billable_services' && billableServicesSection()}
 
         {currentTab === 'bank_accounts' && bankAccountsSection()}
+
+        {currentTab === 'funds' && fundsSection()}
   </MainContainer>
 }
