@@ -19,7 +19,8 @@ import { useLocales } from 'src/locales';
 
 import axiosInstance from 'src/utils/axios';
 import DropdownAutocomplete from 'src/components/autocomplete/DropdownAutocomplete.tsx';
-import { getBillingTypes, getUnitTypes } from '../../../utils/utils.tsx';
+import { getBillingTypes, getUnitTypes} from '../../../utils/utils.tsx';
+import { AppDispatch, useTypedSelector } from '../../../utils/store.tsx';
 
 // @mui
 import Box from '@mui/material/Box';
@@ -36,19 +37,17 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 
 import DatePicker from 'src/components/datePicker/DatePicker.tsx';
 
+
 // ----------------------------------------------------------------------
 const unitTypeOptions = getUnitTypes();
 const billingTypeOptions = getBillingTypes();
 const initialValues = {
   name: '',
   description: '',
-  billing_type: billingTypeOptions.find((option) => option.id === 'per_unit') ?? null,
-  quantity: null,
-  price: null,
-  unit_type: unitTypeOptions.find((option) => option.id === 'apartment') ?? null,
   start_date: null,
   end_date: null,
   is_active: true,
+  amount: 0
 };
 
 // ----------------------------------------------------------------------
@@ -58,20 +57,9 @@ const formSchema = Yup.object().shape({
     .required('Name is required')
     .max(255, 'Name cannot be longer than 255 characters'),
 
-  unit_type: Yup.object()
-    .nullable()
-    .required('Unit type is required'),
-
   description: Yup.string().nullable(),
 
-  billing_type: Yup.object()
-    .nullable()
-    .required('Billing type is required'),
-
-  quantity: Yup.number()
-    .nullable(),
-
-  price: Yup.number()
+  amount: Yup.number()
     .nullable(),
 
   start_date: Yup.date().nullable(),
@@ -81,7 +69,7 @@ const formSchema = Yup.object().shape({
 
 // ----------------------------------------------------------------------
 
-export default function BuildingBillableServiceCreatePage() {
+export default function BuildingFundCreatePage() {
   const { id } = useParams();
   const navigate = useNavigate();
   const { t } = useLocales();
@@ -89,6 +77,7 @@ export default function BuildingBillableServiceCreatePage() {
   const [userOptions, setUserOptions] = React.useState<any[]>([]);
   const [loadingUsers, setLoadingUsers] = React.useState(false);
   const [submitting, setSubmitting] = React.useState(false);
+
 
   const searchUsers = async (e: any, search: string) => {
     if(search.length < 3){
@@ -120,22 +109,19 @@ export default function BuildingBillableServiceCreatePage() {
 
       let data = {
         name: values.name,
-        unit_type: values.unit_type?.id || null,
         building_id: Number(id),
         is_active: values.is_active,
         description: values.description || null,
-        billing_type: values.billing_type?.id || null,
-        quantity: values.quantity || null,
-        price: values.price || null,
+        amount: values.amount || null,
         start_date: values.start_date || null,
         end_date: values.end_date || null,
       };
 
-      await axiosInstance.post(`/building/${id}/billable-service`, data);
+      await axiosInstance.post(`/building/${id}/fund`, data);
 
       navigate(`/building/${id}`);
     } catch (error) {
-      console.error('Unable to save billable service:', error);
+      console.error('Unable to save fund:', error);
     } finally {
       setSubmitting(false);
     }
@@ -165,7 +151,7 @@ export default function BuildingBillableServiceCreatePage() {
             fullWidth
             autoFocus
             name="name"
-            label={t('billableService.details.service_name')}
+            label={t('fund.details.name')}
             value={values.name}
             error={Boolean(errors.name)}
             helperText={errors.name as string}
@@ -173,117 +159,11 @@ export default function BuildingBillableServiceCreatePage() {
           />
         </Grid>
 
-        <Grid item xs={12} md={6}>
-          <FormControl
-            fullWidth
-            error={Boolean(errors.unit_type)}
-          >
-            <DropdownAutocomplete
-              freeSolo={false}
-              multiple={false}
-              disableClearable
-              label={t('billableService.details.unit_type')}
-              options={getUnitTypes()}
-              value={values.unit_type}
-              onChange={(e: any, value: any) => {
-                e.preventDefault();
-                e.stopPropagation();
 
-                setFieldValue('unit_type', value);
-              }}
-              onInputChange={(e: any, value: any) => {}}
-              error={Boolean(errors.unit_type)}
-            />
-
-            <FormHelperText>
-              {errors.unit_type as string}
-            </FormHelperText>
-          </FormControl>
-        </Grid>
-
-        <Grid item xs={12} md={6}>
-          <FormControl
-            fullWidth
-            error={Boolean(errors.billing_type)}
-          >
-            <DropdownAutocomplete
-              freeSolo={false}
-              multiple={false}
-              disableClearable
-              label={t('billableService.details.billing_type')}
-              options={getBillingTypes()}
-              value={values.billing_type}
-              onChange={(e: any, value: any) => {
-                e.preventDefault();
-                e.stopPropagation();
-
-                setFieldValue('billing_type', value);
-              }}
-              onInputChange={(e: any, value: any) => {}}
-              error={Boolean(errors.billing_type)}
-            />
-
-            <FormHelperText>
-              {errors.billing_type as string}
-            </FormHelperText>
-          </FormControl>
-        </Grid>
-
-        <Grid item xs={12} md={6}>
-          <TextField
-            fullWidth
-            rows={4}
-            name="price"
-            label={t('billableService.details.price')}
-            value={values.price}
-            error={Boolean(errors.price)}
-            helperText={errors.price as string}
-            onChange={handleChange}
-          />
-        </Grid>
-
-        <Grid item xs={12} md={6}>
-          <TextField
-            fullWidth
-            rows={4}
-            name="quantity"
-            label={t('billableService.details.quantity')}
-            value={values.quantity}
-            error={Boolean(errors.quantity)}
-            helperText={errors.quantity as string}
-            onChange={handleChange}
-          />
-        </Grid>
-
-        {/* <Grid item xs={12} md={6}>
-          <TextField
-            fullWidth
-            rows={4}
-            name="start_date"
-            label={t('billableService.details.start_date')}
-            value={values.start_date}
-            error={Boolean(errors.start_date)}
-            helperText={errors.start_date as string}
-            onChange={handleChange}
-          />
-        </Grid>
-
-        <Grid item xs={12} md={6}>
-          <TextField
-            fullWidth
-            rows={4}
-            name="end_date"
-            label={t('billableService.details.end_date')}
-            value={values.end_date}
-            error={Boolean(errors.end_date)}
-            helperText={errors.end_date as string}
-            onChange={handleChange}
-          />
-        </Grid> */}
 
         <Grid item xs={12} md={6}>
           <DatePicker
-            label={t('billableService.details.start_date')}
+            label={t('fund.details.start_date')}
             value={values.start_date}
             onChange={(date) => {
               setFieldValue(
@@ -302,7 +182,7 @@ export default function BuildingBillableServiceCreatePage() {
 
         <Grid item xs={12} md={6}>
           <DatePicker
-            label={t('billableService.details.end_date')}
+            label={t('fund.details.end_date')}
             value={values.end_date}
             minDate={values.start_date}
             onChange={(date) => {
@@ -319,7 +199,18 @@ export default function BuildingBillableServiceCreatePage() {
             </FormHelperText>
           )}
         </Grid>
-
+        <Grid item xs={12} md={6}>
+          <TextField
+            fullWidth
+            rows={4}
+            name="amount"
+            label={t('fund.details.amount')}
+            value={values.amount}
+            error={Boolean(errors.amount)}
+            helperText={errors.amount as string}
+            onChange={handleChange}
+          />
+        </Grid>
   
         <Grid item xs={12}>
           <TextField
@@ -327,7 +218,7 @@ export default function BuildingBillableServiceCreatePage() {
             multiline
             rows={4}
             name="description"
-            label={t('billableService.details.description')}
+            label={t('fund.details.description')}
             value={values.description}
             error={Boolean(errors.description)}
             helperText={errors.description as string}
@@ -337,7 +228,7 @@ export default function BuildingBillableServiceCreatePage() {
 
         <Grid item xs={12}>
           <FormControlLabel
-            label={t('billableService.details.active')}
+            label={t('fund.details.active')}
             control={
               <Switch
                 checked={values.is_active}
@@ -362,7 +253,7 @@ export default function BuildingBillableServiceCreatePage() {
       >
         <Box>
           <Typography variant="h4">
-            {t('building.details.add_billable_service')}
+            {t('building.details.add_fund')}
           </Typography>
 
           <Typography variant="body2" color="text.secondary">
@@ -378,7 +269,7 @@ export default function BuildingBillableServiceCreatePage() {
               `/building/${id}`,
               {
                 state: {
-                  activeTab: 'billable_services',
+                  activeTab: 'funds',
                 },
               }
             );
@@ -412,7 +303,7 @@ export default function BuildingBillableServiceCreatePage() {
                     `/building/${id}`,
                     {
                       state: {
-                        activeTab: 'billable_services',
+                        activeTab: 'funds',
                       },
                     }
                   );
