@@ -15,6 +15,7 @@ import { useDispatch } from 'react-redux';
 
 // components
 import UploadDialog from 'src/components/upload/uploadDialog/form.tsx';
+import UploadField from 'src/components/upload/uploadDialog/UploadField.tsx';
 import uploadDialogSlice from 'src/components/upload/uploadDialog/slice.tsx';
 
 import MainContainer from '../../components/container/MainContainer.tsx';
@@ -40,113 +41,166 @@ const WelcomePage = () => {
 
 
   return <MainContainer title={t('menu.dashboard')} roles={Object.values(RoleType)}>
-    <Stack
-      flexDirection={{ xs: 'column', md: 'row' }}
-      sx={{
-        ...bgGradient({
-          direction: '135deg',
-          startColor: alpha(theme.palette.primary.light, 0.2),
-          endColor: alpha(theme.palette.primary.main, 0.2),
-        }),
-        height: { md: 1 },
-        borderRadius: 2,
-        position: 'relative',
-        color: 'primary.darker',
-        backgroundColor: 'common.white',
-      }}
-    >
+    <div>
       <Stack
-        flexGrow={1}
-        justifyContent="center"
-        alignItems={{ xs: 'center', md: 'flex-start' }}
+        flexDirection={{ xs: 'column', md: 'row' }}
         sx={{
-          p: {
-            xs: theme.spacing(5, 3, 0, 3),
-            md: theme.spacing(5),
-          },
-          textAlign: { xs: 'center', md: 'left' },
+          ...bgGradient({
+            direction: '135deg',
+            startColor: alpha(theme.palette.primary.light, 0.2),
+            endColor: alpha(theme.palette.primary.main, 0.2),
+          }),
+          height: { md: 1 },
+          borderRadius: 2,
+          position: 'relative',
+          color: 'primary.darker',
+          backgroundColor: 'common.white',
         }}
       >
-        <Typography variant="h4" sx={{ mb: 2, whiteSpace: 'pre-line' }}>
-          {`Welcome back 👋 \n ${user?.name}`}
-        </Typography>
-        <Typography variant="h4" sx={{ mb: 2, whiteSpace: 'pre-line' }}>
-          {`ID : ${user?.id}`}
-        </Typography>
-        <Typography variant="h4" sx={{ mb: 2, whiteSpace: 'pre-line' }}>
-          {`Email : ${user?.email}`}
-        </Typography>
-        <Typography variant="h4" sx={{ mb: 2, whiteSpace: 'pre-line' }}>
-          {`Roles : ${user?.roles}`}
-        </Typography>
-
-
-
-        <Typography variant="h4" sx={{ mb: 2, whiteSpace: 'pre-line' }}>
-          {`City : ${user?.city}`}
-        </Typography>
-        <Typography variant="h4" sx={{ mb: 2, whiteSpace: 'pre-line' }}>
-          {`Address : ${user?.address}`}
-        </Typography>
-        <Typography variant="h4" sx={{ mb: 2, whiteSpace: 'pre-line' }}>
-          {`JMBG : ${user?.jmbg}`}
-        </Typography>
-        <Typography variant="h4" sx={{ mb: 2, whiteSpace: 'pre-line' }}>
-          {`Phone : ${user?.phone}`}
-        </Typography>
-        <Typography variant="h4" sx={{ mb: 2, whiteSpace: 'pre-line' }}>
-          {`Status : ${user?.status}`}
-        </Typography>
-
-        <Typography
-          variant="body2"
+        <Stack
+          flexGrow={1}
+          justifyContent="center"
+          alignItems={{ xs: 'center', md: 'flex-start' }}
           sx={{
-            opacity: 0.8,
-            maxWidth: 360,
-            mb: { xs: 3, xl: 5 },
+            p: {
+              xs: theme.spacing(5, 3, 0, 3),
+              md: theme.spacing(5),
+            },
+            textAlign: { xs: 'center', md: 'left' },
           }}
         >
-          {user?.email}
-        </Typography>
+          <Typography variant="h4" sx={{ mb: 2, whiteSpace: 'pre-line' }}>
+            {`Welcome back 👋 \n ${user?.name}`}
+          </Typography>
+          <Typography variant="h4" sx={{ mb: 2, whiteSpace: 'pre-line' }}>
+            {`ID : ${user?.id}`}
+          </Typography>
+          <Typography variant="h4" sx={{ mb: 2, whiteSpace: 'pre-line' }}>
+            {`Email : ${user?.email}`}
+          </Typography>
+          <Typography variant="h4" sx={{ mb: 2, whiteSpace: 'pre-line' }}>
+            {`Roles : ${user?.roles}`}
+          </Typography>
 
-        <Button
-          variant='contained'
-          onClick={() => {
-            dispatch(uploadDialogSlice.setShow({ show: true }));
+
+
+          <Typography variant="h4" sx={{ mb: 2, whiteSpace: 'pre-line' }}>
+            {`City : ${user?.city}`}
+          </Typography>
+          <Typography variant="h4" sx={{ mb: 2, whiteSpace: 'pre-line' }}>
+            {`Address : ${user?.address}`}
+          </Typography>
+          <Typography variant="h4" sx={{ mb: 2, whiteSpace: 'pre-line' }}>
+            {`JMBG : ${user?.jmbg}`}
+          </Typography>
+          <Typography variant="h4" sx={{ mb: 2, whiteSpace: 'pre-line' }}>
+            {`Phone : ${user?.phone}`}
+          </Typography>
+          <Typography variant="h4" sx={{ mb: 2, whiteSpace: 'pre-line' }}>
+            {`Status : ${user?.status}`}
+          </Typography>
+
+          <Typography
+            variant="body2"
+            sx={{
+              opacity: 0.8,
+              maxWidth: 360,
+              mb: { xs: 3, xl: 5 },
+            }}
+          >
+            {user?.email}
+          </Typography>
+        </Stack>
+
+        <Stack
+          component="span"
+          justifyContent="center"
+          sx={{
+            p: { xs: 5, md: 3 },
+            maxWidth: 360,
+            mx: 'auto',
           }}
-        >Upload Dialog</Button>
+        >
+          <ComingSoonIllustration />
+        </Stack>
       </Stack>
+    </div>
 
+
+    <div>
       <Stack
         component="span"
         justifyContent="center"
         sx={{
           p: { xs: 5, md: 3 },
-          maxWidth: 360,
+          maxWidth: 500,
           mx: 'auto',
         }}
       >
-        <ComingSoonIllustration />
-      </Stack>
-    </Stack>
+        <Stack
+          component="div"
+          justifyContent="center"
+          sx={{
+            p: { xs: 2 },
+            mx: 'auto',
+          }}
+        >
+          <Button
+            variant='contained'
+            onClick={() => {
+              dispatch(uploadDialogSlice.setShow({ show: true }));
+            }}
+          >Upload Dialog</Button>
+        </Stack>
 
-    <UploadDialog
-      path={'https://httpbin.org/post'}
-      // accept={{ 'image/*': ['.jpg', '.jpeg', '.png', '.bmp'] }}
-      // accept={{ 'application/pdf': ['.pdf'] }}
-      accept={{ 
-        'application/vnd.ms-excel': ['.xls'],
-        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': ['.xlsx']
-      }}
-      multiple={false}
-      numOfFiles={null}
-      maxFileSize={mbToBytes(5)}
-      onSuccess={(data: any|null, state: boolean|null) => {
-        if(state && data && data.data){
-          console.log("🚀 ~ WelcomePage ~ UploadDialog:", data.data)
-        }
-      }}
-    />
+        <Stack flexDirection={{ xs: 'column', md: 'row' }}>
+          <UploadField
+            path="https://httpbin.org/post"
+            accept={{ 'image/*': ['.jpg', '.jpeg', '.png'] }}
+            multiple
+            maxFileSize={mbToBytes(10)}
+            onSuccess={(data, state) => console.log(data, state)}
+          />
+        </Stack>
+
+        <Stack
+          component="div"
+          justifyContent="center"
+          sx={{
+            p: { xs: 2 },
+            mx: 'auto',
+          }}
+        >
+          <UploadField
+            path="https://httpbin.org/post"
+            accept={{ '*': ['.*'] }}
+            multiple
+            maxFileSize={mbToBytes(10)}
+            variant="button"
+            onSuccess={(data, state) => console.log(data, state)}
+          />
+        </Stack>
+
+        <UploadDialog
+          path={'https://httpbin.org/post'}
+          // accept={{ 'image/*': ['.jpg', '.jpeg', '.png', '.bmp'] }}
+          // accept={{ 'application/pdf': ['.pdf'] }}
+          accept={{ 
+            'application/vnd.ms-excel': ['.xls'],
+            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': ['.xlsx']
+          }}
+          multiple={false}
+          numOfFiles={null}
+          maxFileSize={mbToBytes(5)}
+          onSuccess={(data: any|null, state: boolean|null) => {
+            if(state && data && data.data){
+              console.log("🚀 ~ WelcomePage ~ UploadDialog:", data.data)
+            }
+          }}
+        />
+      </Stack>
+    </div>
+    
   </MainContainer>
 }
 

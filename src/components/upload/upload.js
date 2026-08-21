@@ -24,6 +24,7 @@ export default function Upload({
   multiple = false,
   maxSize,
   numOfFiles,
+  variant = 'dropzone',
   error,
   helperText,
   //
@@ -45,6 +46,7 @@ export default function Upload({
     disabled,
     maxSize: maxSize ?? undefined,
     maxFiles: numOfFiles ?? undefined,
+    noDrag: variant === 'button',
     ...other,
   });
 
@@ -102,7 +104,7 @@ export default function Upload({
   );
 
   const renderSingleActions = hasFile && onUpload && (
-    <Stack direction="row" justifyContent="flex-end" spacing={1.5} sx={{ mt: 2 }}>
+    <Stack direction="row" justifyContent="center" spacing={1.5} sx={{ mt: 2 }}>
       <Button
         size="small"
         variant="contained"
@@ -120,7 +122,7 @@ export default function Upload({
         <MultiFilePreview files={files} thumbnail={thumbnail} onRemove={onRemove} />
       </Box>
 
-      <Stack direction="row" justifyContent="flex-end" spacing={1.5}>
+      <Stack direction="row" justifyContent="center" spacing={1.5}>
         {onRemoveAll && (
           <Button color="inherit" variant="outlined" size="small" onClick={onRemoveAll}>
             {t('buttons.removeAll')}
@@ -141,6 +143,41 @@ export default function Upload({
     </>
   );
 
+  // ---- "button" variant: kompaktan izgled kao klasičan file input ----
+  if (variant === 'button') {
+    return (
+      <Box sx={{ width: 1, ...sx }}>
+        <Box {...getRootProps()} sx={{ display: 'inline-block' }}>
+          <input {...getInputProps()} />
+          <Button
+            variant="outlined"
+            component="span"
+            disabled={disabled}
+            startIcon={<Iconify icon="eva:cloud-upload-fill" />}
+            color={hasError ? 'error' : 'inherit'}
+          >
+            {multiple ? t('buttons.chooseFiles') : t('buttons.chooseFile')}
+          </Button>
+        </Box>
+
+        {helperText && helperText}
+
+        <RejectionFiles fileRejections={fileRejections} />
+
+        {hasFile && (
+          <Box sx={{ mt: 2, position: 'relative', width: 120, height: 120 }}>
+            {renderSinglePreview}
+            {removeSinglePreview}
+          </Box>
+        )}
+        {renderSingleActions}
+
+        {renderMultiPreview}
+      </Box>
+    );
+  }
+
+  // ---- default "dropzone" variant (izgled koji već imaš) ----
   return (
     <Box sx={{ width: 1, position: 'relative', ...sx }}>
       <Box
@@ -194,7 +231,7 @@ export default function Upload({
 }
 
 Upload.propTypes = {
-  disabled: PropTypes.object,
+  disabled: PropTypes.bool,
   error: PropTypes.bool,
   file: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   files: PropTypes.array,
@@ -202,6 +239,7 @@ Upload.propTypes = {
   multiple: PropTypes.bool,
   maxSize: PropTypes.number,
   numOfFiles: PropTypes.number,
+  variant: PropTypes.oneOf(['dropzone', 'button']),
   onDelete: PropTypes.func,
   onRemove: PropTypes.func,
   onRemoveAll: PropTypes.func,
