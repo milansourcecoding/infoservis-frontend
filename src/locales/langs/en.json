@@ -184,6 +184,7 @@
     "insert": "Add",
     "edit": "Update",
     "remove": "Remove",
+    "removeAll": "Remove All",
     "save": "Save",
     "cancel": "Cancel",
     "clear": "Clear",
@@ -208,7 +209,8 @@
     "deselectAll": "Deselect All",
     "details": "Details",
     "generateInvoices": "Generate Invoices",
-    "generate": "Generate"
+    "generate": "Generate",
+    "upload": "Upload"
   },
 
   "enums": {
