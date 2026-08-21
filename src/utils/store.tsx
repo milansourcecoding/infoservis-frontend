@@ -6,6 +6,7 @@ import listSlice from './slice/form/listSlice.tsx';
 import viewSlice from './slice/form/viewSlice.tsx';
 import settings from '../pages/settings/redux/settings.tsx';
 import selectAutocompleteSlice from '../components/autocomplete/selectAutocompleteSlice.tsx';
+import uploadDialogSlice from '../components/upload/uploadDialog/slice.tsx';
 
 import usersSlice, { name as usersSliceName} from '../pages/users/slice.tsx';
 import buildingSlice, { name as buildingSliceName} from '../pages/building/slice.tsx';
@@ -27,6 +28,7 @@ const store = configureStore({
     viewSlice: viewSlice.reducer,
     settings: settings.reducer,
     selectAutocompleteSlice: selectAutocompleteSlice.reducer,
+    uploadDialogSlice: uploadDialogSlice.reducer,
 
     [usersSliceName]: usersSlice.reducer,
     [buildingSliceName]: buildingSlice.reducer,

@@ -163,6 +163,22 @@
     "updated_by": "Izmenio"
   },
 
+  "uploading": {
+    "title": "Upload",
+    "title1": "Mozete uploadovati maksimalno",
+    "title2": "fajlova od jednom",
+    "dropText": "Izaberite fajlove",
+    "dropDesc": "Prevucite fajlove ovde ili kliknite za izbor fajlova",
+    "maxSize": "Mozete uploadovati maksimono 10Gb od jednom",
+    "success": "Fajlovi su uspešno uploadovani",
+    "error": "Upload fajlova nije uspeo",
+    "maxFileSizeError": "Veličina fajla premašuje dozvoljeni limit",
+    "dropzoneTitle": "Prevuci ili izaberi fajl",
+    "dropzoneDesc1": "Prevuci fajlove ovde ili klikni na",
+    "dropzoneDesc2": "pretraži",
+    "dropzoneDesc3": "da ih izabereš sa računara"
+  },
+
   "buttons": {
     "add": "Kreiraj",
     "insert": "Dodaj",

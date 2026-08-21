@@ -65,3 +65,10 @@ export const formatMinToHours = (min = null) => {
   let numb = convertMinToHours(min);
   return formatNumber(numb, '0.[00]', ' h');
 }
+export const formatBytes = (numb: number|null = 0, format = '0.0 b') => {
+  try {
+    return numeral(numb).format(format);
+  } catch (e) {
+    return numb;
+  }
+}

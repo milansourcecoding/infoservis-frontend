@@ -68,3 +68,7 @@ export const lightenHexColor = (hex: string, amount: number = 0.9) => {
     b.toString(16).padStart(2, '0')
   );
 }
+
+export function mbToBytes(mb: number): number {
+  return mb * 1024 * 1024;
+}

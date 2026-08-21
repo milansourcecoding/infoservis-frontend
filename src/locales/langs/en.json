@@ -163,6 +163,22 @@
     "updated_by": "Changed by"
   },
 
+  "uploading": {
+    "title": "Upload",
+    "title1": "You can upload a maximum of",
+    "title2": "files at once",
+    "dropText": "Drop or Select file",
+    "dropDesc": "Drop files here or click browse thorough your machine",
+    "maxSize": "you can upload a maximum of 10Gb at a time",
+    "success": "Files uploaded successfully",
+    "error": "Failed to upload files",
+    "maxFileSizeError": "File size exceeds the maximum allowed limit",
+    "dropzoneTitle": "Drop or Select file",
+    "dropzoneDesc1": "Drop files here or click",
+    "dropzoneDesc2": "browse",
+    "dropzoneDesc3": "through your machine"
+  },
+
   "buttons": {
     "add": "Create",
     "insert": "Add",

@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import { useDropzone } from 'react-dropzone';
+import { useLocales } from 'src/locales';
 // @mui
 import { alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -21,6 +22,8 @@ import SingleFilePreview from './preview-single-file';
 export default function Upload({
   disabled,
   multiple = false,
+  maxSize,
+  numOfFiles,
   error,
   helperText,
   //
@@ -35,9 +38,13 @@ export default function Upload({
   sx,
   ...other
 }) {
+  const { t } = useLocales();
+
   const { getRootProps, getInputProps, isDragActive, isDragReject, fileRejections } = useDropzone({
     multiple,
     disabled,
+    maxSize: maxSize ?? undefined,
+    maxFiles: numOfFiles ?? undefined,
     ...other,
   });
 
@@ -51,9 +58,9 @@ export default function Upload({
     <Stack spacing={3} alignItems="center" justifyContent="center" flexWrap="wrap">
       <UploadIllustration sx={{ width: 1, maxWidth: 200 }} />
       <Stack spacing={1} sx={{ textAlign: 'center' }}>
-        <Typography variant="h6">Drop or Select file</Typography>
+        <Typography variant="h6">{t('uploading.dropzoneTitle')}</Typography>
         <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-          Drop files here or click
+          {t('uploading.dropzoneDesc1')}
           <Box
             component="span"
             sx={{
@@ -62,16 +69,16 @@ export default function Upload({
               textDecoration: 'underline',
             }}
           >
-            browse
+            {t('uploading.dropzoneDesc2')}
           </Box>
-          thorough your machine
+          {t('uploading.dropzoneDesc3')}
         </Typography>
       </Stack>
     </Stack>
   );
 
   const renderSinglePreview = (
-    <SingleFilePreview imgUrl={typeof file === 'string' ? file : file?.preview} />
+    <SingleFilePreview file={file} />
   );
 
   const removeSinglePreview = hasFile && onDelete && (
@@ -92,6 +99,19 @@ export default function Upload({
     >
       <Iconify icon="mingcute:close-line" width={18} />
     </IconButton>
+  );
+
+  const renderSingleActions = hasFile && onUpload && (
+    <Stack direction="row" justifyContent="flex-end" spacing={1.5} sx={{ mt: 2 }}>
+      <Button
+        size="small"
+        variant="contained"
+        onClick={onUpload}
+        startIcon={<Iconify icon="eva:cloud-upload-fill" />}
+      >
+        Upload
+      </Button>
+    </Stack>
   );
 
   const renderMultiPreview = hasFiles && (
@@ -162,6 +182,8 @@ export default function Upload({
 
       {removeSinglePreview}
 
+      {renderSingleActions}
+
       {helperText && helperText}
 
       <RejectionFiles fileRejections={fileRejections} />
@@ -178,6 +200,8 @@ Upload.propTypes = {
   files: PropTypes.array,
   helperText: PropTypes.object,
   multiple: PropTypes.bool,
+  maxSize: PropTypes.number,
+  numOfFiles: PropTypes.number,
   onDelete: PropTypes.func,
   onRemove: PropTypes.func,
   onRemoveAll: PropTypes.func,

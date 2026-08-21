@@ -1,24 +1,32 @@
 import React from 'react';
+
 // @mui
 import { useTheme, alpha } from '@mui/material/styles';
 import {
   Typography,
   Stack,
+  Button,
 } from '@mui/material';
 
 // locales
 import { useLocales } from 'src/locales';
-
 import { useAuthContext } from 'src/auth/hooks';
-
-// enums
-import { RoleType } from '../../utils/enums.tsx';
+import { useDispatch } from 'react-redux';
 
 // components
+import UploadDialog from 'src/components/upload/uploadDialog/form.tsx';
+import uploadDialogSlice from 'src/components/upload/uploadDialog/slice.tsx';
+
 import MainContainer from '../../components/container/MainContainer.tsx';
 
 import { bgGradient } from '../../theme/css';
 import { ComingSoonIllustration } from '../../assets/illustrations';
+
+// utils
+import { AppDispatch } from '../../utils/store.tsx';
+import { mbToBytes } from '../../utils/utils.tsx';
+import { RoleType } from '../../utils/enums.tsx';
+
 // ----------------------------------------------------------------------
 
 const WelcomePage = () => {
@@ -27,6 +35,9 @@ const WelcomePage = () => {
   const { user }: any = useAuthContext();
 
   const { t } = useLocales();
+
+  const dispatch = useDispatch<AppDispatch>();
+
 
   return <MainContainer title={t('menu.dashboard')} roles={Object.values(RoleType)}>
     <Stack
@@ -97,6 +108,13 @@ const WelcomePage = () => {
         >
           {user?.email}
         </Typography>
+
+        <Button
+          variant='contained'
+          onClick={() => {
+            dispatch(uploadDialogSlice.setShow({ show: true }));
+          }}
+        >Upload Dialog</Button>
       </Stack>
 
       <Stack
@@ -111,6 +129,24 @@ const WelcomePage = () => {
         <ComingSoonIllustration />
       </Stack>
     </Stack>
+
+    <UploadDialog
+      path={'https://httpbin.org/post'}
+      // accept={{ 'image/*': ['.jpg', '.jpeg', '.png', '.bmp'] }}
+      // accept={{ 'application/pdf': ['.pdf'] }}
+      accept={{ 
+        'application/vnd.ms-excel': ['.xls'],
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': ['.xlsx']
+      }}
+      multiple={false}
+      numOfFiles={null}
+      maxFileSize={mbToBytes(5)}
+      onSuccess={(data: any|null, state: boolean|null) => {
+        if(state && data && data.data){
+          console.log("🚀 ~ WelcomePage ~ UploadDialog:", data.data)
+        }
+      }}
+    />
   </MainContainer>
 }
 
