@@ -210,7 +210,9 @@
     "details": "Details",
     "generateInvoices": "Generate Invoices",
     "generate": "Generate",
-    "upload": "Upload"
+    "upload": "Upload",
+    "chooseFiles": "Choose Files",
+    "chooseFile": "Choose File"
   },
 
   "enums": {

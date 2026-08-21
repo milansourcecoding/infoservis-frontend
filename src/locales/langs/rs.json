@@ -210,7 +210,9 @@
     "details": "Detalji",
     "generateInvoices": "Masovno Fakturisanje",
     "generate": "Generisi Fakture",
-    "upload": "Upload"
+    "upload": "Upload",
+    "chooseFiles": "Izaberi Fajlove",
+    "chooseFile": "Izaberi Fajl"
   },
 
   "enums": {
