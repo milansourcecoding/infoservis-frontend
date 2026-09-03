@@ -1,0 +1,49 @@
+.flash-create {
+  animation: blinkCreate 0.7s 3;
+}
+.flash-remove {
+  animation: blinkRemove 0.7s 3;
+}
+.flash-update {
+  animation: blinkUpdate 0.7s 3;
+}
+
+
+@keyframes blinkCreate {
+  0% {
+    background-color: transparent;
+  }
+  50% {
+    background-color: #DFF0E2;
+  }
+  100% {
+    background-color: transparent;
+  }
+}
+
+@keyframes blinkRemove {
+  0% {
+    background-color: transparent;
+  }
+  50% {
+    background-color: #FED4D0;
+  }
+  100% {
+    background-color: transparent;
+  }
+}
+
+@keyframes blinkUpdate {
+  0% {
+    background-color: transparent;
+  }
+  50% {
+    background-color: #FAF3E0;
+  }
+  100% {
+    background-color: transparent;
+  }
+}
+
+
+/*# sourceMappingURL=main.388b16c5.css.map*/

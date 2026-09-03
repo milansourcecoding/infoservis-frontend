@@ -21,6 +21,13 @@ steps:
     commands:
       - npm run build:staging
 
+  - name: build storybook
+    image: node:18
+    environment:
+      CI: "false"
+    commands:
+      - npm run build-storybook
+
   - name: deploy
     image: alpine:latest
     environment:
@@ -29,10 +36,9 @@ steps:
     commands:
       - apk add --no-cache openssh-client rsync
       - mkdir -p ~/.ssh
-
       - echo "$SSH_KEY" | tr -d '\r' > ~/.ssh/id_rsa
       - chmod 600 ~/.ssh/id_rsa
-
       - ssh-keyscan -H sourcecoding.rs >> ~/.ssh/known_hosts
 
       - rsync -avz build/ dev@sourcecoding.rs:/staging/projects/dev/infosistem/frontend/build
+      - rsync -avz storybook-static/ dev@sourcecoding.rs:/staging/projects/dev/infosistem/frontend/storybook-static
