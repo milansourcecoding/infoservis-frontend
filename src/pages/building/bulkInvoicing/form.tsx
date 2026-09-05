@@ -29,7 +29,8 @@ import Button from '@mui/material/Button';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-// import TextField from '@mui/material/TextField';
+import TextField from '@mui/material/TextField';
+import InputAdornment from '@mui/material/InputAdornment';
 // import FormControl from '@mui/material/FormControl';
 // import FormHelperText from '@mui/material/FormHelperText';
 // import InputLabel from '@mui/material/InputLabel';
@@ -38,7 +39,6 @@ import DialogContent from '@mui/material/DialogContent';
 import FormControlLabel from '@mui/material/FormControlLabel';
 // import Switch from '@mui/material/Switch';
 import IconButton from '@mui/material/IconButton';
-// import InputAdornment from '@mui/material/InputAdornment';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -63,7 +63,7 @@ import { AppDispatch, useTypedSelector } from '../../../utils/store.tsx';
 import slice, { name as sliceName } from './slice.tsx';
 // import selectAutocompleteSlice from '../../components/autocomplete/selectAutocompleteSlice.tsx';
 
-import { apiDateFormat, saveDate } from '../../../utils/utils.tsx';
+import { apiDateFormat, saveDate, escapeChars, escapeCharsInStringOnPaste } from '../../../utils/utils.tsx';
 // import {  } from '../../../utils/enums.tsx';
 
 // ----------------------------------------------------------------------
@@ -81,6 +81,12 @@ const StyledList = styled(List)(({ theme }) => ({
   },
 }));
 
+const StyledSearch = styled(Box)<{ isLoading: boolean }>(({ theme, isLoading }) => ({
+  width: '100%',
+  backgroundColor: !isLoading ? theme.palette.background.paper : 'transparent',
+  padding: '10px 15px 0px 15px',
+}));
+
 
 export default function Form(props: any) {
   const { t } = useLocales();
@@ -92,16 +98,25 @@ export default function Form(props: any) {
 
   const [open, setOpen] = React.useState(false);
   const [datePickerOpen, setDatePickerOpen] = React.useState(false);
+  const [search, setSearch] = React.useState('');
+  const [filteredData, setFilteredData] = React.useState([]);
 
 
   React.useEffect(() => {
     if(show){
-      let params = {
-        is_active: true
-      };
-      dispatch(slice.callReadApi(params, (state: boolean, data: any, message: string) => {}));
+      callApi();
     }
   }, [show]);
+
+
+  const callApi = () => {
+    let params = {
+      is_active: true,
+    };
+    dispatch(slice.callReadApi(params, (state: boolean, data: any, message: string) => {
+      setFilteredData((data && data.length > 0) ? data : []);
+    }));
+  }
 
 
   const onSubmit = () => {
@@ -114,6 +129,29 @@ export default function Form(props: any) {
     dispatch(slice.setShow({ show: false }));
     dispatch(slice.resetSlice());
   }
+
+const handleSearch = (value: string) => {
+  const searchValue = value.trim().toLowerCase();
+
+  setSearch(value);
+
+  if (searchValue.length < 3) {
+    setFilteredData(items);
+    return;
+  }
+
+  setFilteredData(
+    items.filter((item: any) =>
+      Object.values(item).some((field) =>
+        String(field).toLowerCase().includes(searchValue)
+      )
+    )
+  );
+};
+const clearSearch = () => {
+  setSearch('');
+  setFilteredData(items);
+};
 
 
   const footer = () => {
@@ -153,7 +191,10 @@ export default function Form(props: any) {
               }}
             />
           }
-          label={(checked.length === items.length && items.length > 0) ? t('buttons.deselectAll') : t('buttons.selectAll')}
+          label={<>
+            <span style={{ paddingRight: '6px' }}>{(checked.length === items.length && items.length > 0) ? t('buttons.deselectAll') : t('buttons.selectAll')}</span>
+            <b>({checked.length + '/' + items.length})</b>
+          </>}
         />
       </Box>
 
@@ -172,16 +213,59 @@ export default function Form(props: any) {
           onClick={onSubmit}
         >
           {t('buttons.generate')}
-          {checked.length > 0 ? ` (${checked.length})` : ''}
         </LoadingButton>
       </Box>
     </>
   }
 
+  const searchList = () => {
+    return <StyledSearch isLoading={isLoading}>
+      <TextField
+        fullWidth
+        size={'small'}
+        value={search}
+        onChange={(e: any) => {
+          handleSearch(e.target.value);
+        }}
+        onKeyDown={(e) => {
+          escapeChars(e);
+        }}
+        onPaste={(e: React.ClipboardEvent<HTMLInputElement>) => {
+          e.preventDefault();
+
+          const pastedText = e.clipboardData.getData('text');
+          const cleanedText = escapeCharsInStringOnPaste(pastedText);
+          
+          handleSearch(cleanedText);
+        }}
+        placeholder={t('search')}
+        disabled={isLoading}
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start">
+              <Icon icon={'eva:search-fill'} color={'text.disabled'} />
+            </InputAdornment>
+          ),
+          endAdornment: search.length >= 3 && (
+            <InputAdornment position="end">
+              <IconButton
+                size="small"
+                onClick={clearSearch}
+                disabled={isLoading}
+              >
+                <Icon icon="eva:close-fill" />
+              </IconButton>
+            </InputAdornment>
+          ),
+        }}
+      />
+    </StyledSearch>
+  }
+
   const form = () => {
     return <React.Fragment>
       <StyledList dense>
-        {items.map((itm: any, i: number) => {
+        {filteredData.map((itm: any, i: number) => {
           return <ListItem key={'bulkinv_itm_' + i}>
             <ListItemButton
               onClick={(e: any) => {
@@ -237,7 +321,9 @@ export default function Form(props: any) {
       sx: {
         width: {
           xs: '100%',
-          md: '22%',
+          md: '50%',
+          lg: '35%',
+          xl: '30%',
         },
         backgroundColor: 'white'
       },
@@ -269,16 +355,17 @@ export default function Form(props: any) {
         <Icon icon={'system-uicons:close'} />
       </IconButton>
       <Divider />
+      {searchList()}
     </Box>
 
     <DialogContent sx={{ backgroundColor: 'white', paddingLeft: '0px', paddingRight: '0px' }}>
-      <Box sx={{ mt: 3, mb: 3, paddingBottom: '50px', marginTop: '0px',  height: 'calc(100vh - 206px)' }}>
+      <Box sx={{ mt: 3, mb: 3, paddingBottom: '50px', marginTop: '0px',  height: 'calc(100vh - 252px)' }}>
         {
           isLoading
           ?
           <div style={{ textAlign: 'center', marginTop: '16px' }}><small>{t('table.loading')}</small></div>
           :
-            (items && items.length > 0)
+            (filteredData && filteredData.length > 0)
             ?
             <>{form()}</>
             :
