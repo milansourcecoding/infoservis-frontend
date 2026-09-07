@@ -40,5 +40,5 @@ steps:
       - chmod 600 ~/.ssh/id_rsa
       - ssh-keyscan -H sourcecoding.rs >> ~/.ssh/known_hosts
 
-      - rsync -avz build/ admin@sourcecoding.rs:/opt/staging/projects/infosistem/frontend/build
-      - rsync -avz storybook-static/ admin@sourcecoding.rs:/opt/staging/projects/infosistem/frontend/storybook-static
+      - rsync -avz --omit-dir-times build/ admin@sourcecoding.rs:/opt/staging/projects/infosistem/frontend/build
+      - rsync -avz --omit-dir-times storybook-static/ admin@sourcecoding.rs:/opt/staging/projects/infosistem/frontend/storybook-static
