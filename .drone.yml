@@ -39,5 +39,12 @@ steps:
       - echo "$SSH_KEY" | tr -d '\r' > ~/.ssh/id_deploy
       - chmod 600 ~/.ssh/id_deploy
       - ssh-keyscan -H sourcecoding.rs >> ~/.ssh/known_hosts
+      - |
+        ssh -i ~/.ssh/id_deploy -o IdentitiesOnly=yes -o BatchMode=yes admin@sourcecoding.rs bash -s << 'REMOTE'
+          set -e
+          ROOT="/opt/ansible/projects/infosistem"
+          mkdir -p "$ROOT/frontend/build" "$ROOT/frontend/storybook-static"
+          sudo -n chown -R "$(id -un):$(id -gn)" "$ROOT/frontend/build" "$ROOT/frontend/storybook-static"
+        REMOTE
       - rsync -avz --omit-dir-times --no-perms -e "ssh -i $HOME/.ssh/id_deploy -o IdentitiesOnly=yes -o BatchMode=yes" build/ admin@sourcecoding.rs:/opt/ansible/projects/infosistem/frontend/build/
       - rsync -avz --omit-dir-times --no-perms -e "ssh -i $HOME/.ssh/id_deploy -o IdentitiesOnly=yes -o BatchMode=yes" storybook-static/ admin@sourcecoding.rs:/opt/ansible/projects/infosistem/frontend/storybook-static/
