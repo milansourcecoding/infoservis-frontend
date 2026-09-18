@@ -36,9 +36,8 @@ steps:
     commands:
       - apk add --no-cache openssh-client rsync
       - mkdir -p ~/.ssh
-      - echo "$SSH_KEY" | tr -d '\r' > ~/.ssh/id_rsa
-      - chmod 600 ~/.ssh/id_rsa
+      - echo "$SSH_KEY" | tr -d '\r' > ~/.ssh/id_deploy
+      - chmod 600 ~/.ssh/id_deploy
       - ssh-keyscan -H sourcecoding.rs >> ~/.ssh/known_hosts
-
-      - rsync -avz --omit-dir-times --no-perms build/ admin@sourcecoding.rs:/opt/staging/projects/infosistem/frontend/build
-      - rsync -avz --omit-dir-times --no-perms storybook-static/ admin@sourcecoding.rs:/opt/staging/projects/infosistem/frontend/storybook-static
+      - rsync -avz --omit-dir-times --no-perms -e "ssh -i $HOME/.ssh/id_deploy -o IdentitiesOnly=yes -o BatchMode=yes" build/ admin@sourcecoding.rs:/opt/ansible/projects/infosistem/frontend/build/
+      - rsync -avz --omit-dir-times --no-perms -e "ssh -i $HOME/.ssh/id_deploy -o IdentitiesOnly=yes -o BatchMode=yes" storybook-static/ admin@sourcecoding.rs:/opt/ansible/projects/infosistem/frontend/storybook-static/
